@@ -1,12 +1,11 @@
-import React, { useRef, useEffect, useState, useLayoutEffect } from 'react';
+import React, { useRef, useEffect, useState, useLayoutEffect, useCallback } from 'react';
 import { connect } from 'react-redux';
-import mapboxgl from 'mapbox-gl';
-import { DeckGL, ScatterplotLayer, MapboxLayer } from 'deck.gl'
+import { DeckGL, ScatterplotLayer, IconLayer } from 'deck.gl'
+import { MapboxLayer } from '@deck.gl/mapbox'
 import { StaticMap } from 'react-map-gl';
 
 import Optionsfield from './components/Optionsfield';
 import { setActiveLayerOption, setActiveThemeOption, setActiveModeOption } from './redux/action-creators';
-
 import getMapStyle from './mapstyle';
 
 import './map.css';
@@ -44,20 +43,63 @@ function mapStateToPropsModeOptionsfield(state) {
     };
 }
 
+const INITIAL_VIEW_STATE = {
+    longitude: 110,
+    latitude: 20,
+    zoom: 7
+}
+
+const ICON_MAPPING = {
+    marker: { x: 0, y: 0, width: 128, height: 128, mask: true }
+}
+const data = [
+    { position: [110, 20], size: 100 }
+]
+
 const Map = (props) => {
-    const mapContainer = useRef(null);
-    const map = useRef(null);
-    const [lng, setLng] = useState(110);
-    const [lat, setLat] = useState(20);
-    const [zoom, setZoom] = useState(7);
+    // DeckGL and mapbox will both draw into this WebGL context
+    const [glContext, setGLContext] = useState();
+    const deckRef = useRef(null);
+    const mapRef = useRef(null);
+
+    const [mapStyle, setMapStyle] = useState(getMapStyle())
+
+    const [lng, setLng] = useState(INITIAL_VIEW_STATE.longitude);
+    const [lat, setLat] = useState(INITIAL_VIEW_STATE.latitude);
+    const [zoom, setZoom] = useState(INITIAL_VIEW_STATE.zoom);
 
     const ws = useRef(null);
-    const [message, setMessage] = useState(null);
+    const [message, setMessage] = useState([{ longitude: 110, latitude: 20 }]);
+
+    const onMapLoad = useCallback(() => {
+        const map = mapRef.current.getMap();
+        const deck = deckRef.current.deck;
+        // You must initialize an empty deck.gl layer to prevent flashing
+        map.addLayer(
+            // This id has to match the id of the deck.gl layer
+            new MapboxLayer({ id: "my-scatterplot", deck })
+        );
+    }, [])
+
+    const layers = [
+        new IconLayer({
+            id: 'my-scatterplot',
+            data: message,
+            pickable: true,
+            iconAtlas: 'https://raw.githubusercontent.com/visgl/deck.gl-data/master/website/icon-atlas.png',
+            iconMapping: ICON_MAPPING,
+            getIcon: d => 'marker',
+            sizeScale: 10,
+            getPosition: d => [d.longitude, d.latitude],
+            getSize: d => 3,
+            getColor: [0, 225, 0]
+        })
+    ]
 
     useLayoutEffect(() => {
-        ws.current = new WebSocket('ws://192.168.7.122/api/target/ws/region/a1303831-25ee-4b7f-8e6c-cb48a50604f6');
+        ws.current = new WebSocket('ws://192.168.7.122/api/target/ws/region/2ce7306f-ad59-4102-bc37-4c6ab25912a7');
         // ws://bs.uniseas.com.cn/apiv1/target/ws/region/66998c07-fbc5-4504-b357-88d2f085bdf7
-        // ws.current = new WebSocket('ws://bs.uniseas.com.cn/apiv1/target/ws/region/66998c07-fbc5-4504-b357-88d2f085bdf7');
+        // ws.current = new WebSocket('ws://bs.uniseas.com.cn/apiv1/target/ws/region/c6d9cfd4-22bb-46db-be81-b7545119a7b5');
         ws.current.onopen = () => {
             console.log('连接成功')
             if (ws.current) {
@@ -98,49 +140,21 @@ const Map = (props) => {
             }
         };
         ws.current.onmessage = (option) => {
-            // setMessage(e);
-            setMessage(JSON.parse(option.data.targetList))
+            // console.log(option)
+            setMessage(JSON.parse(option.data).targetList)
         };
-        console.log(ws.current)
 
         return () => {
             ws.current?.close();
         };
-    }, [ws]);
-
-    // Initialize map when component mounts
-    useEffect(() => {
-        if (map.current) return; // initialize map only once
-
-        map.current = new mapboxgl.Map({
-            container: mapContainer.current,
-            style: getMapStyle(),
-            center: [lng, lat],
-            zoom: zoom,
-            pitch: 0,
-            bearing: 0
-        });
-
-        // Clean up on unmount
-        return () => map.current.remove();
-    }, []); // eslint-disable-line react-hooks/exhaustive-deps
+    }, [ws])
 
     useEffect(() => {
-        if (!map.current) return; // wait for map to initialize
-
-        // Add navigation control (the +/- zoom buttons)
-        map.current.addControl(new mapboxgl.NavigationControl(), 'top-right');
-        map.current.on('move', () => {
-            setLng(map.current.getCenter().lng.toFixed(4));
-            setLat(map.current.getCenter().lat.toFixed(4));
-            setZoom(map.current.getZoom().toFixed(2));
-        });
-    }, []);
-
-    useEffect(() => {
-        if (map.current) {
+        if (mapRef.current) {
             console.log('changed map style', `${props.activeLayer.id} ${props.activeTheme.id}_${props.activeMode.id}`)
-            map.current.setStyle(getMapStyle(props.activeLayer.id, `${props.activeTheme.id}_${props.activeMode.id}`))
+            setMapStyle(getMapStyle(props.activeLayer.id, `${props.activeTheme.id}_${props.activeMode.id}`))
+            setTimeout(() => mapRef.current.getMap().moveLayer('my-scatterplot'), 0)
+
         }
     }, [props.activeLayer, props.activeTheme, props.activeMode])
 
@@ -152,7 +166,37 @@ const Map = (props) => {
                 </div>
             </div>
             {/* <MapSwitch></MapSwitch> */}
-            <div className="map-container" ref={mapContainer} />
+            <div className="map-container">
+                <DeckGL
+                    ref={deckRef}
+                    layers={layers}
+                    initialViewState={INITIAL_VIEW_STATE}
+                    onViewStateChange={({ viewState }) => {
+                        setLat(viewState.latitude.toFixed(4))
+                        setLng(viewState.longitude.toFixed(4))
+                        setZoom(viewState.zoom.toFixed(2))
+                    }}
+                    getTooltip={({ object }) => {
+                        return object && `航向：${object.heading} \n航速：${object.speed} km/h \n经度：${object.latitude} \n纬度：${object.longitude} \n状态：正常 `
+                    }}
+                    controller={true}
+                    onWebGLInitialized={setGLContext}
+                    glOptions={{
+                        /* To render vector tile polygons correctly */
+                        stencil: true
+                    }}
+                >
+                    {glContext && (
+                        /* This is important: Mapbox must be instantiated after the WebGLContext is available */
+                        <StaticMap
+                            ref={mapRef}
+                            gl={glContext}
+                            mapStyle={mapStyle}
+                            onLoad={onMapLoad}
+                        />
+                    )}
+                </DeckGL>
+            </div>
             <ConnectedLayerOptionsfield changeState={setActiveLayerOption} className="ml12 mt12" />
             <ConnectedThemeOptionsfield changeState={setActiveThemeOption} className="ml12 mt120" />
             <ConnectedModeOptionsfield changeState={setActiveModeOption} className="ml240 mt120" />

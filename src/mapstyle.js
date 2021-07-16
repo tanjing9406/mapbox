@@ -22,8 +22,8 @@ function MapStyle(mapSource) {
 }
 
 export default function getMapStyle(type = 'vector', graphNode = 'day_b') {
-    const seaLayerUrl = `/self/map/cuttingMap/{z}/{y}/{x}?graphNode=${graphNode}&token=77dc1b424-d126-41ff-90eb-7c33179ebac4`
-    const onlySeaLayerUrl = `/self/map/cuttingMap/{z}/{y}/{x}?graphNode=${graphNode}&skipcode=71&token=77dc1b424-d126-41ff-90eb-7c33179ebac4`
+    const seaLayerUrl = `/self/map/cuttingMap/{z}/{y}/{x}?graphNode=${graphNode}&token=2ce7306f-ad59-4102-bc37-4c6ab25912a7`
+    const onlySeaLayerUrl = `/self/map/cuttingMap/{z}/{y}/{x}?graphNode=${graphNode}&skipcode=71&token=2ce7306f-ad59-4102-bc37-4c6ab25912a7`
     const tdtVectorUrl = '/api/tianditu/land/{z}/{x}/{y}.png'
     const tdtImageUrl = '/api/tianditu/satellite/{z}/{x}/{y}.png'
     const tdtNameUrl = '/api/tianditu/name/{z}/{x}/{y}.png'
