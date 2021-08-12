@@ -3,6 +3,7 @@
 
 const { resolve } = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin'); // 生成html模板
+const Dotenv = require('dotenv-webpack')
 
 const CONFIG = {
     mode: 'development',
@@ -12,6 +13,7 @@ const CONFIG = {
         // app: './src/map_old.js'
     },
     devServer: {
+        host: '0.0.0.0',
         proxy: {
             '/api': {
                 target: 'http://wmts.cn.uniseas.com.cn/',
@@ -107,6 +109,7 @@ const CONFIG = {
             filename: resolve(__dirname, 'dist/index.html'), // 生成的html文件存放的地址和文件名
             template: resolve(__dirname, 'public/index.html'), // 基于index.html模板进行生成html文件
         }),
+        new Dotenv()
     ],
     resolve: {
         alias: {

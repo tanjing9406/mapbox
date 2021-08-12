@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState, useLayoutEffect, useCallback } from 'react';
 import { connect } from 'react-redux';
-import { DeckGL, ScatterplotLayer, IconLayer } from 'deck.gl'
+import { DeckGL, ScatterplotLayer, IconLayer, PathLayer } from 'deck.gl'
 import { MapboxLayer } from '@deck.gl/mapbox'
 import { StaticMap } from 'react-map-gl';
 
@@ -44,13 +44,13 @@ function mapStateToPropsModeOptionsfield(state) {
 }
 
 const INITIAL_VIEW_STATE = {
-    longitude: 110,
-    latitude: 20,
-    zoom: 7
+    longitude: 109.481,
+    latitude: 18.271,
+    zoom: 8
 }
 
 const ICON_MAPPING = {
-    marker: { x: 0, y: 0, width: 128, height: 128, mask: true }
+    marker: { x: 0, y: 0, width: 60, height: 60, mask: true }
 }
 const data = [
     { position: [110, 20], size: 100 }
@@ -86,18 +86,84 @@ const Map = (props) => {
             id: 'my-scatterplot',
             data: message,
             pickable: true,
-            iconAtlas: 'https://raw.githubusercontent.com/visgl/deck.gl-data/master/website/icon-atlas.png',
-            iconMapping: ICON_MAPPING,
-            getIcon: d => 'marker',
-            sizeScale: 10,
+            // iconAtlas: '/src/assets/images/targets/radar.png',
+            // iconMapping: ICON_MAPPING,
+            // getIcon: d => 'marker',
+            getIcon: d => {
+                const baseUrl = '/src/assets/images/targets/'
+                const icon = {
+                    url: baseUrl + 'radar.png',
+                    width: 60,
+                    height: 60,
+                }
+                switch (d.type) {
+                    case 'RADAR': // 
+                        break
+                    case 'AIS_A':
+                        icon.url = baseUrl + 'aisA_1.png'
+                        icon.width = 80
+                        icon.height = 100
+                        break
+                    case 'RADAR_AIS_A':
+                        icon.url = baseUrl + 'aisAR_1.png'
+                        icon.width = 80
+                        icon.height = 100
+                        break
+                    case 'AIS_B':
+                        icon.url = baseUrl + 'aisB_1.png'
+                        icon.width = 60
+                        icon.height = 100
+                        break
+                    case 'RADAR_AIS_B':
+                        icon.url = baseUrl + 'aisBR_1.png'
+                        icon.width = 60
+                        icon.height = 100
+                        break
+                    default:
+                        break
+                }
+                return icon
+            },
+            sizeScale: 0.25,
+            // sizeUnits: 'meters',
             getPosition: d => [d.longitude, d.latitude],
-            getSize: d => 3,
+            getSize: d => {
+                let size = 60
+                switch (d.type) {
+                    case 'RADAR':
+                        break
+                    case 'AIS_A':
+                    case 'RADAR_AIS_A':
+                    case 'AIS_B':
+                    case 'RADAR_AIS_B':
+                        size = 100
+                        break
+                    default:
+                        break
+                }
+                return size
+            },
+            getAngle: d => -d.heading,
             getColor: [0, 225, 0]
+        }),
+        new PathLayer({
+            id: 'path-layer',
+            data: [{
+                path: [[109.481, 18.271], [109.915, 18.442]],
+                name: 'tanjing',
+                color: [255, 0, 0]
+            }],
+            pickable: true,
+            widthScale: 20,
+            widthMinPixels: 2,
+            getPath: d => d.path,
+            getColor: d => d.color,
+            getWidth: d => 5
         })
     ]
 
     useLayoutEffect(() => {
-        ws.current = new WebSocket('ws://192.168.7.122/api/target/ws/region/2ce7306f-ad59-4102-bc37-4c6ab25912a7');
+        ws.current = new WebSocket(`ws://192.168.7.122/api/target/ws/region/${process.env.HLX_ACCESS_TOKEN}`);
         // ws://bs.uniseas.com.cn/apiv1/target/ws/region/66998c07-fbc5-4504-b357-88d2f085bdf7
         // ws.current = new WebSocket('ws://bs.uniseas.com.cn/apiv1/target/ws/region/c6d9cfd4-22bb-46db-be81-b7545119a7b5');
         ws.current.onopen = () => {
@@ -109,27 +175,27 @@ const Map = (props) => {
                     ],
                     "pointList": [
                         {
-                            "lat": 21.321086326756387,
-                            "lon": 106.65011695231597
+                            "lat": 34.06185606722126,
+                            "lon": 97.02052516994142
                         },
                         {
-                            "lat": 21.321086326756387,
-                            "lon": 111.07760718669095
+                            "lat": 34.06185606722126,
+                            "lon": 128.29620244557802
                         },
                         {
-                            "lat": 16.810832696824036,
-                            "lon": 111.07760718669095
+                            "lat": 13.15788416356098,
+                            "lon": 128.29620244557802
                         },
                         {
-                            "lat": 16.810832696824036,
-                            "lon": 106.65011695231597
+                            "lat": 13.15788416356098,
+                            "lon": 97.02052516994142
                         }
                     ],
                     "areaList": [],
                     "zoom": 12,
                     "targetIdList": [],
                     "provinceList": [
-                        "HaiNan"
+                        "HaiNan", "ZheJiang"
                     ]
                 }
                 let data = JSON.stringify(shipsRule);
@@ -140,7 +206,7 @@ const Map = (props) => {
             }
         };
         ws.current.onmessage = (option) => {
-            // console.log(option)
+            // console.log(JSON.parse(option.data).targetList)
             setMessage(JSON.parse(option.data).targetList)
         };
 
@@ -154,7 +220,6 @@ const Map = (props) => {
             console.log('changed map style', `${props.activeLayer.id} ${props.activeTheme.id}_${props.activeMode.id}`)
             setMapStyle(getMapStyle(props.activeLayer.id, `${props.activeTheme.id}_${props.activeMode.id}`))
             setTimeout(() => mapRef.current.getMap().moveLayer('my-scatterplot'), 0)
-
         }
     }, [props.activeLayer, props.activeTheme, props.activeMode])
 
