@@ -10,7 +10,7 @@ export const ICOM_MAPPING_CONFIG = {
     'AID': { url: baseUrl + 'AID.png', width: 100, height: 100 },
     'RADAR_VAID': { url: baseUrl + 'VAIDR.png', width: 100, height: 100 },
     'RADAR_AID': { url: baseUrl + 'AIDR.png', width: 100, height: 100 },
-    'VAID': { url: baseUrl + 'VAID.png', width: 100, height: 100 },
+    'VAID': { url: baseUrl + 'VAID.png', width: 100, height: 100 }, // UNKNOWN BDS bds_fuse
 }
 
 export default {}
