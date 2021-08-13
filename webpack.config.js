@@ -3,6 +3,7 @@
 
 const { resolve } = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin'); // 生成html模板
+const openBrowser = require('react-dev-utils/openBrowser')
 const Dotenv = require('dotenv-webpack')
 
 const CONFIG = {
@@ -14,6 +15,9 @@ const CONFIG = {
     },
     devServer: {
         host: '0.0.0.0',
+        after: () => {
+            openBrowser && openBrowser('http://localhost:8080');
+        },
         proxy: {
             '/api': {
                 target: 'http://wmts.cn.uniseas.com.cn/',

@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "start": "webpack-dev-server --progress --hot --open",
+    "start": "webpack-dev-server --progress --hot",
     "start-local": "webpack-dev-server --env.local --progress --hot --open",
     "build": "webpack -p"
   },
@@ -34,6 +34,7 @@
     "less": "^3.12.2",
     "less-loader": "^7.0.2",
     "react": "^17.0.2",
+    "react-dev-utils": "^11.0.4",
     "react-redux": "^7.2.4",
     "redux": "^4.1.0",
     "sass": "^1.35.1",
