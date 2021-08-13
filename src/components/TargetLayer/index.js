@@ -64,6 +64,7 @@ const TargetLayer = (props) => {
             id="target-layer"
             data={message}
             pickable={true}
+            autoHighlight={true}
             getIcon={d => {
                 return ICOM_MAPPING_CONFIG[d.type] || ICOM_MAPPING_CONFIG['RADAR']
             }}
