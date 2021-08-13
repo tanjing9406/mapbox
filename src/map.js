@@ -96,7 +96,14 @@ const Map = (props) => {
                         setViewState(viewState)
                     }}
                     getTooltip={({ object }) => {
-                        return object && `航向：${object.heading} \n航速：${object.speed} km/h \n经度：${object.latitude} \n纬度：${object.longitude} \n状态：正常 `
+                        return object && `船名：${object.shipName ? object.shipName : '--'}
+                        MMSI：${object.mmsi}
+                        船长：${object.len}米
+                        航向：${object.heading}°
+                        航速：${object.speed}节
+                        经度：${object.latitude}
+                        纬度：${object.longitude}
+                        状态：${object.state === 1 ? '正常' : '预测'} `
                     }}
                     controller={true}
                     onWebGLInitialized={setGLContext}
