@@ -2,7 +2,8 @@ import React, { useRef, useEffect, useState, useLayoutEffect, useCallback } from
 import { connect } from 'react-redux';
 import { DeckGL, ScatterplotLayer, IconLayer, PathLayer } from 'deck.gl'
 import { MapboxLayer } from '@deck.gl/mapbox'
-import { StaticMap } from 'react-map-gl';
+import { StaticMap } from 'react-map-gl'
+import formatcoords from 'formatcoords'
 
 import { Optionsfield, TargetLayer } from './components';
 import { setActiveLayerOption, setActiveThemeOption, setActiveModeOption } from './redux/action-creators';
@@ -96,14 +97,17 @@ const Map = (props) => {
                         setViewState(viewState)
                     }}
                     getTooltip={({ object }) => {
-                        return object && `船名：${object.shipName ? object.shipName : '--'}
+                        if (object) {
+                            const [dmsLat, dmsLng] = formatcoords(object.latitude, object.longitude).format({ latLonSeparator: ',', decimalPlaces: 0 }).split(',')
+                            return `船名：${object.shipName ? object.shipName : '--'}
                         MMSI：${object.mmsi}
                         船长：${object.len}米
                         航向：${object.heading}°
                         航速：${object.speed}节
-                        经度：${object.latitude}
-                        纬度：${object.longitude}
+                        纬度：${dmsLat}
+                        经度：${dmsLng}
                         状态：${object.state === 1 ? '正常' : '预测'} `
+                        }
                     }}
                     controller={true}
                     onWebGLInitialized={setGLContext}
