@@ -1,5 +1,6 @@
 import React, { useRef, useEffect, useState, useLayoutEffect, useCallback } from 'react';
 import { DeckGL, ScatterplotLayer, IconLayer, PathLayer } from 'deck.gl'
+import { ICOM_MAPPING_CONFIG } from './consts';
 
 const TargetLayer = (props) => {
     const ws = useRef(null);
@@ -64,57 +65,13 @@ const TargetLayer = (props) => {
             data={message}
             pickable={true}
             getIcon={d => {
-                const baseUrl = '/src/assets/images/targets/'
-                const icon = {
-                    url: baseUrl + 'radar.png',
-                    width: 60,
-                    height: 60,
-                }
-                switch (d.type) {
-                    case 'RADAR': // 
-                        break
-                    case 'AIS_A':
-                        icon.url = baseUrl + 'aisA_1.png'
-                        icon.width = 80
-                        icon.height = 100
-                        break
-                    case 'RADAR_AIS_A':
-                        icon.url = baseUrl + 'aisAR_1.png'
-                        icon.width = 80
-                        icon.height = 100
-                        break
-                    case 'AIS_B':
-                        icon.url = baseUrl + 'aisB_1.png'
-                        icon.width = 60
-                        icon.height = 100
-                        break
-                    case 'RADAR_AIS_B':
-                        icon.url = baseUrl + 'aisBR_1.png'
-                        icon.width = 60
-                        icon.height = 100
-                        break
-                    default:
-                        break
-                }
-                return icon
+                return ICOM_MAPPING_CONFIG[d.type] || ICOM_MAPPING_CONFIG['RADAR']
             }}
             sizeScale={0.25}
             getPosition={d => [d.longitude, d.latitude]}
             getSize={d => {
-                let size = 60
-                switch (d.type) {
-                    case 'RADAR':
-                        break
-                    case 'AIS_A':
-                    case 'RADAR_AIS_A':
-                    case 'AIS_B':
-                    case 'RADAR_AIS_B':
-                        size = 100
-                        break
-                    default:
-                        break
-                }
-                return size
+                const { width, height } = ICOM_MAPPING_CONFIG[d.type] || ICOM_MAPPING_CONFIG['RADAR']
+                return Math.max(width, height)
             }}
             getAngle={d => -d.heading}
             getColor={[0, 225, 0]}
