@@ -74,7 +74,7 @@ const TargetLayer = (props) => {
                 return Math.max(width, height)
             }}
             getAngle={d => -d.heading}
-            getColor={[0, 225, 0]}
+            getColor={d => [0, 255, 0, 255 * (d.state === 1 ? 1 : 0.75)]}
         />
     )
 }
