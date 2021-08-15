@@ -56,7 +56,7 @@ const Map = (props) => {
     const deckRef = useRef(null);
     const mapRef = useRef(null);
 
-    const [mapStyle, setMapStyle] = useState(getMapStyle())
+    const [mapStyle, setMapStyle] = useState(getMapStyle(props.activeLayer.id, `${props.activeTheme.id}_${props.activeMode.id}`))
     const [viewState, setViewState] = useState(INITIAL_VIEW_STATE)
 
     const onMapLoad = useCallback(() => {

@@ -22,7 +22,7 @@ const modeOptions = [
 
 const initialState = {
   layerOptions,
-  activeLayer: layerOptions[1],
+  activeLayer: layerOptions[0],
   themeOptions,
   activeTheme: themeOptions[0],
   modeOptions,
@@ -32,12 +32,10 @@ const initialState = {
 function reducer(state = initialState, action) {
   switch (action.type) {
     case Constants.SET_LAYER_OPTION:
-      console.log(action)
       return Object.assign({}, state, {
         activeLayer: action.option
       });
     case Constants.SET_THEME_OPTION:
-      console.log(action)
       return Object.assign({}, state, {
         activeTheme: action.option
       });
