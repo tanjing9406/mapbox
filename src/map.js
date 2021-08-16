@@ -1,48 +1,14 @@
 import React, { useRef, useEffect, useState, useLayoutEffect, useCallback } from 'react';
-import { connect } from 'react-redux';
 import { DeckGL, ScatterplotLayer, IconLayer, PathLayer } from 'deck.gl'
 import { MapboxLayer } from '@deck.gl/mapbox'
 import { StaticMap } from 'react-map-gl'
 import formatcoords from 'formatcoords'
 
-import { Optionsfield, TargetLayer } from './components';
-import { setActiveLayerOption, setActiveThemeOption, setActiveModeOption } from './redux/action-creators';
-import getMapStyle from './mapstyle';
+import { TargetLayer } from './components'
+import LayerControlView from './views/layer-control-view'
+import getMapStyle from './mapstyle'
 
 import './map.css'
-
-const ConnectedLayerOptionsfield = connect(mapStateToPropsLayerOptionsfield)(
-    Optionsfield
-);
-
-function mapStateToPropsLayerOptionsfield(state) {
-    return {
-        options: state.layerOptions,
-        active: state.activeLayer
-    };
-}
-
-const ConnectedThemeOptionsfield = connect(mapStateToPropsThemeOptionsfield)(
-    Optionsfield
-);
-
-function mapStateToPropsThemeOptionsfield(state) {
-    return {
-        options: state.themeOptions,
-        active: state.activeTheme
-    };
-}
-
-const ConnectedModeOptionsfield = connect(mapStateToPropsModeOptionsfield)(
-    Optionsfield
-);
-
-function mapStateToPropsModeOptionsfield(state) {
-    return {
-        options: state.modeOptions,
-        active: state.activeMode
-    };
-}
 
 const INITIAL_VIEW_STATE = {
     longitude: 109.481,
@@ -56,10 +22,10 @@ const Map = (props) => {
     const deckRef = useRef(null);
     const mapRef = useRef(null);
 
-    const [mapStyle, setMapStyle] = useState(getMapStyle(props.activeLayer.id, `${props.activeTheme.id}_${props.activeMode.id}`))
     const [viewState, setViewState] = useState(INITIAL_VIEW_STATE)
 
     const onMapLoad = useCallback(() => {
+        console.log('map load')
         const map = mapRef.current.getMap();
         const deck = deckRef.current.deck;
         // You must initialize an empty deck.gl layer to prevent flashing
@@ -68,17 +34,6 @@ const Map = (props) => {
             new MapboxLayer({ id: "empty-layer", deck })
         );
     }, [])
-
-    useEffect(() => {
-        if (mapRef.current) {
-            const {
-                activeLayer: { id: activeLayerId },
-                activeTheme: { id: activeThemeId },
-                activeMode: { id: activeModeId },
-            } = props
-            setMapStyle(getMapStyle(activeLayerId, `${activeThemeId}_${activeModeId}`))
-        }
-    }, [props.activeLayer, props.activeTheme, props.activeMode])
 
     return (
         <div>
@@ -121,16 +76,14 @@ const Map = (props) => {
                         <StaticMap
                             ref={mapRef}
                             gl={glContext}
-                            mapStyle={mapStyle}
+                            mapStyle={getMapStyle(props.activeLayer.id, `${props.activeTheme.id}_${props.activeMode.id}`)}
                             onLoad={onMapLoad}
                         />
                     )}
                     {TargetLayer()}
                 </DeckGL>
             </div>
-            <ConnectedLayerOptionsfield changeState={setActiveLayerOption} className="ml12 mt12" />
-            <ConnectedThemeOptionsfield changeState={setActiveThemeOption} className="ml12 mt120" />
-            <ConnectedModeOptionsfield changeState={setActiveModeOption} className="ml240 mt120" />
+            <LayerControlView />
         </div>
     );
 };
