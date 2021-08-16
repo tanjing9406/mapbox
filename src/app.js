@@ -1,8 +1,7 @@
 import React from 'react';
-import Map from './Map';
-import { Provider } from 'react-redux';
+import Map from './views/map';
+import { Provider, connect } from 'react-redux';
 import { store } from './redux/store';
-import { connect } from 'react-redux';
 
 const ConnectedMap = connect(mapStateToProps)(Map);
 

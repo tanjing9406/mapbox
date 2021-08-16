@@ -4,11 +4,11 @@ import { MapboxLayer } from '@deck.gl/mapbox'
 import { StaticMap } from 'react-map-gl'
 import formatcoords from 'formatcoords'
 
-import { TargetLayer } from './components'
-import LayerControlView from './views/layer-control-view'
+import { TargetLayer } from '../../components'
+import LayerControlView from '../layer-control-view'
 import getMapStyle from './mapstyle'
 
-import './map.css'
+import './index.css'
 
 const INITIAL_VIEW_STATE = {
     longitude: 109.481,
