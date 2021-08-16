@@ -65,4 +65,19 @@ export const getLonAndLats = function (lng, lat, course, dist) { // TODO: 函数
     return endPoint
 }
 
+export function fetchTargetTrack(params) {
+    return fetch('/self/target/trackByZoom', {
+        body: JSON.stringify(params),
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json; charset=utf-8',
+            'Authorization': 'Bearer ' + process.env.HLX_ACCESS_TOKEN
+        },
+    }).then(res => {
+        return res.json()
+    }).then(res => {
+        return (res && res.code === 0) ? res.data : []
+    })
+}
+
 export default {}

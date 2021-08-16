@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState, useLayoutEffect, useCallback } from 'react'
 import { DeckGL, ScatterplotLayer, IconLayer, PathLayer, LineLayer } from 'deck.gl'
 import { ICOM_MAPPING_CONFIG } from './consts'
-import { getLonAndLats } from './lib'
+import { getLonAndLats, fetchTargetTrack } from './lib'
 
 const TargetLayer = (props) => {
     const ws = useRef(null)
@@ -79,9 +79,15 @@ const TargetLayer = (props) => {
                 }}
                 getAngle={d => -d.heading}
                 getColor={d => [0, 255, 0, 255 * (d.state === 1 ? 1 : 0.75)]}
-                onClick={(info, event) => {
+                onClick={async (info, event) => {
                     // console.log('Clicked:', info, event)
                     setTargetsOfClicked(new Set(targetsOfClicked.add(info.object.targetId)))
+                    const data = await fetchTargetTrack({
+                        zoom: 13,
+                        trackLevel: 240,
+                        targetId: [info.object.targetId]
+                    })
+                    console.log('track-data-----', data)
                 }}
             />
             <LineLayer
