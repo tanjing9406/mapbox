@@ -82,7 +82,7 @@ const TargetLayer = (props) => {
             <LineLayer
                 id="target-layer-course"
                 data={message}
-                pickable={true}
+                pickable={false}
                 getWidth={2}
                 getSourcePosition={d => [d.longitude, d.latitude]}
                 getTargetPosition={d => {
