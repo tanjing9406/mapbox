@@ -11,6 +11,8 @@ export const ICOM_MAPPING_CONFIG = {
     'RADAR_VAID': { url: baseUrl + 'VAIDR.png', width: 100, height: 100 },
     'RADAR_AID': { url: baseUrl + 'AIDR.png', width: 100, height: 100 },
     'VAID': { url: baseUrl + 'VAID.png', width: 100, height: 100 }, // UNKNOWN BDS bds_fuse
+
+    'target_selected': { url: '/src/assets/images/icons/tarselect.png', width: 120, height: 120 }
 }
 
 export default {}

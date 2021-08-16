@@ -1,11 +1,12 @@
 import React, { useRef, useEffect, useState, useLayoutEffect, useCallback } from 'react'
 import { DeckGL, ScatterplotLayer, IconLayer, PathLayer, LineLayer } from 'deck.gl'
 import { ICOM_MAPPING_CONFIG } from './consts'
-import { getLonAndLats } from './lib';
+import { getLonAndLats } from './lib'
 
 const TargetLayer = (props) => {
     const ws = useRef(null)
     const [message, setMessage] = useState([])
+    const [targetsOfClicked, setTargetsOfClicked] = useState(new Set())
 
     useLayoutEffect(() => {
         ws.current = new WebSocket(`ws://192.168.7.122/api/target/ws/region/${process.env.HLX_ACCESS_TOKEN}`)
@@ -78,6 +79,10 @@ const TargetLayer = (props) => {
                 }}
                 getAngle={d => -d.heading}
                 getColor={d => [0, 255, 0, 255 * (d.state === 1 ? 1 : 0.75)]}
+                onClick={(info, event) => {
+                    // console.log('Clicked:', info, event)
+                    setTargetsOfClicked(new Set(targetsOfClicked.add(info.object.targetId)))
+                }}
             />
             <LineLayer
                 id="target-layer-course"
@@ -91,6 +96,20 @@ const TargetLayer = (props) => {
                     return getLonAndLats(d.longitude, d.latitude, d.course, distance)
                 }}
                 getColor={[54, 154, 204]}
+            />
+            <IconLayer
+                id="target-selected-layer"
+                data={message.filter(obj => targetsOfClicked.has(obj.targetId))}
+                getIcon={d => {
+                    return ICOM_MAPPING_CONFIG['target_selected']
+                }}
+                sizeScale={0.25}
+                getPosition={d => [d.longitude, d.latitude]}
+                getSize={d => {
+                    const { width, height } = ICOM_MAPPING_CONFIG['target_selected']
+                    return Math.max(width, height)
+                }}
+                getAngle={d => -d.heading}
             />
         </>
     )
