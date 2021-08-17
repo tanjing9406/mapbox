@@ -80,4 +80,13 @@ export function fetchTargetTrack(params) {
     })
 }
 
+export function addOrDelete(sets, val) {
+    if (sets.has(val)) {
+        sets.delete(val)
+    } else {
+        sets.add(val)
+    }
+    return sets
+}
+
 export default {}

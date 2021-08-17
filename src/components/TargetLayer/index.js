@@ -1,12 +1,13 @@
 import React, { useRef, useEffect, useState, useLayoutEffect, useCallback } from 'react'
 import { DeckGL, ScatterplotLayer, IconLayer, PathLayer, LineLayer } from 'deck.gl'
 import { ICOM_MAPPING_CONFIG } from './consts'
-import { getLonAndLats, fetchTargetTrack } from './lib'
+import { getLonAndLats, fetchTargetTrack, addOrDelete } from './lib'
 
 const TargetLayer = (props) => {
     const ws = useRef(null)
     const [message, setMessage] = useState([])
     const [targetsOfClicked, setTargetsOfClicked] = useState(new Set())
+    const [targetTrackData, setTargetTrackData] = useState([])
 
     useLayoutEffect(() => {
         ws.current = new WebSocket(`ws://192.168.7.122/api/target/ws/region/${process.env.HLX_ACCESS_TOKEN}`)
@@ -81,13 +82,13 @@ const TargetLayer = (props) => {
                 getColor={d => [0, 255, 0, 255 * (d.state === 1 ? 1 : 0.75)]}
                 onClick={async (info, event) => {
                     // console.log('Clicked:', info, event)
-                    setTargetsOfClicked(new Set(targetsOfClicked.add(info.object.targetId)))
+                    setTargetsOfClicked(new Set(addOrDelete(targetsOfClicked, info.object.targetId)))
                     const data = await fetchTargetTrack({
                         zoom: 13,
                         trackLevel: 240,
-                        targetId: [info.object.targetId]
+                        targetId: Array.from(targetsOfClicked)
                     })
-                    console.log('track-data-----', data)
+                    setTargetTrackData(data)
                 }}
             />
             <LineLayer
@@ -103,7 +104,7 @@ const TargetLayer = (props) => {
                 }}
                 getColor={[54, 154, 204]}
             />
-            <IconLayer
+            <IconLayer // 选中目标图标图层
                 id="target-selected-layer"
                 data={message.filter(obj => targetsOfClicked.has(obj.targetId))}
                 getIcon={d => {
@@ -116,6 +117,29 @@ const TargetLayer = (props) => {
                     return Math.max(width, height)
                 }}
                 getAngle={d => -d.heading}
+            />
+            <PathLayer // 选中目标轨迹图层
+                id="target-track-realtime"
+                data={targetTrackData}
+                widthMinPixels={1}
+                getColor={[209, 49, 51]}
+                getPath={d => d?.points.map(point => [point.longitude, point.latitude])}
+            />
+            <LineLayer // 实时目标与轨迹图层
+                id="target-track-head-tail"
+                data={targetTrackData.filter(t => t.points.length > 0 && message.find(m => m.targetId === t.targetId))}
+                pickable={false}
+                getWidth={2}
+                getSourcePosition={d => {
+                    const real = message.find(m => m.targetId === d.targetId)
+                    return [real.longitude, real.latitude]
+                }}
+                getTargetPosition={d => {
+                    const pts = d?.points
+                    const lastPoint = pts && pts[pts.length - 1]
+                    return lastPoint && [lastPoint.longitude, lastPoint.latitude]
+                }}
+                getColor={[209, 49, 51]}
             />
         </>
     )
