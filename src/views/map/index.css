@@ -18,3 +18,11 @@
   padding: 6px;
   font-weight: bold;
 }
+
+.cluster-switch {
+  position: absolute !important;
+  top: 17px;
+  right: 50px;
+  z-index: 1 !important;
+  transform: scale(1.5)
+}

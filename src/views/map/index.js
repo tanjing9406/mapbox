@@ -9,6 +9,8 @@ import LayerControlView from '../layer-control-view'
 import getMapStyle from './mapstyle'
 
 import './index.css'
+import { Switch } from 'antd'
+import 'antd/dist/antd.css'
 
 const INITIAL_VIEW_STATE = {
     longitude: 109.481,
@@ -23,6 +25,7 @@ const Map = (props) => {
     const mapRef = useRef(null);
 
     const [viewState, setViewState] = useState(INITIAL_VIEW_STATE)
+    const [showCluster, setShowCluster] = useState(true)
 
     const onMapLoad = useCallback(() => {
         console.log('map load')
@@ -37,6 +40,7 @@ const Map = (props) => {
 
     return (
         <div>
+            <Switch className="cluster-switch" checkedChildren="聚类" unCheckedChildren="分散" checked={showCluster} onChange={checked => setShowCluster(checked)} />
             <div className="sidebarStyle">
                 <div>
                     Longitude: {viewState.longitude.toFixed(4)} | Latitude: {viewState.latitude.toFixed(4)} | Zoom: {viewState.zoom.toFixed(2)}
@@ -52,7 +56,7 @@ const Map = (props) => {
                         setViewState(viewState)
                     }}
                     getTooltip={({ object, info }) => {
-                        if(object && object.cluster) {
+                        if (object && object.cluster) {
                             return `${object.point_count} 艘船`
                         }
                         if (object) {
@@ -83,8 +87,8 @@ const Map = (props) => {
                             onLoad={onMapLoad}
                         />
                     )}
-                    {/* {TargetLayer()} */}
-                    {IconClusterLayer()}
+                    {TargetLayer({ showCluster })}
+                    {/* {IconClusterLayer()} */}
                 </DeckGL>
             </div>
             <LayerControlView />

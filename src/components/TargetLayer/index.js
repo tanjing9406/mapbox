@@ -2,6 +2,7 @@ import React, { useRef, useEffect, useState, useLayoutEffect, useCallback } from
 import { DeckGL, ScatterplotLayer, IconLayer, PathLayer, LineLayer } from 'deck.gl'
 import { ICOM_MAPPING_CONFIG } from './consts'
 import { getLonAndLats, fetchTargetTrack, addOrDelete } from './lib'
+import IconClusterLayer from '../IconClusterLayer/icon-cluster-layer'
 
 const TargetLayer = (props) => {
     const ws = useRef(null)
@@ -101,47 +102,56 @@ const TargetLayer = (props) => {
                 }}
                 getColor={[209, 49, 51]}
             />
-            <LineLayer
-                id="target-layer-course"
-                data={message}
-                pickable={false}
-                getWidth={2}
-                getSourcePosition={d => [d.longitude, d.latitude]}
-                getTargetPosition={d => {
-                    const time = 6 // 矢量线时间单位为分钟
-                    const distance = d.speed * 1.852 * 1000 * time / 60 // 1海里 = 1.852公里(千米) (中国标准)
-                    return getLonAndLats(d.longitude, d.latitude, d.course, distance)
-                }}
-                getColor={[54, 154, 204]}
-            />
-            <IconLayer
-                id="target-layer"
+            {!props.showCluster ? <>
+                <LineLayer
+                    id="target-layer-course"
+                    data={message}
+                    pickable={false}
+                    getWidth={2}
+                    getSourcePosition={d => [d.longitude, d.latitude]}
+                    getTargetPosition={d => {
+                        const time = 6 // 矢量线时间单位为分钟
+                        const distance = d.speed * 1.852 * 1000 * time / 60 // 1海里 = 1.852公里(千米) (中国标准)
+                        return getLonAndLats(d.longitude, d.latitude, d.course, distance)
+                    }}
+                    getColor={[54, 154, 204]}
+                />
+                <IconLayer
+                    id="target-layer"
+                    data={message}
+                    pickable={true}
+                    autoHighlight={true}
+                    getIcon={d => {
+                        return ICOM_MAPPING_CONFIG[d.type] || ICOM_MAPPING_CONFIG['RADAR']
+                    }}
+                    sizeScale={0.25}
+                    getPosition={d => [d.longitude, d.latitude]}
+                    getSize={d => {
+                        const { width, height } = ICOM_MAPPING_CONFIG[d.type] || ICOM_MAPPING_CONFIG['RADAR']
+                        return Math.max(width, height)
+                    }}
+                    getAngle={d => -d.heading}
+                    getColor={d => [0, 255, 0, 255 * (d.state === 1 ? 1 : 0.75)]}
+                    onClick={async (info, event) => {
+                        // console.log('Clicked:', info, event)
+                        setTargetsOfClicked(new Set(addOrDelete(targetsOfClicked, info.object.targetId)))
+                        const data = await fetchTargetTrack({
+                            zoom: 13,
+                            trackLevel: 240,
+                            targetId: Array.from(targetsOfClicked)
+                        })
+                        setTargetTrackData(data)
+                    }}
+                />
+            </> : <IconClusterLayer
+                id="icon-cluster-layer"
                 data={message}
                 pickable={true}
                 autoHighlight={true}
-                getIcon={d => {
-                    return ICOM_MAPPING_CONFIG[d.type] || ICOM_MAPPING_CONFIG['RADAR']
-                }}
-                sizeScale={0.25}
+                sizeScale={40}
                 getPosition={d => [d.longitude, d.latitude]}
-                getSize={d => {
-                    const { width, height } = ICOM_MAPPING_CONFIG[d.type] || ICOM_MAPPING_CONFIG['RADAR']
-                    return Math.max(width, height)
-                }}
-                getAngle={d => -d.heading}
-                getColor={d => [0, 255, 0, 255 * (d.state === 1 ? 1 : 0.75)]}
-                onClick={async (info, event) => {
-                    // console.log('Clicked:', info, event)
-                    setTargetsOfClicked(new Set(addOrDelete(targetsOfClicked, info.object.targetId)))
-                    const data = await fetchTargetTrack({
-                        zoom: 13,
-                        trackLevel: 240,
-                        targetId: Array.from(targetsOfClicked)
-                    })
-                    setTargetTrackData(data)
-                }}
-            />
-            
+            />}
+
         </>
     )
 }
