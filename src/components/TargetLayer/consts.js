@@ -1,7 +1,7 @@
 const baseUrl = '/src/assets/images/targets/'
 
 export const ICOM_MAPPING_CONFIG = {
-    'RADAR': { url: baseUrl + 'radar.png', width: 60, height: 60 },
+    'RADAR': { url: baseUrl + 'radar.png', width: 60, height: 60 }, // TODO use spirite image
     'AIS_A': { url: baseUrl + 'aisA_1.png', width: 80, height: 100 },
     'RADAR_AIS_A': { url: baseUrl + 'aisAR_1.png', width: 80, height: 100 },
     'AIS_B': { url: baseUrl + 'aisB_1.png', width: 60, height: 100 },

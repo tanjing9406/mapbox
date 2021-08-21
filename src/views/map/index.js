@@ -4,7 +4,7 @@ import { MapboxLayer } from '@deck.gl/mapbox'
 import { StaticMap } from 'react-map-gl'
 import formatcoords from 'formatcoords'
 
-import { TargetLayer } from '../../components'
+import { TargetLayer, IconClusterLayer } from '../../components'
 import LayerControlView from '../layer-control-view'
 import getMapStyle from './mapstyle'
 
@@ -51,7 +51,10 @@ const Map = (props) => {
                     onViewStateChange={({ viewState }) => {
                         setViewState(viewState)
                     }}
-                    getTooltip={({ object }) => {
+                    getTooltip={({ object, info }) => {
+                        if(object && object.cluster) {
+                            return `${object.point_count} 艘船`
+                        }
                         if (object) {
                             const [dmsLat, dmsLng] = formatcoords(object.latitude, object.longitude).format({ latLonSeparator: ',', decimalPlaces: 0 }).split(',')
                             return `船名：${object.shipName ? object.shipName : '--'}
@@ -80,7 +83,8 @@ const Map = (props) => {
                             onLoad={onMapLoad}
                         />
                     )}
-                    {TargetLayer()}
+                    {/* {TargetLayer()} */}
+                    {IconClusterLayer()}
                 </DeckGL>
             </div>
             <LayerControlView />
