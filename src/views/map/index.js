@@ -10,7 +10,6 @@ import getMapStyle from './mapstyle'
 
 import './index.css'
 import { Switch } from 'antd'
-import 'antd/dist/antd.css'
 
 const INITIAL_VIEW_STATE = {
     longitude: 109.481,
@@ -39,7 +38,7 @@ const Map = (props) => {
     }, [])
 
     return (
-        <div>
+        <div style={{position: 'relative', height:'100%'}}>
             <Switch className="cluster-switch" checkedChildren="聚类" unCheckedChildren="分散" checked={showCluster} onChange={checked => setShowCluster(checked)} />
             <div className="sidebarStyle">
                 <div>
