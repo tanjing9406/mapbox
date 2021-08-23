@@ -1,20 +1,33 @@
 .page-header.hnhy {
-    color: #fff;
+    color: #c2cdf4;
     display: flex;
     align-items: center;
     justify-content: space-between;
     background-color: #445DA7;
     height: 42px;
     line-height: 42px;
-    
+
+    .logo {
+        color: #fff;
+        font-weight: bold;
+        & :first-child {
+            font-style: italic;
+        }
+    }
+
     .hnhy-menu {
         margin-right: 30px;
         background-color: transparent;
-        color: #fff;
+        color: #c2cdf4;
         border-bottom: none;
     }
 
-    .splite-line {
-        background: #fff;
-    }
+    .right-btn-grp {
+        .btn {
+            color: #c2cdf4;
+        }
+        .splite-line {
+            background: #fff;
+        }
+    } 
 }

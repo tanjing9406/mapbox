@@ -21,9 +21,9 @@ const HNHYHeader = function () {
                     </SubMenu>
                 </Menu>
                 <div className="right-btn-grp">
-                    <Button type="primary" icon={<QrcodeOutlined />} /><Divider className="splite-line" type="vertical" />
-                    <Button type="primary" icon={<UserOutlined />} /><Divider className="splite-line" type="vertical" />
-                    <Button type="primary" icon={<LogoutOutlined />} />
+                    <Button type="link" className="btn" icon={<QrcodeOutlined />} /><Divider className="splite-line" type="vertical" />
+                    <Button type="link" className="btn" icon={<UserOutlined />} /><Divider className="splite-line" type="vertical" />
+                    <Button type="link" className="btn" icon={<LogoutOutlined />} />
                 </div>
             </div>
         </Header>
