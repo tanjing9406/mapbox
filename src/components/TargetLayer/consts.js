@@ -1,4 +1,4 @@
-const baseUrl = 'Images/targets/'
+const baseUrl = './src/assets/images/targets/'
 
 export const ICOM_MAPPING_CONFIG = {
     'RADAR': { url: baseUrl + 'radar.png', width: 60, height: 60 }, // TODO use spirite image
@@ -12,7 +12,7 @@ export const ICOM_MAPPING_CONFIG = {
     'RADAR_AID': { url: baseUrl + 'AIDR.png', width: 100, height: 100 },
     'VAID': { url: baseUrl + 'VAID.png', width: 100, height: 100 }, // UNKNOWN BDS bds_fuse
 
-    'target_selected': { url: 'Images/icons/tarselect.png', width: 120, height: 120 }
+    'target_selected': { url: './src/assets/images/icons/tarselect.png', width: 120, height: 120 }
 }
 
 export default {}

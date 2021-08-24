@@ -9,7 +9,7 @@ const toTargetIconMapping = {}
 for (let i = 0; i <= 19; i++) {
   const name = `marker-${i}`
   toTargetIconMapping[name] = {
-    url: `Images/clusters/marker-${i}.png`,
+    url: `./src/assets/images/clusters/marker-${i}.png`,
     width: 128,
     height: 128,
     anchorY: 128
