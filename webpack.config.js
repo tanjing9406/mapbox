@@ -15,6 +15,7 @@ const CONFIG = {
     },
     devServer: {
         host: '0.0.0.0',
+        historyApiFallback: true,
         after: () => {
             openBrowser && openBrowser('http://localhost:8080');
         },
