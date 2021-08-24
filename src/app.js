@@ -4,7 +4,7 @@ import { Provider, connect } from 'react-redux'
 import { store } from './redux/store'
 import { Layout } from 'antd'
 import 'antd/dist/antd.css'
-import { HNHYLayout } from './components'
+import { HNHYLayout } from 'Components'
 
 const { Content } = Layout
 const { HNHYHeader, LeftSider, RightSider } = HNHYLayout

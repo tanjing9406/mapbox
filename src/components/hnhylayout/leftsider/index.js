@@ -26,10 +26,10 @@ const LeftSider = function () {
                     记录回放
                 </Menu.Item>
                 <Menu.Item key="5" icon={<LineChartOutlined />}>
-                    目标分析
+                    数据分析
                 </Menu.Item>
                 <Menu.Item key="6" icon={<VideoCameraOutlined />}>
-                    光电
+                    光电列表
                 </Menu.Item>
             </Menu>
             <Menu mode="inline">

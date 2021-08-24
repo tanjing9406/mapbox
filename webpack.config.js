@@ -118,7 +118,10 @@ const CONFIG = {
     resolve: {
         alias: {
             // From mapbox-gl-js README. Required for non-browserify bundlers (e.g. webpack):
-            'mapbox-gl$': resolve('./node_modules/mapbox-gl/dist/mapbox-gl.js')
+            'mapbox-gl$': resolve('./node_modules/mapbox-gl/dist/mapbox-gl.js'),
+            '@': resolve(__dirname, 'src/'),
+            'Components': resolve(__dirname, 'src/components/'),
+            'Images': resolve(__dirname, 'src/assets/images/'),
         }
     }
 };

@@ -4,7 +4,7 @@ import { MapboxLayer } from '@deck.gl/mapbox'
 import { StaticMap } from 'react-map-gl'
 import formatcoords from 'formatcoords'
 
-import { TargetLayer, IconClusterLayer } from '../../components'
+import { TargetLayer, IconClusterLayer } from 'Components'
 import LayerControlView from '../layer-control-view'
 import getMapStyle from './mapstyle'
 

@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Optionsfield } from '../../components'
+import { Optionsfield } from 'Components'
 import { setActiveLayerOption, setActiveThemeOption, setActiveModeOption } from '../../redux/action-creators'
 
 const ConnectedLayerOptionsfield = connect(mapStateToPropsLayerOptionsfield)(
