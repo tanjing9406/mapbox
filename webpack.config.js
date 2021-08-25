@@ -11,7 +11,11 @@ const CONFIG = {
     devtool: 'source-map',
     entry: {
         app: './src/index.js'
-        // app: './src/map_old.js'
+    },
+    output: {
+        filename: 'bundle.js',
+        path: resolve(__dirname, 'dist'),
+        publicPath: '/'
     },
     devServer: {
         host: '0.0.0.0',
