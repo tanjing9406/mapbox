@@ -1,47 +1,50 @@
 import React from 'react'
 import { Layout, Menu } from 'antd'
-import {
-    SearchOutlined, UnorderedListOutlined, FilterOutlined, HistoryOutlined, LineChartOutlined, VideoCameraOutlined,
-    InfoCircleOutlined, MenuOutlined
-} from '@ant-design/icons'
+import { Link, withRouter } from 'react-router-dom'
+import { InfoCircleOutlined, MenuOutlined } from '@ant-design/icons'
+import { Legend } from 'Components'
+import { LEFT_TOP_MENU_CONFIG } from '@/config/left-top-menu'
+import { LEFT_BOTTOM_MENU_CONFIG } from '@/config/left-bottom-menu'
 
 import './style.less'
 
 const { Sider } = Layout
 
-const LeftSider = function () {
+const LeftSider = function (props) {
+    const selectedKey = props.location.pathname.slice(1)
     return (
         <Sider className="page-left-sider-wrapper hnhy" collapsible collapsed={true} trigger={null} collapsedWidth={56}>
-            <Menu defaultSelectedKeys={['1']} mode="inline">
-                <Menu.Item key="1" icon={<SearchOutlined />}>
-                    目标查询
-                </Menu.Item>
-                <Menu.Item key="2" icon={<UnorderedListOutlined />}>
-                    目标列表
-                </Menu.Item>
-                <Menu.Item key="3" icon={<FilterOutlined />}>
-                    目标筛选
-                </Menu.Item>
-                <Menu.Item key="4" icon={<HistoryOutlined />}>
-                    记录回放
-                </Menu.Item>
-                <Menu.Item key="5" icon={<LineChartOutlined />}>
-                    数据分析
-                </Menu.Item>
-                <Menu.Item key="6" icon={<VideoCameraOutlined />}>
-                    光电列表
-                </Menu.Item>
+            <Menu selectedKeys={[selectedKey]} mode="inline">
+                {LEFT_TOP_MENU_CONFIG.map(menuItem => (
+                    <Menu.Item key={menuItem.id} icon={<menuItem.icon />} title={menuItem.title}>
+                        <Link to={menuItem.url}></Link>
+                    </Menu.Item>
+                ))}
             </Menu>
-            <Menu mode="inline">
-                <Menu.Item key="7" icon={<InfoCircleOutlined />}>
-                    我是图例
-                </Menu.Item>
-                <Menu.Item key="8" icon={<MenuOutlined />}>
-                    更多
-                </Menu.Item>
+            <Menu selectedKeys={[selectedKey]} mode="inline"
+                builtinPlacements={{ rightTop: { points: ['bl', 'br'], offset: [10, -10] } }}>
+                <Menu.SubMenu key='1' icon={<InfoCircleOutlined />} title="图例说明">
+                    <Menu.ItemGroup title="图例说明">
+                        <Menu.Item key='1-2'>
+                            <Legend />
+                        </Menu.Item>
+                    </Menu.ItemGroup>
+                </Menu.SubMenu>
+                <Menu.SubMenu key="2" icon={<MenuOutlined />} title="更多">
+                    <Menu.ItemGroup title="更多">
+                        {LEFT_BOTTOM_MENU_CONFIG[0].subMenu.map(menuItem => (
+                            <React.Fragment key={menuItem.id} >
+                                <Menu.Item key={menuItem.id} icon={<menuItem.icon />}>
+                                    <Link to={menuItem.url}>{menuItem.title}</Link>
+                                </Menu.Item>
+                                {menuItem.nextIsDivider && <Menu.Divider />}
+                            </React.Fragment>
+                        ))}
+                    </Menu.ItemGroup>
+                </Menu.SubMenu>
             </Menu>
         </Sider>
     )
 }
 
-export default LeftSider
+export default withRouter(LeftSider)

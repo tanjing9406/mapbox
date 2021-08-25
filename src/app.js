@@ -1,38 +1,58 @@
 import React from 'react'
-import Map from './views/map'
-import { Provider, connect } from 'react-redux'
+import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom'
+import Map from '@/views/map'
+import { Provider } from 'react-redux'
 import { store } from './redux/store'
 import { Layout } from 'antd'
 import 'antd/dist/antd.css'
 import { HNHYLayout } from 'Components'
+import MenuConfig from '@/config'
 
 const { Content } = Layout
 const { HNHYHeader, LeftSider, RightSider } = HNHYLayout
 
-const ConnectedMap = connect(mapStateToProps)(Map);
-
-function mapStateToProps(state) {
-  return {
-    activeLayer: state.activeLayer,
-    activeTheme: state.activeTheme,
-    activeMode: state.activeMode
-  };
+const genMenuRoute = () => {
+  return MenuConfig.reduce((rst, curItem) => {
+    if (!curItem.subMenu) {
+      return [
+        ...rst,
+        <Route key={curItem.id} path={curItem.url} component={Map} />
+      ]
+    }
+    return [
+      ...rst,
+      ...curItem.subMenu.map(i => <Route key={i.id} path={i.url} component={i.component} />)
+    ]
+  }, [])
 }
 
 function App() {
   return (
-    <Provider store={store}>
-      <Layout style={{ height: '100%' }}>
-        <HNHYHeader />
-        <Layout className="page-content">
-          <LeftSider />
-          <Content>
-            <ConnectedMap />
-          </Content>
-          <RightSider />
-        </Layout>
-      </Layout>
-    </Provider>
+    <Router>
+      <Switch>
+        {/* <Route path="/login" component={LoginPage} /> */}
+        {/* <PrivateRoute path="/"> */}
+        <Provider store={store}>
+          <Layout style={{ height: '100%', overflow: 'hidden' }}>
+            <HNHYHeader />
+            <Layout className="page-content">
+              <LeftSider />
+              <Content>
+                <Switch>
+                  <Route path='/' exact>
+                    <Redirect to='/targetsearch' />
+                  </Route>
+                  {genMenuRoute()}
+                </Switch>
+                {/* <ConnectedMap /> */}
+              </Content>
+              <RightSider />
+            </Layout>
+          </Layout>
+        </Provider>
+        {/* </PrivateRoute> */}
+      </Switch>
+    </Router>
   );
 }
 

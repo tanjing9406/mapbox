@@ -1,4 +1,5 @@
 import React, { useRef, useEffect, useState, useLayoutEffect, useCallback } from 'react';
+import { connect } from 'react-redux'
 import { DeckGL, ScatterplotLayer, IconLayer, PathLayer } from 'deck.gl'
 import { MapboxLayer } from '@deck.gl/mapbox'
 import { StaticMap } from 'react-map-gl'
@@ -22,9 +23,9 @@ const Map = (props) => {
     const [glContext, setGLContext] = useState();
     const deckRef = useRef(null);
     const mapRef = useRef(null);
-
+    
     const [viewState, setViewState] = useState(INITIAL_VIEW_STATE)
-    const [showCluster, setShowCluster] = useState(true)
+    const [showCluster, setShowCluster] = useState(props.showCluster || false)
 
     const onMapLoad = useCallback(() => {
         console.log('map load')
@@ -95,4 +96,12 @@ const Map = (props) => {
     );
 };
 
-export default Map;
+function mapStateToProps(state) {
+  return {
+    activeLayer: state.activeLayer,
+    activeTheme: state.activeTheme,
+    activeMode: state.activeMode
+  };
+}
+
+export default connect(mapStateToProps)(Map);

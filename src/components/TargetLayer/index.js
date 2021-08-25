@@ -57,7 +57,9 @@ const TargetLayer = (props) => {
             // console.log(JSON.parse(option.data).targetList)
             setMessage(JSON.parse(option.data).targetList)
         };
-
+        ws.current.onclose = () => {
+            console.log('websocket closed')
+        }
         return () => {
             ws.current?.close();
         };
