@@ -9,12 +9,14 @@ export const TOP_MENU = [
         id: 'bigdata',
         title: '大数据平台',
         hasSider: false,
+        hasMap: false,
         component: Comming,
         url: '/bigdata'
     }, {
         id: 'datadashboard',
         title: '数据看板',
         hasSider: false,
+        hasMap: false,
         component: Comming,
         url: '/datadashboard'
     }, {

@@ -5,9 +5,10 @@ import { MapboxLayer } from '@deck.gl/mapbox'
 import { StaticMap } from 'react-map-gl'
 import formatcoords from 'formatcoords'
 
-import { TargetLayer, IconClusterLayer } from 'Components'
+import { TargetLayer } from 'Components'
 import LayerControlView from '../layer-control-view'
 import getMapStyle from './mapstyle'
+import { WithMapVisibleCheckHoc } from 'Components/withVisibleCheckHoc';
 
 import './index.css'
 import { Switch } from 'antd'
@@ -23,7 +24,7 @@ const Map = (props) => {
     const [glContext, setGLContext] = useState();
     const deckRef = useRef(null);
     const mapRef = useRef(null);
-    
+
     const [viewState, setViewState] = useState(INITIAL_VIEW_STATE)
     const [showCluster, setShowCluster] = useState(props.showCluster || false)
 
@@ -39,7 +40,7 @@ const Map = (props) => {
     }, [])
 
     return (
-        <div style={{position: 'relative', height:'100%'}}>
+        <div style={{ position: 'relative', height: '100%' }}>
             <Switch className="cluster-switch" checkedChildren="聚类" unCheckedChildren="分散" checked={showCluster} onChange={checked => setShowCluster(checked)} />
             <div className="sidebarStyle">
                 <div>
@@ -97,11 +98,11 @@ const Map = (props) => {
 };
 
 function mapStateToProps(state) {
-  return {
-    activeLayer: state.activeLayer,
-    activeTheme: state.activeTheme,
-    activeMode: state.activeMode
-  };
+    return {
+        activeLayer: state.activeLayer,
+        activeTheme: state.activeTheme,
+        activeMode: state.activeMode
+    };
 }
 
-export default connect(mapStateToProps)(Map);
+export default WithMapVisibleCheckHoc(connect(mapStateToProps)(Map));

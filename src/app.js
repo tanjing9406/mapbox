@@ -16,7 +16,7 @@ const genMenuRoute = () => {
     if (!curItem.subMenu) {
       return [
         ...rst,
-        <Route key={curItem.id} path={curItem.url} component={Map} />
+        <Route key={curItem.id} path={curItem.url} component={curItem.component} />
       ]
     }
     return [
@@ -35,9 +35,10 @@ function App() {
         <Provider store={store}>
           <Layout style={{ height: '100%', overflow: 'hidden' }}>
             <HNHYHeader />
-            <Layout className="page-content">
+            <Layout className="pr">
               <LeftSider />
               <Content>
+                <Map />
                 <Switch>
                   <Route path='/' exact>
                     <Redirect to='/targetsearch' />

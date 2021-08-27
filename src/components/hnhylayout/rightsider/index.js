@@ -1,6 +1,7 @@
 import React from 'react'
 import { Layout, Col, Button } from 'antd'
 import { FullscreenOutlined, HomeOutlined, DeleteOutlined, AlertOutlined } from '@ant-design/icons'
+import { WithMapVisibleCheckHoc } from '../../withVisibleCheckHoc'
 
 import './style.less'
 
@@ -28,4 +29,4 @@ const RightSider = function () {
     )
 }
 
-export default RightSider
+export default WithMapVisibleCheckHoc(RightSider)

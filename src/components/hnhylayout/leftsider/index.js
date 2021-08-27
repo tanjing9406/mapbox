@@ -1,17 +1,18 @@
 import React from 'react'
 import { Layout, Menu } from 'antd'
-import { Link, withRouter } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { InfoCircleOutlined, MenuOutlined } from '@ant-design/icons'
 import { Legend } from 'Components'
 import { LEFT_TOP_MENU_CONFIG } from '@/config/left-top-menu'
 import { LEFT_BOTTOM_MENU_CONFIG } from '@/config/left-bottom-menu'
-
+import { WithSiderVisibleCheckHoc } from 'Components/withVisibleCheckHoc'
 import './style.less'
 
 const { Sider } = Layout
 
 const LeftSider = function (props) {
-    const selectedKey = props.location.pathname.slice(1)
+    const location = useLocation()
+    const selectedKey = location.pathname.slice(1)
     return (
         <Sider className="page-left-sider-wrapper hnhy" collapsible collapsed={true} trigger={null} collapsedWidth={56}>
             <Menu selectedKeys={[selectedKey]} mode="inline">
@@ -47,4 +48,4 @@ const LeftSider = function (props) {
     )
 }
 
-export default withRouter(LeftSider)
+export default WithSiderVisibleCheckHoc(LeftSider)
