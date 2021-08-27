@@ -1,4 +1,5 @@
-import * as Constants from '../constants'
+import * as Constants from '@/constants'
+import getMapStyle from '@/lib/mapstyle'
 
 const layerOptions = [
   { name: '海图', id: 'sea' },
@@ -26,23 +27,26 @@ const initialState = {
   themeOptions,
   activeTheme: themeOptions[0],
   modeOptions,
-  activeMode: modeOptions[0]
+  activeMode: modeOptions[0],
+  mapStyle: getMapStyle(layerOptions[0].id, `${themeOptions[0].id}_${modeOptions[0].id}`)
 };
+
+function reduceMapStyle(state, action, optionKey) {
+  const newState = Object.assign({}, state, {
+    [optionKey]: action.option
+  })
+  newState.mapStyle = getMapStyle(newState.activeLayer.id, `${newState.activeTheme.id}_${newState.activeMode.id}`)
+  return newState
+}
 
 function reducer(state = initialState, action) {
   switch (action.type) {
     case Constants.SET_LAYER_OPTION:
-      return Object.assign({}, state, {
-        activeLayer: action.option
-      });
+      return reduceMapStyle(state, action, 'activeLayer')
     case Constants.SET_THEME_OPTION:
-      return Object.assign({}, state, {
-        activeTheme: action.option
-      });
+      return reduceMapStyle(state, action, 'activeTheme')
     case Constants.SET_MODE_OPTION:
-      return Object.assign({}, state, {
-        activeMode: action.option
-      });
+      return reduceMapStyle(state, action, 'activeMode')
     default:
       return state;
   }

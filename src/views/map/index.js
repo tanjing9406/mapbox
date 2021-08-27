@@ -7,7 +7,6 @@ import formatcoords from 'formatcoords'
 
 import { TargetLayer } from 'Components'
 import LayerControlView from '../layer-control-view'
-import getMapStyle from './mapstyle'
 import { WithMapVisibleCheckHoc } from 'Components/withVisibleCheckHoc';
 
 import './index.css'
@@ -20,6 +19,7 @@ const INITIAL_VIEW_STATE = {
 }
 
 const Map = (props) => {
+    const { mapStyle } = props
     // DeckGL and mapbox will both draw into this WebGL context
     const [glContext, setGLContext] = useState();
     const deckRef = useRef(null);
@@ -84,7 +84,7 @@ const Map = (props) => {
                         <StaticMap
                             ref={mapRef}
                             gl={glContext}
-                            mapStyle={getMapStyle(props.activeLayer.id, `${props.activeTheme.id}_${props.activeMode.id}`)}
+                            mapStyle={mapStyle}
                             onLoad={onMapLoad}
                         />
                     )}
@@ -99,9 +99,7 @@ const Map = (props) => {
 
 function mapStateToProps(state) {
     return {
-        activeLayer: state.activeLayer,
-        activeTheme: state.activeTheme,
-        activeMode: state.activeMode
+        mapStyle: state.mapStyle
     };
 }
 
