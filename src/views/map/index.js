@@ -4,13 +4,14 @@ import { DeckGL, ScatterplotLayer, IconLayer, PathLayer } from 'deck.gl'
 import { MapboxLayer } from '@deck.gl/mapbox'
 import { StaticMap } from 'react-map-gl'
 import formatcoords from 'formatcoords'
+import { useFullscreen } from 'rooks'
 
 import { TargetLayer } from 'Components'
 import LayerControlView from '../layer-control-view'
 import { WithMapVisibleCheckHoc } from 'Components/withVisibleCheckHoc';
 
 import './index.css'
-import { Switch } from 'antd'
+import { Switch, Button } from 'antd'
 import { CornerInfoPanel } from './components';
 import { getDmsArray } from './tools';
 
@@ -26,7 +27,8 @@ const Map = (props) => {
     const [glContext, setGLContext] = useState();
     const deckRef = useRef(null);
     const mapRef = useRef(null);
-
+    const mapContainer = useRef()
+    const { request, isFullscreen, exit } = useFullscreen()
     // const [viewState, setViewState] = useState(INITIAL_VIEW_STATE)
     const [showTarget, setShowTarget] = useState(true)
     const [showCluster, setShowCluster] = useState(props.showCluster || false)
@@ -49,7 +51,7 @@ const Map = (props) => {
     }, [])
 
     return (
-        <>
+        <div ref={mapContainer}>
             <DeckGL
                 ref={deckRef}
                 layers={[new IconLayer({ id: 'empty-layer', data: [] })]}
@@ -101,10 +103,11 @@ const Map = (props) => {
                 )}
                 {TargetLayer({ showCluster, showTarget })}
             </DeckGL>
+            <Button className="cluster-switch" style={{ right: 140 }} size="small" type="primary" onClick={() => isFullscreen ? exit() : request(mapContainer.current)}>{isFullscreen ? '取消全屏' : '全屏'}</Button>
             <CornerInfoPanel data={cornerInfo} onToggleTarget={checked => setShowTarget(checked)} />
             <Switch className="cluster-switch" checkedChildren="聚类" unCheckedChildren="分散" checked={showCluster} onChange={checked => setShowCluster(checked)} />
             <LayerControlView />
-        </>
+        </div>
     );
 };
 
