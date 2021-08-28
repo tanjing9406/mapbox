@@ -37,7 +37,7 @@ function App() {
             <HNHYHeader />
             <Layout className="pr">
               <LeftSider />
-              <Content>
+              <Content className="pr">
                 <Map />
                 <Switch>
                   <Route path='/' exact>

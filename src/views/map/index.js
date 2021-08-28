@@ -11,6 +11,8 @@ import { WithMapVisibleCheckHoc } from 'Components/withVisibleCheckHoc';
 
 import './index.css'
 import { Switch } from 'antd'
+import { CornerInfoPanel } from './components';
+import { getDmsArray } from './tools';
 
 const INITIAL_VIEW_STATE = {
     longitude: 109.481,
@@ -25,9 +27,16 @@ const Map = (props) => {
     const deckRef = useRef(null);
     const mapRef = useRef(null);
 
-    const [viewState, setViewState] = useState(INITIAL_VIEW_STATE)
+    // const [viewState, setViewState] = useState(INITIAL_VIEW_STATE)
+    const [showTarget, setShowTarget] = useState(true)
     const [showCluster, setShowCluster] = useState(props.showCluster || false)
-
+    const [cornerInfo, setCornerInfo] = useState({
+        dmsArr: undefined,
+        showTarget,
+        tarNum: 0,
+        viewTarNum: 0,
+        zoom: INITIAL_VIEW_STATE.zoom.toFixed(1)
+    })
     const onMapLoad = useCallback(() => {
         console.log('map load')
         const map = mapRef.current.getMap();
@@ -40,29 +49,31 @@ const Map = (props) => {
     }, [])
 
     return (
-        <div style={{ position: 'relative', height: '100%' }}>
-            <Switch className="cluster-switch" checkedChildren="聚类" unCheckedChildren="分散" checked={showCluster} onChange={checked => setShowCluster(checked)} />
-            <div className="sidebarStyle">
-                <div>
-                    Longitude: {viewState.longitude.toFixed(4)} | Latitude: {viewState.latitude.toFixed(4)} | Zoom: {viewState.zoom.toFixed(2)}
-                </div>
-            </div>
-            {/* <MapSwitch></MapSwitch> */}
-            <div className="map-container">
-                <DeckGL
-                    ref={deckRef}
-                    layers={[new IconLayer({ id: 'empty-layer', data: [] })]}
-                    initialViewState={INITIAL_VIEW_STATE}
-                    onViewStateChange={({ viewState }) => {
-                        setViewState(viewState)
-                    }}
-                    getTooltip={({ object, info }) => {
-                        if (object && object.cluster) {
-                            return `${object.point_count} 艘船`
-                        }
-                        if (object) {
-                            const [dmsLat, dmsLng] = formatcoords(object.latitude, object.longitude).format({ latLonSeparator: ',', decimalPlaces: 0 }).split(',')
-                            return `船名：${object.shipName ? object.shipName : '--'}
+        <>
+            <DeckGL
+                ref={deckRef}
+                layers={[new IconLayer({ id: 'empty-layer', data: [] })]}
+                initialViewState={INITIAL_VIEW_STATE}
+                onViewStateChange={({ viewState }) => {
+                    // setViewState(viewState)
+                    setCornerInfo({
+                        ...cornerInfo,
+                        zoom: viewState.zoom.toFixed(1)
+                    })
+                }}
+                onHover={info => {
+                    info.coordinate && setCornerInfo({
+                        ...cornerInfo,
+                        dmsArr: getDmsArray(info.coordinate[1], info.coordinate[0])
+                    })
+                }}
+                getTooltip={({ object, info }) => {
+                    if (object && object.cluster) {
+                        return `${object.point_count} 艘船`
+                    }
+                    if (object) {
+                        const [dmsLat, dmsLng] = formatcoords(object.latitude, object.longitude).format({ latLonSeparator: ',', decimalPlaces: 0 }).split(',')
+                        return `船名：${object.shipName ? object.shipName : '--'}
                         MMSI：${object.mmsi}
                         船长：${object.len}米
                         航向：${object.heading}°
@@ -70,30 +81,30 @@ const Map = (props) => {
                         纬度：${dmsLat}
                         经度：${dmsLng}
                         状态：${object.state === 1 ? '正常' : '预测'} `
-                        }
-                    }}
-                    controller={true}
-                    onWebGLInitialized={setGLContext}
-                    glOptions={{
-                        /* To render vector tile polygons correctly */
-                        stencil: true
-                    }}
-                >
-                    {glContext && (
-                        /* This is important: Mapbox must be instantiated after the WebGLContext is available */
-                        <StaticMap
-                            ref={mapRef}
-                            gl={glContext}
-                            mapStyle={mapStyle}
-                            onLoad={onMapLoad}
-                        />
-                    )}
-                    {TargetLayer({ showCluster })}
-                    {/* {IconClusterLayer()} */}
-                </DeckGL>
-            </div>
+                    }
+                }}
+                controller={true}
+                onWebGLInitialized={setGLContext}
+                glOptions={{
+                    /* To render vector tile polygons correctly */
+                    stencil: true
+                }}
+            >
+                {glContext && (
+                    /* This is important: Mapbox must be instantiated after the WebGLContext is available */
+                    <StaticMap
+                        ref={mapRef}
+                        gl={glContext}
+                        mapStyle={mapStyle}
+                        onLoad={onMapLoad}
+                    />
+                )}
+                {TargetLayer({ showCluster, showTarget })}
+            </DeckGL>
+            <CornerInfoPanel data={cornerInfo} onToggleTarget={checked => setShowTarget(checked)} />
+            <Switch className="cluster-switch" checkedChildren="聚类" unCheckedChildren="分散" checked={showCluster} onChange={checked => setShowCluster(checked)} />
             <LayerControlView />
-        </div>
+        </>
     );
 };
 
