@@ -9,7 +9,7 @@ import { HNHYLayout } from 'Components'
 import MenuConfig from '@/config'
 
 const { Content } = Layout
-const { HNHYHeader, LeftSider, RightSider } = HNHYLayout
+const { HNHYHeader, LeftSider } = HNHYLayout
 
 const genMenuRoute = () => {
   return MenuConfig.reduce((rst, curItem) => {
@@ -47,7 +47,6 @@ function App() {
                 </Switch>
                 {/* <ConnectedMap /> */}
               </Content>
-              <RightSider />
             </Layout>
           </Layout>
         </Provider>
