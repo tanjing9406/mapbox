@@ -1,21 +1,35 @@
-button.map-right-sider-btn {
-    position: absolute !important;
-    // width: 36px;
-    // height: 36px;
-    right: 12px;
-    top: 16px;
-    z-index: 1;
-    box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.33);
-    border: none;
+.map-right-sider {
+    &.btn, .btn {
+        box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.33);
+        border: none;
 
-    &.ant-btn-lg {
-        width: 36px;
-        height: 36px;
-        border-radius: 4px;
+        &.ant-btn-lg {
+            width: 36px;
+            height: 36px;
+            border-radius: 4px;
+        }
+        
+        &:hover {
+            color: #fff;
+            background: linear-gradient(138deg, #6186FF 0%, #4A64EB 100%);
+        }
     }
-    
-    &:hover {
-        color: #fff;
-        background: linear-gradient(138deg, #6186FF 0%, #4A64EB 100%);
+
+    &.btn-fullscreen {
+        position: absolute !important;
+        right: 12px;
+        top: 16px;
+        z-index: 1;
+    }
+
+    &.toolbox-wrap {
+        position: absolute;
+        right: 12px;
+        top: 170px;
+
+        .btn {
+            display: block;
+            margin-top: 9px;
+        }
     }
 }
