@@ -40,7 +40,7 @@ const LayerControlView = () => {
 
     return (
         <>
-            <ConnectedLayerOptionsfield changeState={setActiveLayerOption} className="ml12 mt12" />
+            <ConnectedLayerOptionsfield changeState={setActiveLayerOption} className="ml12 mt60" />
             <ConnectedThemeOptionsfield changeState={setActiveThemeOption} className="ml12 mt120" />
             <ConnectedModeOptionsfield changeState={setActiveModeOption} className="ml240 mt120" />
         </>

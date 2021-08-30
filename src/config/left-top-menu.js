@@ -4,7 +4,7 @@ import {
 } from '@ant-design/icons'
 
 function Comming(){
-    return <div>敬请期待</div>
+    return <div style={{fontSize: 0}}>敬请期待</div>
 }
 
 export const LEFT_TOP_MENU_CONFIG = [

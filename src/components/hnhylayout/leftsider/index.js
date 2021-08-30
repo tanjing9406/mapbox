@@ -23,6 +23,7 @@ const LeftSider = function (props) {
                 ))}
             </Menu>
             <Menu selectedKeys={[selectedKey]} mode="inline"
+                // openKeys={['2']}
                 builtinPlacements={{ rightTop: { points: ['bl', 'br'], offset: [10, -10] } }}>
                 <Menu.SubMenu key='1' icon={<InfoCircleOutlined />} title="图例说明">
                     <Menu.ItemGroup title="图例说明">

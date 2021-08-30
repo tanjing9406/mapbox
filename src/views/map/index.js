@@ -9,7 +9,6 @@ import { TargetLayer } from 'Components'
 import LayerControlView from '../layer-control-view'
 import { WithMapVisibleCheckHoc } from 'Components/withVisibleCheckHoc';
 
-import './index.css'
 import { Switch } from 'antd'
 import { CornerInfoPanel, RightSider } from './components';
 import { getDmsArray } from './tools';
@@ -106,9 +105,9 @@ const Map = (props) => {
                     {TargetLayer({ showCluster, showTarget })}
                 </DeckGL>
                 <CornerInfoPanel data={cornerInfo} onToggleTarget={checked => setShowTarget(checked)} />
-                <Switch className="cluster-switch" checkedChildren="聚类" unCheckedChildren="分散" checked={showCluster} onChange={checked => setShowCluster(checked)} />
+                <Switch className="ml12 mt18 absolute" checkedChildren="聚类" unCheckedChildren="分散" checked={showCluster} onChange={checked => setShowCluster(checked)} />
                 <RightSider />
-                {/* <LayerControlView /> */}
+                <LayerControlView />
             </div>
         </HNHYMapContext.Provider>
     );
