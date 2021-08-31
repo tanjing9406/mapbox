@@ -6,13 +6,15 @@ import {
     METEOROLOGY_LAYERS_OPTIONS
 } from "@/views/map/consts"
 
+import "./style.less"
+
 const { Panel } = Collapse
 const { CheckableTag } = Tag
 
 function BussinessLayerControl() {
     return (
         <Collapse
-            className="over-layer-content-wrap"
+            className="over-layer-content"
             defaultActiveKey={['1', '2', '3']}
             ghost
         >

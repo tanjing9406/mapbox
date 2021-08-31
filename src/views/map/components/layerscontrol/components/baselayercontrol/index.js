@@ -7,7 +7,9 @@ import {
 } from "@/views/map/consts"
 import { BASE_LAYER_ID, BASE_THEME_ID, BASE_MODE_ID } from "@/config/constants/default-consts-config"
 import { setMapStyle } from "@/redux/action-creators"
-import getMapStyle from '@/lib/mapstyle'
+import getMapStyle from "@/lib/mapstyle"
+
+import "./style.less"
 
 function BaseLayerControl() {
     const [layerId, setLayerId] = useState(BASE_LAYER_ID)
@@ -24,7 +26,7 @@ function BaseLayerControl() {
     }, [layerId, themeId, modeId])
 
     return (
-        <List className="base-layer-content-wrap">
+        <List className="base-layer-content">
             <List.Item>
                 <Radio.Group className="group base-grp" value={layerId} buttonStyle="solid" onChange={e => setLayerId(e.target.value)}>
                     {BASE_LAYER_OPTIONS.map(item => <Radio.Button key={item.id} value={item.id}>{item.name}</Radio.Button>)}

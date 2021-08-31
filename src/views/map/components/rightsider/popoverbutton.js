@@ -7,10 +7,11 @@ function PopoverButton(props) {
     const { title, iconName, visible, content } = props
     return (
         <Popover
+            overlayClassName="right-sider-popover"
             getPopupContainer={() => mapContainer.current}
             content={content}
             visible={visible}
-            title={<div className="txt-m"><span className="anticon"><svg className='icon'><use xlinkHref={`#icon-${iconName}`} /></svg></span><span className="ml6">{title}</span></div>}
+            title={<><span className="anticon"><svg className='icon'><use xlinkHref={`#icon-${iconName}`} /></svg></span><span className="ml6">{title}</span></>}
             placement="leftTop">
             <Button
                 size="large"
