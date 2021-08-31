@@ -6,7 +6,6 @@ import { StaticMap } from 'react-map-gl'
 import formatcoords from 'formatcoords'
 
 import { TargetLayer } from 'Components'
-import LayerControlView from '../layer-control-view'
 import { WithMapVisibleCheckHoc } from 'Components/withVisibleCheckHoc';
 
 import { Switch } from 'antd'
@@ -107,7 +106,6 @@ const Map = (props) => {
                 <CornerInfoPanel data={cornerInfo} onToggleTarget={checked => setShowTarget(checked)} />
                 <Switch className="ml12 mt18 absolute" checkedChildren="聚类" unCheckedChildren="分散" checked={showCluster} onChange={checked => setShowCluster(checked)} />
                 <RightSider />
-                <LayerControlView />
             </div>
         </HNHYMapContext.Provider>
     );
