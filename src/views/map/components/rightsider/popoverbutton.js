@@ -4,13 +4,13 @@ import HNHYMapContext from "@/views/map/hnhymapcontext"
 
 function PopoverButton(props) {
     const { mapContainer } = useContext(HNHYMapContext)
-    const { title, iconName, content } = props
+    const { title, iconName, visible, content } = props
     return (
         <Popover
             getPopupContainer={() => mapContainer.current}
             content={content}
-            // visible
-            title={<span className="anticon txt-m"><svg className='icon'><use xlinkHref={`#icon-${iconName}`} /></svg><span className="ml6">{title}</span></span>}
+            visible={visible}
+            title={<div className="txt-m"><span className="anticon"><svg className='icon'><use xlinkHref={`#icon-${iconName}`} /></svg></span><span className="ml6">{title}</span></div>}
             placement="leftTop">
             <Button
                 size="large"

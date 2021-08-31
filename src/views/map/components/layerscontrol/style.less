@@ -1,0 +1,28 @@
+.layers-control-wrap {
+    .ant-collapse-item {
+        &.ant-collapse-item-disabled > .ant-collapse-header {
+            color: inherit;
+            cursor: inherit;
+        }
+        .ant-collapse-header {
+            .ant-collapse-arrow {
+                font-size: 10px !important;
+            }
+        }
+    }
+    .base-layer-content-wrap, .over-layer-content-wrap {
+        .ant-collapse-item:not(:last-child), .ant-list-item:not(:last-child) {
+            border-bottom: 1px dashed #DCDCDC;
+        }
+    }
+    .base-layer-panel {
+        .group {
+            display: flex;
+            width: 100%;
+            justify-content: space-between;
+        }
+    }
+    .over-layer-panel {
+        border-top: 2px solid #DCDCDC;
+    }
+}
