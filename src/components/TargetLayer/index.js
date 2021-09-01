@@ -12,8 +12,6 @@ const TargetLayer = (props) => {
 
     const startWebsocket = () => {
         ws.current = new WebSocket(`ws://192.168.7.122/api/target/ws/region/${process.env.HLX_ACCESS_TOKEN}`)
-        // ws://bs.uniseas.com.cn/apiv1/target/ws/region/66998c07-fbc5-4504-b357-88d2f085bdf7
-        // ws.current = new WebSocket('ws://bs.uniseas.com.cn/apiv1/target/ws/region/c6d9cfd4-22bb-46db-be81-b7545119a7b5');
         ws.current.onopen = () => {
             console.log('连接成功')
             if (ws.current) {
@@ -54,7 +52,6 @@ const TargetLayer = (props) => {
             }
         };
         ws.current.onmessage = (option) => {
-            // console.log(JSON.parse(option.data).targetList)
             setMessage(JSON.parse(option.data).targetList)
         };
         ws.current.onclose = () => {
