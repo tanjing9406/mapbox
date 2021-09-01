@@ -1,21 +1,21 @@
 export const BASE_LAYER_OPTIONS = [
-    { name: '海图', id: 'sea' },
-    { name: '地图', id: 'vector' },
-    { name: '卫星图', id: 'image' },
-    { name: '海图地图', id: 'vectorSea' },
-    { name: '海图卫星', id: 'imageSea' }
+    { name: '海图', id: 'sea', image: 'map_sea' },
+    { name: '地图', id: 'vector', image: 'map_vector' },
+    { name: '卫星图', id: 'image', image: 'map_image' },
+    { name: '海图地图', id: 'vectorSea', image: 'map_vectorsea' },
+    { name: '海图卫星', id: 'imageSea', image: 'map_imagesea' }
 ]
 
 export const BASE_THEME_OPTIONS = [
-    { name: '白天', id: 'day' },
-    { name: '黄昏', id: 'dusk' },
-    { name: '夜晚', id: 'night' }
+    { name: '白天', id: 'day', icon: '#iconbaitian' },
+    { name: '黄昏', id: 'dusk', icon: '#iconhuanghun' },
+    { name: '夜晚', id: 'night', icon: '#iconyewan' }
 ]
 
 export const BASE_MODE_OPTIONS = [
-    { name: '基础', id: 'b' },
-    { name: '标准', id: 's' },
-    { name: '全部', id: 'a' }
+    { name: '基础', id: 'b', icon: '#iconjichu' },
+    { name: '标准', id: 's', icon: '#iconbiaozhun' },
+    { name: '全部', id: 'a', icon: '#iconquanbu' }
 ]
 
 export const BUSINESS_LAYERS_OPTIONS = [

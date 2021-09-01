@@ -22,7 +22,7 @@ function RightSider() {
                 />
             </Tooltip>
             <div className="map-right-sider toolbox-wrap">
-                <PopoverButton title="图层" iconName="layers" visible content={<LayersControl />} />
+                <PopoverButton title="图层" iconName="layers" content={<LayersControl />} />
                 <PopoverButton title="区域切换" iconName="polygon" content={<div className="w420">dsfaasd</div>} />
                 <PopoverButton title="工具箱" iconName="package" content={<div className="w240">dsfaasd</div>} />
                 <Tooltip placement="left" title="清除" getPopupContainer={() => mapContainer.current}>

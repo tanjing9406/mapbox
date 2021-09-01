@@ -29,17 +29,35 @@ function BaseLayerControl() {
         <List className="base-layer-content">
             <List.Item>
                 <Radio.Group className="group base-grp" value={layerId} buttonStyle="solid" onChange={e => setLayerId(e.target.value)}>
-                    {BASE_LAYER_OPTIONS.map(item => <Radio.Button key={item.id} value={item.id}>{item.name}</Radio.Button>)}
+                    {BASE_LAYER_OPTIONS.map(item => <Radio.Button key={item.id} value={item.id} style={{ background: `url('/src/assets/images/baselayercontrol/${item.image}.png')` }}>
+                        <div className="btn-wrap">
+                            {item.name}
+                        </div>
+                    </Radio.Button>)}
                 </Radio.Group>
             </List.Item>
             <List.Item>
                 <Radio.Group className="group theme-grp" value={themeId} buttonStyle="solid" onChange={e => setThemeId(e.target.value)} disabled={isDisabled}>
-                    {BASE_THEME_OPTIONS.map(item => <Radio.Button key={item.id} value={item.id}>{item.name}</Radio.Button>)}
+                    {BASE_THEME_OPTIONS.map(item => <Radio.Button key={item.id} value={item.id}>
+                        <div className="btn-wrap">
+                            <svg className="icon" aria-hidden="true">
+                                <use xlinkHref={item.icon} />
+                            </svg>
+                            {item.name}
+                        </div>
+                    </Radio.Button>)}
                 </Radio.Group>
             </List.Item>
             <List.Item>
                 <Radio.Group className="group mode-grp" value={modeId} buttonStyle="solid" onChange={e => setModeId(e.target.value)} disabled={isDisabled}>
-                    {BASE_MODE_OPTIONS.map(item => <Radio.Button key={item.id} value={item.id}>{item.name}</Radio.Button>)}
+                    {BASE_MODE_OPTIONS.map(item => <Radio.Button key={item.id} value={item.id}>
+                        <div className="btn-wrap">
+                            <svg className="icon" aria-hidden="true">
+                                <use xlinkHref={item.icon} />
+                            </svg>
+                            {item.name}
+                        </div>
+                    </Radio.Button>)}
                 </Radio.Group>
             </List.Item>
         </List>
