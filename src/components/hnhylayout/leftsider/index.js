@@ -11,8 +11,7 @@ import './style.less'
 const { Sider } = Layout
 
 const LeftSider = function (props) {
-    const location = useLocation()
-    const selectedKey = location.pathname.slice(1)
+    const selectedKey = useLocation().pathname.slice(1)
     return (
         <Sider className="page-left-sider-wrapper hnhy" collapsible collapsed={true} trigger={null} collapsedWidth={56}>
             <Menu selectedKeys={[selectedKey]} mode="inline">

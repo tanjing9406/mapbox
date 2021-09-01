@@ -36,3 +36,13 @@ export function WithMapVisibleCheckHoc(Component) {
         return <Component {...props} />
     }
 }
+
+export function WithTopHeaderVisibleCheckHoc(Component) {
+    return function (props) {
+        const location = useLocation()
+        const id = location.pathname.slice(1)
+        const config = isTopMenuLink(id)
+        if (config && config.hasTopHeader === false) return null
+        return <Component {...props} />
+    }
+}

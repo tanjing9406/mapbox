@@ -1,9 +1,10 @@
 
 import React from 'react'
-import { Link, withRouter } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { Layout, Button, Menu, Divider } from 'antd'
 import { QrcodeOutlined, UserOutlined, LogoutOutlined, MailOutlined } from '@ant-design/icons'
 import { TOP_MENU } from '@/config/top-menu'
+import { WithTopHeaderVisibleCheckHoc } from 'Components/withVisibleCheckHoc'
 
 import './style.less'
 
@@ -11,7 +12,7 @@ const { Header } = Layout
 const { SubMenu } = Menu
 
 const HNHYHeader = function (props) {
-    const selectedKey = props.location.pathname.slice(1)
+    const selectedKey = useLocation().pathname.slice(1)
     return (
         <Header className="page-header hnhy" theme="light">
             <Link to="/"><div className="logo"><span>UNISEAS</span><span>海南寰宇</span></div></Link>
@@ -36,4 +37,4 @@ const HNHYHeader = function (props) {
     )
 }
 
-export default withRouter(HNHYHeader)
+export default WithTopHeaderVisibleCheckHoc(HNHYHeader)
