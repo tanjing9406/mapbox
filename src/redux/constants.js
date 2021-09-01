@@ -1,1 +1,2 @@
 export const SET_MAP_STYLE = 'SET_MAP_STYLE'
+export const SET_MAP_VIEWSTATE = 'SET_MAP_VIEWSTATE'

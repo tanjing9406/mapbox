@@ -7,26 +7,20 @@ import formatcoords from 'formatcoords'
 
 import { TargetLayer } from 'Components'
 import { WithMapVisibleCheckHoc } from 'Components/withVisibleCheckHoc';
+import { setMapViewState } from "@/redux/action-creators"
 
 import { Switch } from 'antd'
 import { CornerInfoPanel, RightSider } from './components';
 import { getDmsArray } from './tools';
 import HNHYMapContext from './hnhymapcontext';
 
-const INITIAL_VIEW_STATE = {
-    longitude: 109.481,
-    latitude: 18.271,
-    zoom: 8
-}
-
 const Map = (props) => {
-    const { mapStyle } = props
+    const { mapStyle, viewState } = props
     // DeckGL and mapbox will both draw into this WebGL context
     const [glContext, setGLContext] = useState();
     const deckRef = useRef(null);
     const mapRef = useRef(null);
     const mapContainerRef = useRef()
-    // const [viewState, setViewState] = useState(INITIAL_VIEW_STATE)
     const [showTarget, setShowTarget] = useState(true)
     const [showCluster, setShowCluster] = useState(props.showCluster || false)
     const [cornerInfo, setCornerInfo] = useState({
@@ -34,10 +28,9 @@ const Map = (props) => {
         showTarget,
         tarNum: 0,
         viewTarNum: 0,
-        zoom: INITIAL_VIEW_STATE.zoom.toFixed(1)
+        zoom: viewState.zoom.toFixed(1)
     })
     const onMapLoad = useCallback(() => {
-        console.log('map load')
         const map = mapRef.current.getMap();
         const deck = deckRef.current.deck;
         // You must initialize an empty deck.gl layer to prevent flashing
@@ -55,9 +48,9 @@ const Map = (props) => {
                 <DeckGL
                     ref={deckRef}
                     layers={[new IconLayer({ id: 'empty-layer', data: [] })]}
-                    initialViewState={INITIAL_VIEW_STATE}
+                    viewState={viewState}
                     onViewStateChange={({ viewState }) => {
-                        // setViewState(viewState)
+                        setMapViewState(viewState)
                         setCornerInfo({
                             ...cornerInfo,
                             zoom: viewState.zoom.toFixed(1)
@@ -113,7 +106,8 @@ const Map = (props) => {
 
 function mapStateToProps(state) {
     return {
-        mapStyle: state.mapStyle
+        mapStyle: state.mapStyle,
+        viewState: state.viewState
     };
 }
 

@@ -7,3 +7,10 @@ export function setMapStyle(mapStyle) {
     data: mapStyle
   })
 }
+
+export function setMapViewState(viewState) {
+  store.dispatch({
+    type: Constants.SET_MAP_VIEWSTATE,
+    data: viewState
+  })
+}
