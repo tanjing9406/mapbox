@@ -40,3 +40,14 @@ export const METEOROLOGY_LAYERS_OPTIONS = [
     { name: '涌向', id: 'waterflow'},
     { name: '台风', id: 'typhoon'}
 ]
+
+export const AREA_SWITCH_OPTIONS = [
+    { name: '海南', id: 'hainan'},
+    { name: '广西', id: 'gxi'},
+    { name: '广东', id: 'gdong'},
+    { name: '福建', id: 'fujian'},
+    { name: '浙江', id: 'zhejiang'},
+    { name: '山东', id: 'shandong'},
+    { name: '环渤海', id: 'huanbohai'},
+    { name: '湖南', id: 'hunan'},
+]
