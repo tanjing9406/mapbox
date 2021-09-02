@@ -1,6 +1,7 @@
 import React, { useState } from "react"
 import { Collapse, Radio } from "antd"
 import { AREA_SWITCH_OPTIONS } from "@/views/map/consts"
+import { MAP_CHANGE_TRANSITION } from "@/config/constants/default-consts-config"
 import { setMapViewState } from "@/redux/action-creators"
 
 const { Panel } = Collapse
@@ -16,7 +17,8 @@ function AreaSwitch() {
         setMapViewState({
             longitude,
             latitude,
-            zoom: 8
+            zoom: 8,
+            ...MAP_CHANGE_TRANSITION,
         })
     }
     return (
