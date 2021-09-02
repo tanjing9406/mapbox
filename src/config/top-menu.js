@@ -60,7 +60,7 @@ export const TOP_MENU = [
                 component: WindDemo
             }, {
                 id: 'example/trips',
-                title: '路径图',
+                title: '历史轨迹',
                 hasSider: false,
                 hasMap: false,
                 url: '/example/trips',
