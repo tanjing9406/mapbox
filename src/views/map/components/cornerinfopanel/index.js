@@ -4,7 +4,7 @@ import { Card, Switch, Form } from 'antd'
 import './style.less'
 
 function CornerInfoPanel(props) {
-    const { dmsArr, showTarget, zoom } = props.data
+    const { dmsArr, showTarget, showTrack, zoom } = props.data
     return (
         <div className="corner-info-panel">
             {dmsArr && <div className="top-wrap">
@@ -27,7 +27,7 @@ function CornerInfoPanel(props) {
                 <li>{zoom}级</li>
                 <li>
                     <label>轨迹开关：</label>
-                    <Switch size="small" />
+                    <Switch size="small" defaultChecked={showTrack} onChange={props.onToggleTrack} />
                 </li>
             </ul>
         </div>

@@ -1,4 +1,4 @@
-import React, { useRef, useState, useCallback } from 'react';
+import React, { useRef, useState, useCallback, useEffect } from 'react';
 import { connect } from 'react-redux'
 import { DeckGL, IconLayer } from 'deck.gl'
 import { MapboxLayer } from '@deck.gl/mapbox'
@@ -8,14 +8,19 @@ import formatcoords from 'formatcoords'
 import { TargetLayer } from 'Components'
 import { WithMapVisibleCheckHoc } from 'Components/withVisibleCheckHoc';
 import { setMapViewState } from "@/redux/action-creators"
-import { DEFAULT_SHOW_TARGET } from "@/config/constants/default-consts-config"
+import { DEFAULT_SHOW_TARGET, TRACK_VIEW_STATE } from "@/config/constants/default-consts-config"
 import { Switch } from 'antd'
 import { CornerInfoPanel, RightSider } from './components';
 import { getDmsArray } from './tools';
 import HNHYMapContext from './hnhymapcontext';
+import { TripsLayer } from '@deck.gl/geo-layers'
+import { COORDINATE_SYSTEM } from '@deck.gl/core'
 
-import Trip from './trip'
-
+const TRIPS = 'https://raw.githubusercontent.com/visgl/deck.gl-data/master/examples/trips/trips-v7.json'
+const theme = {
+    trailColor0: [255, 0, 0],
+    trailColor1: [0, 0, 255]
+}
 const Map = (props) => {
     const { mapStyle, viewState } = props
     // DeckGL and mapbox will both draw into this WebGL context
@@ -24,6 +29,7 @@ const Map = (props) => {
     const mapRef = useRef(null);
     const mapContainerRef = useRef()
     const [showTarget, setShowTarget] = useState(DEFAULT_SHOW_TARGET)
+    const [showTrack, setShowTrack] = useState(false)
     const [showCluster, setShowCluster] = useState(props.showCluster || false)
     const [cornerInfo, setCornerInfo] = useState({
         dmsArr: undefined,
@@ -32,6 +38,37 @@ const Map = (props) => {
         viewTarNum: 0,
         zoom: viewState.zoom.toFixed(1)
     })
+    const [time, setTime] = useState(0);
+    const [animation] = useState({});
+
+    const animate = () => {
+        setTime(t => (t + 1) % 1800);
+        animation.id = window.requestAnimationFrame(animate);
+    };
+
+    useEffect(
+        () => {
+            animation.id = window.requestAnimationFrame(animate);
+            return () => window.cancelAnimationFrame(animation.id);
+        },
+        [animation]
+    );
+    const tlayer = showTrack && new TripsLayer({
+        id: 'trips',
+        data: TRIPS,
+        coordinateSystem: COORDINATE_SYSTEM.LNGLAT_OFFSETS,
+        coordinateOrigin: [182, -18],
+        getPath: d => d.path,
+        getTimestamps: d => d.timestamps,
+        getColor: d => (d.vendor === 0 ? theme.trailColor0 : theme.trailColor1),
+        opacity: 0.3,
+        widthMinPixels: 2,
+        rounded: true,
+        trailLength: 180,
+        currentTime: time,
+        shadowEnabled: false
+    })
+
     const onMapLoad = useCallback(() => {
         const map = mapRef.current.getMap();
         const deck = deckRef.current.deck;
@@ -42,6 +79,15 @@ const Map = (props) => {
         );
     }, [])
 
+    const onToggleTrack = (checked) => {
+        setShowTrack(checked)
+        if (checked) {
+            setMapViewState({
+                ...TRACK_VIEW_STATE
+            })
+        }
+    }
+
     return (
         <HNHYMapContext.Provider value={{
             mapContainer: mapContainerRef
@@ -49,7 +95,7 @@ const Map = (props) => {
             <div ref={mapContainerRef}>
                 <DeckGL
                     ref={deckRef}
-                    layers={[new IconLayer({ id: 'empty-layer', data: [] })]}
+                    layers={[new IconLayer({ id: 'empty-layer', data: [] }), tlayer]}
                     viewState={viewState}
                     onViewStateChange={({ viewState }) => {
                         setMapViewState(viewState)
@@ -98,8 +144,8 @@ const Map = (props) => {
                     )}
                     {TargetLayer({ showCluster, showTarget })}
                 </DeckGL>
-                <Trip mapStyle={mapStyle} animationSpeed={1} />
-                <CornerInfoPanel data={cornerInfo} onToggleTarget={checked => setShowTarget(checked)} />
+                {/* <Trip mapStyle={mapStyle} animationSpeed={1} /> */}
+                <CornerInfoPanel data={cornerInfo} onToggleTarget={checked => setShowTarget(checked)} onToggleTrack={onToggleTrack} />
                 <Switch className="ml12 mt18 absolute" checkedChildren="聚类" unCheckedChildren="分散" checked={showCluster} onChange={checked => setShowCluster(checked)} />
                 <RightSider />
             </div>
