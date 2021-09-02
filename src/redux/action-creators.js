@@ -14,3 +14,10 @@ export function setMapViewState(viewState) {
     data: viewState
   })
 }
+
+export function setTotalTargetNumber(number) {
+  store.dispatch({
+    type: Constants.SET_TOTAL_TARGET_NUMBER,
+    data: number
+  })
+}

@@ -1,5 +1,7 @@
 import React, { useRef, useEffect, useState, useLayoutEffect, useCallback } from 'react'
 import { DeckGL, ScatterplotLayer, IconLayer, PathLayer, LineLayer } from 'deck.gl'
+import { setTotalTargetNumber } from "@/redux/action-creators"
+
 import { ICOM_MAPPING_CONFIG } from './consts'
 import { getLonAndLats, fetchTargetTrack, addOrDelete } from './lib'
 import IconClusterLayer from '../IconClusterLayer/icon-cluster-layer'
@@ -13,6 +15,9 @@ const TargetLayer = (props) => {
     const startWebsocket = () => {
         ws.current = new WebSocket(`ws://192.168.7.122/api/target/ws/region/${process.env.HLX_ACCESS_TOKEN}`)
         ws.current.onopen = () => {
+            if (message.length > 0) {
+                setTotalTargetNumber(message.length)
+            }
             console.log('连接成功')
             if (ws.current) {
                 const shipsRule = {
@@ -52,13 +57,16 @@ const TargetLayer = (props) => {
             }
         };
         ws.current.onmessage = (option) => {
-            setMessage(JSON.parse(option.data).targetList)
+            const data = JSON.parse(option.data)
+            setMessage(data.targetList)
+            setTotalTargetNumber(data.targetNum)
         };
         ws.current.onclose = () => {
+            setTotalTargetNumber(0)
             console.log('websocket closed')
         }
     }
-    
+
     useLayoutEffect(() => {
         startWebsocket()
         return () => {

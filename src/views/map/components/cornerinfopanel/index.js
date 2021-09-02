@@ -1,10 +1,12 @@
 import React from "react"
-import { Card, Switch, Form } from 'antd'
+import { connect } from 'react-redux'
+import { Switch } from 'antd'
 
 import './style.less'
 
 function CornerInfoPanel(props) {
     const { dmsArr, showTarget, showTrack, zoom } = props.data
+    const { totalTargetNumber } = props
     return (
         <div className="corner-info-panel">
             {dmsArr && <div className="top-wrap">
@@ -18,7 +20,7 @@ function CornerInfoPanel(props) {
                 </li>
                 <li>
                     <label>目标数量：</label>
-                    <span>0</span>
+                    <span>{totalTargetNumber}</span>
                 </li>
                 <li>
                     <label>视野目标：</label>
@@ -33,5 +35,9 @@ function CornerInfoPanel(props) {
         </div>
     )
 }
-
-export default CornerInfoPanel
+function mapStateToProps(state) {
+    return {
+        totalTargetNumber: state.totalTargetNumber
+    };
+}
+export default connect(mapStateToProps)(CornerInfoPanel)

@@ -4,7 +4,8 @@ import getMapStyle from "@/lib/mapstyle"
 
 const initialState = {
   mapStyle: getMapStyle(BASE_LAYER_ID, `${BASE_THEME_ID}_${BASE_MODE_ID}`),
-  viewState: INITIAL_VIEW_STATE
+  viewState: INITIAL_VIEW_STATE,
+  totalTargetNumber: 0
 }
 
 function reducer(state = initialState, action) {
@@ -18,6 +19,11 @@ function reducer(state = initialState, action) {
       return {
         ...state,
         viewState: { ...state.viewState, ...action.data }
+      }
+    case Constants.SET_TOTAL_TARGET_NUMBER:
+      return {
+        ...state,
+        totalTargetNumber: action.data
       }
     default:
       return state;
