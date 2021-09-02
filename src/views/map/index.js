@@ -92,7 +92,7 @@ const Map = (props) => {
         <HNHYMapContext.Provider value={{
             mapContainer: mapContainerRef
         }}>
-            <div ref={mapContainerRef}>
+            <div ref={mapContainerRef} style={{ background: '#fff' }}>
                 <DeckGL
                     ref={deckRef}
                     layers={[new IconLayer({ id: 'empty-layer', data: [] }), tlayer]}
