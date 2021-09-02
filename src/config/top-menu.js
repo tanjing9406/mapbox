@@ -1,4 +1,5 @@
 import React from 'react'
+import Trips from "@/views/examples/trip"
 
 function Comming() {
     return <div>敬请期待</div>
@@ -16,6 +17,14 @@ function DataDashboard() {
         width="100%"
         height="100%"
         src="http://192.168.7.122/CSGbigScreen"
+    ></iframe>
+}
+
+function WindDemo() {
+    return <iframe
+        width="100%"
+        height="100%"
+        src="https://philogb.github.io/page/wind/"
     ></iframe>
 }
 
@@ -44,10 +53,20 @@ export const TOP_MENU = [
             {
                 id: 'example/wind',
                 title: '风向图',
+                // hasTopHeader: false,
                 hasSider: false,
+                hasMap: false,
                 // icon: FilterOutlined,
                 url: '/example/wind',
-                component: Comming
+                component: WindDemo
+            }, {
+                id: 'example/trips',
+                title: '路径图',
+                hasSider: false,
+                hasMap: false,
+                // icon: FilterOutlined,
+                url: '/example/trips',
+                component: Trips
             },
         ]
     }

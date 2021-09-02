@@ -8,11 +8,13 @@ import formatcoords from 'formatcoords'
 import { TargetLayer } from 'Components'
 import { WithMapVisibleCheckHoc } from 'Components/withVisibleCheckHoc';
 import { setMapViewState } from "@/redux/action-creators"
-
+import { DEFAULT_SHOW_TARGET } from "@/config/constants/default-consts-config"
 import { Switch } from 'antd'
 import { CornerInfoPanel, RightSider } from './components';
 import { getDmsArray } from './tools';
 import HNHYMapContext from './hnhymapcontext';
+
+import Trip from './trip'
 
 const Map = (props) => {
     const { mapStyle, viewState } = props
@@ -21,7 +23,7 @@ const Map = (props) => {
     const deckRef = useRef(null);
     const mapRef = useRef(null);
     const mapContainerRef = useRef()
-    const [showTarget, setShowTarget] = useState(true)
+    const [showTarget, setShowTarget] = useState(DEFAULT_SHOW_TARGET)
     const [showCluster, setShowCluster] = useState(props.showCluster || false)
     const [cornerInfo, setCornerInfo] = useState({
         dmsArr: undefined,
@@ -96,6 +98,7 @@ const Map = (props) => {
                     )}
                     {TargetLayer({ showCluster, showTarget })}
                 </DeckGL>
+                <Trip mapStyle={mapStyle} animationSpeed={1} />
                 <CornerInfoPanel data={cornerInfo} onToggleTarget={checked => setShowTarget(checked)} />
                 <Switch className="ml12 mt18 absolute" checkedChildren="聚类" unCheckedChildren="分散" checked={showCluster} onChange={checked => setShowCluster(checked)} />
                 <RightSider />
