@@ -8,6 +8,10 @@ import 'antd/dist/antd.css'
 import { HNHYLayout } from 'Components'
 import MenuConfig from '@/config'
 
+function Comming() {
+  return <div className="ml12 mt180 absolute z1 txt-xl color-blue px3">敬请期待</div>
+}
+
 const { Content } = Layout
 const { HNHYHeader, LeftSider } = HNHYLayout
 
@@ -16,12 +20,12 @@ const genMenuRoute = () => {
     if (!curItem.subMenu) {
       return [
         ...rst,
-        <Route key={curItem.id} path={curItem.url} component={curItem.component} />
+        <Route key={curItem.id} path={curItem.url} component={curItem.component || Comming} />
       ]
     }
     return [
       ...rst,
-      ...curItem.subMenu.map(i => <Route key={i.id} path={i.url} component={i.component} />)
+      ...curItem.subMenu.map(i => <Route key={i.id} path={i.url} component={i.component || Comming} />)
     ]
   }, [])
 }

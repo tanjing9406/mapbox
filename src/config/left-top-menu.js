@@ -19,30 +19,30 @@ export const LEFT_TOP_MENU_CONFIG = [
         title: '目标列表',
         icon: UnorderedListOutlined,
         url: '/targetlist',
-        component: Comming
+        // component: Comming
     }, {
         id: 'targetfilter',
         title: '目标筛选',
         icon: FilterOutlined,
         url: '/targetfilter',
-        component: Comming
+        // component: Comming
     }, {
         id: 'historytrack',
         title: '记录回放',
         icon: HistoryOutlined,
         url: '/historytrack',
-        component: Comming
+        // component: Comming
     }, {
         id: 'dataanalysis',
         title: '数据分析',
         icon: LineChartOutlined,
         url: '/dataanalysis',
-        component: Comming
+        // component: Comming
     }, {
         id: 'photoelelist',
         title: '光电列表',
         icon: VideoCameraOutlined,
         url: '/photoelelist',
-        component: Comming
+        // component: Comming
     }
 ]

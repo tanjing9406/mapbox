@@ -56,7 +56,6 @@ export const TOP_MENU = [
                 // hasTopHeader: false,
                 hasSider: false,
                 hasMap: false,
-                // icon: FilterOutlined,
                 url: '/example/wind',
                 component: WindDemo
             }, {
@@ -64,7 +63,6 @@ export const TOP_MENU = [
                 title: '路径图',
                 hasSider: false,
                 hasMap: false,
-                // icon: FilterOutlined,
                 url: '/example/trips',
                 component: Trips
             },
