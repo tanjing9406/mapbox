@@ -28,6 +28,14 @@ function WindDemo() {
     ></iframe>
 }
 
+function EditorDemo() {
+    return <iframe
+        width="100%"
+        height="100%"
+        src="https://nebula.gl/geojson-editor/"
+    ></iframe>
+}
+
 export const TOP_MENU = [
     {
         id: 'bigdata',
@@ -65,7 +73,14 @@ export const TOP_MENU = [
                 hasMap: false,
                 url: '/example/trips',
                 component: Trips
-            },
+            }, {
+                id: 'example/editor',
+                title: '地图编辑',
+                hasSider: false,
+                hasMap: false,
+                url: '/example/editor',
+                component: EditorDemo
+            }
         ]
     }
 ]
