@@ -144,7 +144,6 @@ const Map = (props) => {
                     )}
                     {TargetLayer({ showCluster, showTarget })}
                 </DeckGL>
-                {/* <Trip mapStyle={mapStyle} animationSpeed={1} /> */}
                 <CornerInfoPanel data={cornerInfo} onToggleTarget={checked => setShowTarget(checked)} onToggleTrack={onToggleTrack} />
                 <Switch className="ml12 mt18 absolute" checkedChildren="聚类" unCheckedChildren="分散" checked={showCluster} onChange={checked => setShowCluster(checked)} />
                 <RightSider />
