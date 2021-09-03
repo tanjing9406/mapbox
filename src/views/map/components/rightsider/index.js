@@ -5,6 +5,7 @@ import { FullscreenOutlined, FullscreenExitOutlined } from '@ant-design/icons'
 import HNHYMapContext from "@/views/map/hnhymapcontext"
 import { LayersControl, AreaSwitch } from "@/views/map/components"
 import PopoverButton from "./popoverbutton"
+import ShooterButton from "./shooterbutton"
 
 import './style.less'
 
@@ -32,6 +33,7 @@ function RightSider() {
                         icon={<span className="anticon"><svg className='icon'><use xlinkHref='#icon-trash' /></svg></span>}
                     />
                 </Tooltip>
+                <ShooterButton />
             </div>
         </>
     )
