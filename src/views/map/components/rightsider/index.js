@@ -3,7 +3,7 @@ import { Button, Tooltip } from "antd"
 import { useFullscreen } from 'rooks'
 import { FullscreenOutlined, FullscreenExitOutlined } from '@ant-design/icons'
 import HNHYMapContext from "@/views/map/hnhymapcontext"
-import { LayersControl, AreaSwitch } from "@/views/map/components"
+import { LayersControl, AreaSwitch, ToolBox } from "@/views/map/components"
 import PopoverButton from "./popoverbutton"
 import ShooterButton from "./shooterbutton"
 
@@ -25,7 +25,7 @@ function RightSider() {
             <div className="map-right-sider toolbox-wrap">
                 <PopoverButton title="图层" iconName="layers" content={<LayersControl />} />
                 <PopoverButton title="区域切换" iconName="polygon" content={<AreaSwitch />} />
-                <PopoverButton title="工具箱" iconName="package" content={<div className="w240">dsfaasd</div>} />
+                <PopoverButton title="工具箱" iconName="package" content={<ToolBox />} />
                 <Tooltip placement="left" title="清除" getPopupContainer={() => mapContainer.current}>
                     <Button
                         size="large"
