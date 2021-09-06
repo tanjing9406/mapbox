@@ -4,6 +4,9 @@ import { DeckGL, IconLayer } from 'deck.gl'
 import { MapboxLayer } from '@deck.gl/mapbox'
 import { StaticMap } from 'react-map-gl'
 import formatcoords from 'formatcoords'
+import {
+    EditableGeoJsonLayer
+} from "nebula.gl"
 
 import { TargetLayer } from 'Components'
 import { WithMapVisibleCheckHoc } from 'Components/withVisibleCheckHoc';
@@ -38,21 +41,39 @@ const Map = (props) => {
         viewTarNum: 0,
         zoom: viewState.zoom.toFixed(1)
     })
-    const [time, setTime] = useState(0);
-    const [animation] = useState({});
+    const [time, setTime] = useState(0)
+    const [animation] = useState({})
+
+    const [editFeatures, setEditFeatures] = React.useState({
+        type: "FeatureCollection",
+        features: []
+    })
+    const [selectedFeatureIndexes] = React.useState([])
+
+    const editLayer = new EditableGeoJsonLayer({
+        data: editFeatures,
+        mode: props.mapEditMode,
+        selectedFeatureIndexes,
+
+        onEdit: ({ updatedData, editType, editContext }) => {
+            setEditFeatures(updatedData);
+        }
+    })
 
     const animate = () => {
         setTime(t => (t + 1) % 1800);
         animation.id = window.requestAnimationFrame(animate);
     };
 
-    useEffect(
-        () => {
+    useEffect(() => {
+        if (showTrack) {
             animation.id = window.requestAnimationFrame(animate);
-            return () => window.cancelAnimationFrame(animation.id);
-        },
-        [animation]
-    );
+        } else {
+            window.cancelAnimationFrame(animation.id)
+        }
+        return () => window.cancelAnimationFrame(animation.id);
+    }, [animation, showTrack])
+
     const tlayer = showTrack && new TripsLayer({
         id: 'trips',
         data: TRIPS,
@@ -95,7 +116,8 @@ const Map = (props) => {
             <div ref={mapContainerRef} style={{ background: '#fff' }}>
                 <DeckGL
                     ref={deckRef}
-                    layers={[new IconLayer({ id: 'empty-layer', data: [] }), tlayer]}
+                    layers={[new IconLayer({ id: 'empty-layer', data: [] }), tlayer, editLayer]}
+                    getCursor={editLayer.getCursor.bind(editLayer)}
                     viewState={viewState}
                     onViewStateChange={({ viewState }) => {
                         setMapViewState(viewState)
@@ -110,11 +132,11 @@ const Map = (props) => {
                             dmsArr: getDmsArray(info.coordinate[1], info.coordinate[0])
                         })
                     }}
-                    getTooltip={({ object, info }) => {
+                    getTooltip={({ object, layer }) => {
                         if (object && object.cluster) {
                             return `${object.point_count} 艘船`
                         }
-                        if (object) {
+                        if (object && layer.id !== 'EditableGeoJsonLayer') {
                             const [dmsLat, dmsLng] = formatcoords(object.latitude, object.longitude).format({ latLonSeparator: ',', decimalPlaces: 0 }).split(',')
                             return `船名：${object.shipName ? object.shipName : '--'}
                         MMSI：${object.mmsi}
@@ -126,7 +148,7 @@ const Map = (props) => {
                         状态：${object.state === 1 ? '正常' : '预测'} `
                         }
                     }}
-                    controller={true}
+                    controller={{ doubleClickZoom: false }}
                     onWebGLInitialized={setGLContext}
                     glOptions={{
                         /* To render vector tile polygons correctly */
@@ -154,6 +176,7 @@ const Map = (props) => {
 
 function mapStateToProps(state) {
     return {
+        mapEditMode: state.mapEditMode,
         mapStyle: state.mapStyle,
         viewState: state.viewState
     };

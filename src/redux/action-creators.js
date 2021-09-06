@@ -1,6 +1,13 @@
 import { store } from './store'
 import * as Constants from './constants'
 
+export function setMapEditMode(mode) {
+  store.dispatch({
+    type: Constants.SET_MAP_EDIT_MODE,
+    data: mode
+  })
+}
+
 export function setMapStyle(mapStyle) {
   store.dispatch({
     type: Constants.SET_MAP_STYLE,

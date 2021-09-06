@@ -1,3 +1,7 @@
+import {
+  ViewMode
+} from "nebula.gl"
+
 import * as Constants from '@/redux/constants'
 import { BASE_LAYER_ID, BASE_THEME_ID, BASE_MODE_ID, INITIAL_VIEW_STATE } from "@/config/constants/default-consts-config"
 import getMapStyle from "@/lib/mapstyle"
@@ -5,7 +9,8 @@ import getMapStyle from "@/lib/mapstyle"
 const initialState = {
   mapStyle: getMapStyle(BASE_LAYER_ID, `${BASE_THEME_ID}_${BASE_MODE_ID}`),
   viewState: INITIAL_VIEW_STATE,
-  totalTargetNumber: 0
+  totalTargetNumber: 0,
+  mapEditMode: ViewMode
 }
 
 function reducer(state = initialState, action) {
@@ -24,6 +29,11 @@ function reducer(state = initialState, action) {
       return {
         ...state,
         totalTargetNumber: action.data
+      }
+    case Constants.SET_MAP_EDIT_MODE:
+      return {
+        ...state,
+        mapEditMode: action.data
       }
     default:
       return state;
