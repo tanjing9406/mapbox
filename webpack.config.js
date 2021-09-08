@@ -31,7 +31,7 @@ const CONFIG = {
                 secure: false
             },
             '/self': {
-                target: 'http://192.168.7.122/api/',
+                target: 'http://10.100.0.122/api/',
                 pathRewrite: { '^/self': '' }
             }
         }

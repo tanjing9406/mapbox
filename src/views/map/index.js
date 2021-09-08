@@ -1,5 +1,5 @@
 import React, { useRef, useState, useCallback, useEffect } from 'react';
-import { connect } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { DeckGL, IconLayer } from 'deck.gl'
 import { MapboxLayer } from '@deck.gl/mapbox'
 import { StaticMap } from 'react-map-gl'
@@ -9,8 +9,8 @@ import {
 } from "nebula.gl"
 
 import { TargetLayer } from 'Components'
-import { WithMapVisibleCheckHoc } from 'Components/withVisibleCheckHoc';
-import { setMapViewState } from "@/redux/action-creators"
+import { WithMapVisibleCheckHoc } from 'Components/withVisibleCheckHoc'
+import { setMapViewState } from "@/redux/basemapslice"
 import { DEFAULT_SHOW_TARGET, TRACK_VIEW_STATE } from "@/config/constants/default-consts-config"
 import { Switch } from 'antd'
 import { CornerInfoPanel, RightSider } from './components';
@@ -24,8 +24,9 @@ const theme = {
     trailColor0: [255, 0, 0],
     trailColor1: [0, 0, 255]
 }
-const Map = (props) => {
-    const { mapStyle, viewState } = props
+const Map = () => {
+    const dispatch = useDispatch()
+    const { mapStyle, viewState, mapEditMode } = useSelector(state => state.basemap)
     // DeckGL and mapbox will both draw into this WebGL context
     const [glContext, setGLContext] = useState();
     const deckRef = useRef(null);
@@ -33,7 +34,7 @@ const Map = (props) => {
     const mapContainerRef = useRef()
     const [showTarget, setShowTarget] = useState(DEFAULT_SHOW_TARGET)
     const [showTrack, setShowTrack] = useState(false)
-    const [showCluster, setShowCluster] = useState(props.showCluster || false)
+    const [showCluster, setShowCluster] = useState(false)
     const [cornerInfo, setCornerInfo] = useState({
         dmsArr: undefined,
         showTarget,
@@ -52,7 +53,7 @@ const Map = (props) => {
 
     const editLayer = new EditableGeoJsonLayer({
         data: editFeatures,
-        mode: props.mapEditMode,
+        mode: mapEditMode,
         selectedFeatureIndexes,
 
         onEdit: ({ updatedData, editType, editContext }) => {
@@ -103,9 +104,9 @@ const Map = (props) => {
     const onToggleTrack = (checked) => {
         setShowTrack(checked)
         if (checked) {
-            setMapViewState({
+            dispatch(setMapViewState({
                 ...TRACK_VIEW_STATE
-            })
+            }))
         }
     }
 
@@ -120,7 +121,7 @@ const Map = (props) => {
                     getCursor={editLayer.getCursor.bind(editLayer)}
                     viewState={viewState}
                     onViewStateChange={({ viewState }) => {
-                        setMapViewState(viewState)
+                        dispatch(setMapViewState(viewState))
                         setCornerInfo({
                             ...cornerInfo,
                             zoom: viewState.zoom.toFixed(1)
@@ -174,12 +175,4 @@ const Map = (props) => {
     );
 };
 
-function mapStateToProps(state) {
-    return {
-        mapEditMode: state.mapEditMode,
-        mapStyle: state.mapStyle,
-        viewState: state.viewState
-    };
-}
-
-export default WithMapVisibleCheckHoc(connect(mapStateToProps)(Map));
+export default WithMapVisibleCheckHoc(Map);

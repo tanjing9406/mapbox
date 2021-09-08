@@ -1,22 +1,24 @@
 import React, { useRef, useEffect, useState, useLayoutEffect, useCallback } from 'react'
+import { useDispatch } from 'react-redux'
 import { DeckGL, ScatterplotLayer, IconLayer, PathLayer, LineLayer } from 'deck.gl'
-import { setTotalTargetNumber } from "@/redux/action-creators"
+import { setTotalTargetNumber } from "@/redux/basemapslice"
 
 import { ICOM_MAPPING_CONFIG } from './consts'
 import { getLonAndLats, fetchTargetTrack, addOrDelete } from './lib'
 import IconClusterLayer from '../IconClusterLayer/icon-cluster-layer'
 
 const TargetLayer = (props) => {
+    const dispatch = useDispatch()
     const ws = useRef(null)
     const [message, setMessage] = useState([])
     const [targetsOfClicked, setTargetsOfClicked] = useState(new Set())
     const [targetTrackData, setTargetTrackData] = useState([])
 
     const startWebsocket = () => {
-        ws.current = new WebSocket(`ws://192.168.7.122/api/target/ws/region/${process.env.HLX_ACCESS_TOKEN}`)
+        ws.current = new WebSocket(`ws://10.100.0.122/api/target/ws/region/${process.env.HLX_ACCESS_TOKEN}`)
         ws.current.onopen = () => {
             if (message.length > 0) {
-                setTotalTargetNumber(message.length)
+                dispatch(setTotalTargetNumber(message.length))
             }
             console.log('连接成功')
             if (ws.current) {
@@ -59,10 +61,10 @@ const TargetLayer = (props) => {
         ws.current.onmessage = (option) => {
             const data = JSON.parse(option.data)
             setMessage(data.targetList)
-            setTotalTargetNumber(data.targetNum)
+            dispatch(setTotalTargetNumber(data.targetNum))
         };
         ws.current.onclose = () => {
-            setTotalTargetNumber(0)
+            dispatch(setTotalTargetNumber(0))
             console.log('websocket closed')
         }
     }

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react"
+import { useDispatch } from "react-redux"
 import { List, Radio } from "antd"
 import {
     BASE_LAYER_OPTIONS,
@@ -6,12 +7,13 @@ import {
     BASE_MODE_OPTIONS
 } from "@/views/map/consts"
 import { BASE_LAYER_ID, BASE_THEME_ID, BASE_MODE_ID } from "@/config/constants/default-consts-config"
-import { setMapStyle } from "@/redux/action-creators"
+import { setMapStyle } from "@/redux/basemapslice"
 import getMapStyle from "@/lib/mapstyle"
 
 import "./style.less"
 
 function BaseLayerControl() {
+    const dispatch = useDispatch()
     const [layerId, setLayerId] = useState(BASE_LAYER_ID)
     const [themeId, setThemeId] = useState(BASE_THEME_ID)
     const [modeId, setModeId] = useState(BASE_MODE_ID)
@@ -22,7 +24,7 @@ function BaseLayerControl() {
     }, [layerId])
 
     useEffect(() => {
-        setMapStyle(getMapStyle(layerId, `${themeId}_${modeId}`))
+        dispatch(setMapStyle(getMapStyle(layerId, `${themeId}_${modeId}`)))
     }, [layerId, themeId, modeId])
 
     return (

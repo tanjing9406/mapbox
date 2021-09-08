@@ -1,4 +1,5 @@
 import React, { useState } from "react"
+import { useDispatch } from "react-redux"
 import { List } from "antd"
 import classNames from "classnames"
 import {
@@ -8,7 +9,7 @@ import {
 } from "nebula.gl"
 import { find, get } from "lodash"
 
-import { setMapEditMode } from "@/redux/action-creators"
+import { setMapEditMode } from "@/redux/basemapslice"
 
 const clsName = 'border-b--0 flex flex--start-main cursor-pointer color-blue-on-hover color-blue-on-active'
 
@@ -19,16 +20,17 @@ const MODES = [
 ]
 
 function ToolBox(props) {
+    const dispatch = useDispatch()
     const [activeId, setActiveId] = useState(null)
 
     const onItemClick = (item) => {
         if (item.id === activeId) {
             setActiveId(null)
-            setMapEditMode(ViewMode)
+            dispatch(setMapEditMode(ViewMode))
             return
         }
         setActiveId(item.id)
-        setMapEditMode(item.mode || ViewMode)
+        dispatch(setMapEditMode(item.mode || ViewMode))
     }
 
     return (

@@ -1,12 +1,12 @@
 import React from "react"
-import { connect } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { Switch } from 'antd'
 
 import './style.less'
 
 function CornerInfoPanel(props) {
     const { dmsArr, showTarget, showTrack, zoom } = props.data
-    const { totalTargetNumber } = props
+    const totalTargetNumber = useSelector(state => state.basemap.totalTargetNumber)
     return (
         <div className="corner-info-panel">
             {dmsArr && <div className="top-wrap">
@@ -35,9 +35,5 @@ function CornerInfoPanel(props) {
         </div>
     )
 }
-function mapStateToProps(state) {
-    return {
-        totalTargetNumber: state.totalTargetNumber
-    };
-}
-export default connect(mapStateToProps)(CornerInfoPanel)
+
+export default CornerInfoPanel
