@@ -7,7 +7,6 @@ import {
     MeasureDistanceMode,
     MeasureAreaMode
 } from "nebula.gl"
-import { find, get } from "lodash"
 
 import { setMapEditMode } from "@/redux/basemapslice"
 

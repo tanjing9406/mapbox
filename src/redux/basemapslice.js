@@ -1,10 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { ViewMode } from "nebula.gl"
-import { BASE_LAYER_ID, BASE_THEME_ID, BASE_MODE_ID, INITIAL_VIEW_STATE } from "@/config/constants/default-consts-config"
-import getMapStyle from "@/lib/mapstyle"
+import { INITIAL_VIEW_STATE } from "@/config/constants/default-consts-config"
 
 const initialState = {
-  mapStyle: getMapStyle(BASE_LAYER_ID, `${BASE_THEME_ID}_${BASE_MODE_ID}`),
   viewState: INITIAL_VIEW_STATE,
   mapEditMode: ViewMode,
   totalTargetNumber: 0
@@ -18,11 +16,6 @@ const basemapSlice = createSlice({
       const mapEditMode = action.payload
       state.mapEditMode = mapEditMode
     },
-    setMapStyle(state, action) {
-      console.log('setmapstyle', action)
-      const mapStyle = action.payload
-      state.mapStyle = mapStyle
-    },
     setMapViewState(state, action) {
       const viewState = action.payload
       state.viewState = viewState
@@ -34,6 +27,6 @@ const basemapSlice = createSlice({
   }
 })
 
-export const { setMapEditMode, setMapStyle, setMapViewState, setTotalTargetNumber } = basemapSlice.actions
+export const { setMapEditMode, setMapViewState, setTotalTargetNumber } = basemapSlice.actions
 
 export default basemapSlice.reducer

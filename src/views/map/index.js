@@ -12,6 +12,7 @@ import { TargetLayer } from 'Components'
 import { WithMapVisibleCheckHoc } from 'Components/withVisibleCheckHoc'
 import { setMapViewState } from "@/redux/basemapslice"
 import { DEFAULT_SHOW_TARGET, TRACK_VIEW_STATE } from "@/config/constants/default-consts-config"
+import getMapStyle from "@/lib/mapstyle"
 import { Switch } from 'antd'
 import { CornerInfoPanel, RightSider } from './components';
 import { getDmsArray } from './tools';
@@ -26,7 +27,11 @@ const theme = {
 }
 const Map = () => {
     const dispatch = useDispatch()
-    const { mapStyle, viewState, mapEditMode } = useSelector(state => state.basemap)
+    const { viewState, mapEditMode } = useSelector(state => state.basemap)
+    const mapStyle = useSelector(state => {
+        const { baseLayerId, baseThemeId, baseModeId } = state.baseLayerControl
+        return getMapStyle(baseLayerId, `${baseThemeId}_${baseModeId}`)
+    })
     // DeckGL and mapbox will both draw into this WebGL context
     const [glContext, setGLContext] = useState();
     const deckRef = useRef(null);
