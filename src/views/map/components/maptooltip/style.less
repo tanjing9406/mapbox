@@ -1,0 +1,17 @@
+.tooltip {
+    pointer-events: none;
+    position      : absolute;
+    z-index       : 9;
+    font-size     : 12px;
+    padding       : 8px;
+    background    : rgb(41, 50, 60);
+    color         : rgb(160, 167, 180);
+    overflow-y    : hidden;
+
+    &.interactive {
+        pointer-events: all;
+        background    : #fcfcfc;
+        color         : #444;
+        overflow-y    : auto;
+    }
+}

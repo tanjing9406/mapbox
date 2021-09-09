@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import { DeckGL, IconLayer } from 'deck.gl'
 import { MapboxLayer } from '@deck.gl/mapbox'
 import { StaticMap } from 'react-map-gl'
-import formatcoords from 'formatcoords'
 import {
     EditableGeoJsonLayer
 } from "nebula.gl"
@@ -11,10 +10,11 @@ import {
 import { TargetLayer } from 'Components'
 import { WithMapVisibleCheckHoc } from 'Components/withVisibleCheckHoc'
 import { setMapViewState } from "@/redux/basemapslice"
+import { setMapTooltip } from "@/redux/maptooltipslice"
 import { DEFAULT_SHOW_TARGET, TRACK_VIEW_STATE } from "@/config/constants/default-consts-config"
 import getMapStyle from "@/lib/mapstyle"
 import { Switch } from 'antd'
-import { CornerInfoPanel, RightSider } from './components';
+import { CornerInfoPanel, RightSider, MapTooltip } from './components';
 import { getDmsArray } from './tools';
 import HNHYMapContext from './hnhymapcontext';
 import { TripsLayer } from '@deck.gl/geo-layers'
@@ -137,22 +137,7 @@ const Map = () => {
                             ...cornerInfo,
                             dmsArr: getDmsArray(info.coordinate[1], info.coordinate[0])
                         })
-                    }}
-                    getTooltip={({ object, layer }) => {
-                        if (object && object.cluster) {
-                            return `${object.point_count} 艘船`
-                        }
-                        if (object && layer.id !== 'EditableGeoJsonLayer') {
-                            const [dmsLat, dmsLng] = formatcoords(object.latitude, object.longitude).format({ latLonSeparator: ',', decimalPlaces: 0 }).split(',')
-                            return `船名：${object.shipName ? object.shipName : '--'}
-                        MMSI：${object.mmsi}
-                        船长：${object.len}米
-                        航向：${object.heading}°
-                        航速：${object.speed}节
-                        纬度：${dmsLat}
-                        经度：${dmsLng}
-                        状态：${object.state === 1 ? '正常' : '预测'} `
-                        }
+                        dispatch(setMapTooltip(info))
                     }}
                     controller={{ doubleClickZoom: false }}
                     onWebGLInitialized={setGLContext}
@@ -171,6 +156,7 @@ const Map = () => {
                         />
                     )}
                     {TargetLayer({ showCluster, showTarget })}
+                    <MapTooltip />
                 </DeckGL>
                 <CornerInfoPanel data={cornerInfo} onToggleTarget={checked => setShowTarget(checked)} onToggleTrack={onToggleTrack} />
                 <Switch className="ml12 mt18 absolute" checkedChildren="聚类" unCheckedChildren="分散" checked={showCluster} onChange={checked => setShowCluster(checked)} />
