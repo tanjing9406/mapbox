@@ -1,7 +1,8 @@
 import React, { useRef, useEffect, useState, useLayoutEffect, useCallback } from 'react'
 import { useDispatch } from 'react-redux'
-import { DeckGL, ScatterplotLayer, IconLayer, PathLayer, LineLayer } from 'deck.gl'
+import { IconLayer, PathLayer, LineLayer } from 'deck.gl'
 import { setTotalTargetNumber } from "@/redux/basemapslice"
+import { setMapTooltip } from "@/redux/maptooltipslice"
 
 import { ICOM_MAPPING_CONFIG } from './consts'
 import { getLonAndLats, fetchTargetTrack, addOrDelete } from './lib'
@@ -165,6 +166,9 @@ const TargetLayer = (props) => {
                         })
                         setTargetTrackData(data)
                     }}
+                    onHover={info => {
+                        dispatch(setMapTooltip(info))
+                    }}
                 />
             </> : <IconClusterLayer
                 id="icon-cluster-layer"
@@ -173,6 +177,9 @@ const TargetLayer = (props) => {
                 autoHighlight={true}
                 sizeScale={40}
                 getPosition={d => [d.longitude, d.latitude]}
+                onHover={info => {
+                    dispatch(setMapTooltip(info))
+                }}
             />}
 
         </>

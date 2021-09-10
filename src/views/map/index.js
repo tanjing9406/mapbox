@@ -14,11 +14,12 @@ import { setMapTooltip } from "@/redux/maptooltipslice"
 import { DEFAULT_SHOW_TARGET, TRACK_VIEW_STATE } from "@/config/constants/default-consts-config"
 import getMapStyle from "@/lib/mapstyle"
 import { Switch } from 'antd'
-import { CornerInfoPanel, RightSider, MapTooltip } from './components';
+import { CornerInfoPanel, RightSider, MapTooltip, PhotoEleSiteLayer, AISSiteLayer, RadarSiteLayer } from './components';
 import { getDmsArray } from './tools';
 import HNHYMapContext from './hnhymapcontext';
 import { TripsLayer } from '@deck.gl/geo-layers'
 import { COORDINATE_SYSTEM } from '@deck.gl/core'
+import { get } from 'lodash';
 
 const TRIPS = 'https://raw.githubusercontent.com/visgl/deck.gl-data/master/examples/trips/trips-v7.json'
 const theme = {
@@ -126,6 +127,7 @@ const Map = () => {
                     getCursor={editLayer.getCursor.bind(editLayer)}
                     viewState={viewState}
                     onViewStateChange={({ viewState }) => {
+                        dispatch(setMapTooltip({}))
                         dispatch(setMapViewState(viewState))
                         setCornerInfo({
                             ...cornerInfo,
@@ -137,7 +139,11 @@ const Map = () => {
                             ...cornerInfo,
                             dmsArr: getDmsArray(info.coordinate[1], info.coordinate[0])
                         })
-                        dispatch(setMapTooltip(info))
+                    }}
+                    onClick={info => {
+                        if (info.picked && ['photoele_site-layer', 'radar_site-layer', 'ais_site-layer'].includes(get(info, 'layer.id'))) {
+                            dispatch(setMapTooltip(info))
+                        }
                     }}
                     controller={{ doubleClickZoom: false }}
                     onWebGLInitialized={setGLContext}
@@ -156,6 +162,9 @@ const Map = () => {
                         />
                     )}
                     {TargetLayer({ showCluster, showTarget })}
+                    {RadarSiteLayer()}
+                    {PhotoEleSiteLayer()}
+                    {AISSiteLayer()}
                     <MapTooltip />
                 </DeckGL>
                 <CornerInfoPanel data={cornerInfo} onToggleTarget={checked => setShowTarget(checked)} onToggleTrack={onToggleTrack} />
