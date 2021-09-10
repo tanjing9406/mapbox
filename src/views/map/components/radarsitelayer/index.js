@@ -1,11 +1,19 @@
 import React, { useEffect, useState } from "react"
-import { useSelector } from "react-redux"
-import { IconLayer } from 'deck.gl'
+import { useDispatch, useSelector } from "react-redux"
+import { IconLayer, ScatterplotLayer } from 'deck.gl'
+import GL from '@luma.gl/constants'
 import { ICON_MAPPING_CONFIG } from "@/config/constants/icon-mapping-config"
-import { fetchRadarSite } from "./lib"
+import { setMapTooltip } from "@/redux/maptooltipslice"
+import { fetchRadarSite, fetchRadarSiteDetail } from "./lib"
 import { get } from "lodash"
 
 const RadarSiteLayer = () => {
+    const dispatch = useDispatch()
+    const radarWzoneData = useSelector(state => {
+        const hoverInfo = state.mapTooltip.hoverInfo
+        const layerId = get(hoverInfo, 'layer.id')
+        return layerId === 'radar_site-layer' ? [hoverInfo.object] : []
+    })
     const isShowLayer = useSelector(state => state.bussinessLayerControl.siteLayersChecked.includes('radar_site'))
     const [data, setData] = useState([])
     useEffect(() => {
@@ -16,20 +24,40 @@ const RadarSiteLayer = () => {
         isShowLayer ? init() : setData([])
     }, [isShowLayer])
     return (
-        <IconLayer
-            id='radar_site-layer'
-            data={data}
-            pickable={true}
-            sizeScale={0.8}
-            getPosition={d => [d.longitude, d.latitude]}
-            getIcon={() => {
-                return ICON_MAPPING_CONFIG['radar_site']
-            }}
-            getSize={d => {
-                const { width, height } = ICON_MAPPING_CONFIG['radar_site']
-                return Math.max(width, height)
-            }}
-        />
+        <>
+            <IconLayer
+                id='radar_site-layer'
+                data={data}
+                pickable={true}
+                sizeScale={0.8}
+                getPosition={d => [d.longitude, d.latitude]}
+                getIcon={() => {
+                    return ICON_MAPPING_CONFIG['radar_site']
+                }}
+                getSize={d => {
+                    const { width, height } = ICON_MAPPING_CONFIG['radar_site']
+                    return Math.max(width, height)
+                }}
+                onClick={async info => {
+                    const rst = await fetchRadarSiteDetail(info.object.id)
+                    info.object = Object.assign({}, info.object, rst)
+                    dispatch(setMapTooltip(info))
+                }}
+            />
+            <ScatterplotLayer
+                id='radar_site_wzone-layer'
+                data={radarWzoneData}
+                stroked={true}
+                lineWidthMinPixels={1}
+                getPosition={d => [d.longitude, d.latitude]}
+                getRadius={d => d.wzone * 1852}
+                getFillColor={d => [0, 45, 255, 51]}
+                getLineColor={d => [0, 45, 255]}
+                parameters={{
+                    blend: true
+                }}
+            />
+        </>
     )
 }
 

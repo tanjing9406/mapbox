@@ -127,7 +127,6 @@ const Map = () => {
                     getCursor={editLayer.getCursor.bind(editLayer)}
                     viewState={viewState}
                     onViewStateChange={({ viewState }) => {
-                        dispatch(setMapTooltip({}))
                         dispatch(setMapViewState(viewState))
                         setCornerInfo({
                             ...cornerInfo,
@@ -139,11 +138,6 @@ const Map = () => {
                             ...cornerInfo,
                             dmsArr: getDmsArray(info.coordinate[1], info.coordinate[0])
                         })
-                    }}
-                    onClick={info => {
-                        if (info.picked && ['radar_site-layer'].includes(get(info, 'layer.id'))) {
-                            dispatch(setMapTooltip(info))
-                        }
                     }}
                     controller={{ doubleClickZoom: false }}
                     onWebGLInitialized={setGLContext}
