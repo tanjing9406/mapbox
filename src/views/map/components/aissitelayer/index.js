@@ -1,18 +1,20 @@
 import React, { useEffect, useState } from "react"
+import { useSelector } from "react-redux"
 import { IconLayer } from 'deck.gl'
 import { ICON_MAPPING_CONFIG } from "@/config/constants/icon-mapping-config"
 import { fetchAISSite } from "./lib"
 import { get } from "lodash"
 
 const AISSiteLayer = () => {
+    const isShowLayer = useSelector(state => state.bussinessLayerControl.siteLayersChecked.includes('ais_site'))
     const [data, setData] = useState([])
     useEffect(() => {
         const init = async () => {
             const rst = await fetchAISSite({ current: 1, size: 999 })
             setData(get(rst, 'records', []))
         }
-        init()
-    }, [])
+        isShowLayer ? init() : setData([])
+    }, [isShowLayer])
     return (
         <IconLayer
             id='ais_site-layer'

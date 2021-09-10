@@ -1,18 +1,20 @@
 import React, { useEffect, useState } from "react"
+import { useSelector } from "react-redux"
 import { IconLayer } from 'deck.gl'
 import { ICON_MAPPING_CONFIG } from "@/config/constants/icon-mapping-config"
 import { fetchPhotoEleSite } from "./lib"
 import { get } from "lodash"
 
 const PhotoEleSiteLayer = () => {
+    const isShowLayer = useSelector(state => state.bussinessLayerControl.siteLayersChecked.includes('photoele_site'))
     const [data, setData] = useState([])
     useEffect(() => {
         const init = async () => {
             const rst = await fetchPhotoEleSite({})
             setData(get(rst, 'records', []))
         }
-        init()
-    }, [])
+        isShowLayer ? init() : setData([])
+    }, [isShowLayer])
     return (
         <IconLayer
             id='photoele_site-layer'
