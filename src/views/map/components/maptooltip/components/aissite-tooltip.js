@@ -1,5 +1,5 @@
-import { Row, Col } from "antd"
 import React from "react"
+import { Row, Col } from "antd"
 import moment from "moment"
 
 const stateMap = {

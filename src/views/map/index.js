@@ -141,7 +141,7 @@ const Map = () => {
                         })
                     }}
                     onClick={info => {
-                        if (info.picked && ['photoele_site-layer', 'radar_site-layer'].includes(get(info, 'layer.id'))) {
+                        if (info.picked && ['radar_site-layer'].includes(get(info, 'layer.id'))) {
                             dispatch(setMapTooltip(info))
                         }
                     }}

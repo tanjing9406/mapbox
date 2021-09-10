@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { IconLayer } from 'deck.gl'
 import { ICON_MAPPING_CONFIG } from "@/config/constants/icon-mapping-config"
+import { setMapTooltip } from "@/redux/maptooltipslice"
 import { fetchPhotoEleSite } from "./lib"
 import { get } from "lodash"
 
 const PhotoEleSiteLayer = () => {
+    const dispatch = useDispatch()
     const isShowLayer = useSelector(state => state.bussinessLayerControl.siteLayersChecked.includes('photoele_site'))
     const [data, setData] = useState([])
     useEffect(() => {
@@ -28,6 +30,9 @@ const PhotoEleSiteLayer = () => {
             getSize={d => {
                 const { width, height } = ICON_MAPPING_CONFIG['photoele_site']
                 return Math.max(width, height)
+            }}
+            onClick={async info => {
+                dispatch(setMapTooltip(info))
             }}
         />
     )
