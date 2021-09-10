@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
-    siteLayersChecked: ['photoele_site']
+    siteLayersChecked: []
 }
 
 const bussinessLayerControlSlice = createSlice({
