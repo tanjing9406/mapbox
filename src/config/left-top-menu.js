@@ -2,6 +2,7 @@ import React from 'react'
 import {
     SearchOutlined, UnorderedListOutlined, FilterOutlined, HistoryOutlined, LineChartOutlined, VideoCameraOutlined
 } from '@ant-design/icons'
+import TargetSearch from '@/views/targetsearch'
 
 function Comming(){
     return <div style={{fontSize: 0}}>敬请期待</div>
@@ -13,7 +14,7 @@ export const LEFT_TOP_MENU_CONFIG = [
         title: '目标查询',
         icon: SearchOutlined,
         url: '/targetsearch',
-        component: Comming
+        component: TargetSearch
     }, {
         id: 'targetlist',
         title: '目标列表',
