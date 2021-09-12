@@ -9,7 +9,7 @@ import { TargetLayer } from 'Components'
 import { WithMapVisibleCheckHoc } from 'Components/withVisibleCheckHoc'
 import { setMapViewState } from "@/redux/basemapslice"
 import { mapStyleSelector } from "@/redux/baselayercontrolslice"
-import { DEFAULT_SHOW_TARGET, TRACK_VIEW_STATE } from "@/config/constants/default-consts-config"
+import { setDmsArr } from "@/redux/cornerinfopanelslice"
 import { Switch } from 'antd'
 import { CornerInfoPanel, RightSider, MapTooltip, PhotoEleSiteLayer, AISSiteLayer, RadarSiteLayer } from './components';
 import { getDmsArray } from './tools';
@@ -26,21 +26,13 @@ const Map = () => {
     const dispatch = useDispatch()
     const { viewState, mapEditMode } = useSelector(state => state.basemap)
     const mapStyle = useSelector(mapStyleSelector)
+    const { showTarget, showTrack } = useSelector(state => state.cornerInfoPanel)
     // DeckGL and mapbox will both draw into this WebGL context
     const [glContext, setGLContext] = useState();
     const deckRef = useRef(null);
     const mapRef = useRef(null);
     const mapContainerRef = useRef()
-    const [showTarget, setShowTarget] = useState(DEFAULT_SHOW_TARGET)
-    const [showTrack, setShowTrack] = useState(false)
     const [showCluster, setShowCluster] = useState(false)
-    const [cornerInfo, setCornerInfo] = useState({
-        dmsArr: undefined,
-        showTarget,
-        tarNum: 0,
-        viewTarNum: 0,
-        zoom: viewState.zoom.toFixed(1)
-    })
     const [time, setTime] = useState(0)
     const [animation] = useState({})
 
@@ -70,6 +62,7 @@ const Map = () => {
             animation.id = window.requestAnimationFrame(animate);
         } else {
             window.cancelAnimationFrame(animation.id)
+            setTime(0)
         }
         return () => window.cancelAnimationFrame(animation.id);
     }, [animation, showTrack])
@@ -100,15 +93,6 @@ const Map = () => {
         );
     }, [])
 
-    const onToggleTrack = (checked) => {
-        setShowTrack(checked)
-        if (checked) {
-            dispatch(setMapViewState({
-                ...TRACK_VIEW_STATE
-            }))
-        }
-    }
-
     return (
         <HNHYMapContext.Provider value={{
             mapContainer: mapContainerRef
@@ -121,16 +105,9 @@ const Map = () => {
                     viewState={viewState}
                     onViewStateChange={({ viewState }) => {
                         dispatch(setMapViewState(viewState))
-                        setCornerInfo({
-                            ...cornerInfo,
-                            zoom: viewState.zoom.toFixed(1)
-                        })
                     }}
                     onHover={info => {
-                        info.coordinate && setCornerInfo({
-                            ...cornerInfo,
-                            dmsArr: getDmsArray(info.coordinate[1], info.coordinate[0])
-                        })
+                        info.coordinate && dispatch(setDmsArr(getDmsArray(info.coordinate[1], info.coordinate[0])))
                     }}
                     controller={{ doubleClickZoom: false }}
                     onWebGLInitialized={setGLContext}
@@ -154,7 +131,7 @@ const Map = () => {
                     {AISSiteLayer()}
                     <MapTooltip />
                 </DeckGL>
-                <CornerInfoPanel data={cornerInfo} onToggleTarget={checked => setShowTarget(checked)} onToggleTrack={onToggleTrack} />
+                <CornerInfoPanel />
                 <Switch className="mr60 mt24 absolute right" checkedChildren="聚类" unCheckedChildren="分散" checked={showCluster} onChange={checked => setShowCluster(checked)} />
                 <RightSider />
             </div>
