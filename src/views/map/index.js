@@ -3,23 +3,19 @@ import { useDispatch, useSelector } from 'react-redux'
 import { DeckGL, IconLayer } from 'deck.gl'
 import { MapboxLayer } from '@deck.gl/mapbox'
 import { StaticMap } from 'react-map-gl'
-import {
-    EditableGeoJsonLayer
-} from "nebula.gl"
+import { EditableGeoJsonLayer } from "nebula.gl"
 
 import { TargetLayer } from 'Components'
 import { WithMapVisibleCheckHoc } from 'Components/withVisibleCheckHoc'
 import { setMapViewState } from "@/redux/basemapslice"
-import { setMapTooltip } from "@/redux/maptooltipslice"
+import { mapStyleSelector } from "@/redux/baselayercontrolslice"
 import { DEFAULT_SHOW_TARGET, TRACK_VIEW_STATE } from "@/config/constants/default-consts-config"
-import getMapStyle from "@/lib/mapstyle"
 import { Switch } from 'antd'
 import { CornerInfoPanel, RightSider, MapTooltip, PhotoEleSiteLayer, AISSiteLayer, RadarSiteLayer } from './components';
 import { getDmsArray } from './tools';
 import HNHYMapContext from './hnhymapcontext';
 import { TripsLayer } from '@deck.gl/geo-layers'
 import { COORDINATE_SYSTEM } from '@deck.gl/core'
-import { get } from 'lodash';
 
 const TRIPS = 'https://raw.githubusercontent.com/visgl/deck.gl-data/master/examples/trips/trips-v7.json'
 const theme = {
@@ -29,10 +25,7 @@ const theme = {
 const Map = () => {
     const dispatch = useDispatch()
     const { viewState, mapEditMode } = useSelector(state => state.basemap)
-    const mapStyle = useSelector(state => {
-        const { baseLayerId, baseThemeId, baseModeId } = state.baseLayerControl
-        return getMapStyle(baseLayerId, `${baseThemeId}_${baseModeId}`)
-    })
+    const mapStyle = useSelector(mapStyleSelector)
     // DeckGL and mapbox will both draw into this WebGL context
     const [glContext, setGLContext] = useState();
     const deckRef = useRef(null);
