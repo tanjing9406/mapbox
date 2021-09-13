@@ -33,7 +33,7 @@ function CornerInfoPanel(props) {
         const { width, height } = deckRef.current.deck
         const visibleTargetCounts = deckRef.current.pickObjects({ x: 0, y: 0, width, height, layerIds: ['target-layer', 'icon-cluster-layer'] }).length
         setViewTarNum(visibleTargetCounts)
-    }, 50, [viewState, totalTargetNumber])
+    }, 50, [viewState, totalTargetNumber, props.showCluster])
 
     return (
         <div className="corner-info-panel">

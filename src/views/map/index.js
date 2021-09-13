@@ -132,8 +132,8 @@ const Map = () => {
                     {AISSiteLayer()}
                     <MapTooltip />
                 </DeckGL>
-                <CornerInfoPanel />
-                <Switch className="mr60 mt24 absolute right" checkedChildren="聚类" unCheckedChildren="分散" checked={showCluster} onChange={checked => setShowCluster(checked)} />
+                <CornerInfoPanel showCluster={showCluster} />
+                <Switch className="mr60 mt24 absolute right" checkedChildren="聚类" unCheckedChildren="分散" checked={showCluster} onChange={setShowCluster} />
                 <RightSider />
             </div>
         </HNHYMapContext.Provider>
