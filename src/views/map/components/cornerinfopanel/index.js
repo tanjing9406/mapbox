@@ -31,7 +31,9 @@ function CornerInfoPanel(props) {
 
     useDebounce(() => {
         const { width, height } = deckRef.current.deck
-        const visibleTargetCounts = deckRef.current.pickObjects({ x: 0, y: 0, width, height, layerIds: ['target-layer', 'icon-cluster-layer'] }).length
+        const isAvailable = width > 0 && height > 0
+        const visibleTargetCounts = isAvailable ?
+            deckRef.current.pickObjects({ x: 0, y: 0, width, height, layerIds: ['target-layer', 'icon-cluster-layer'] }).length : 0
         setViewTarNum(visibleTargetCounts)
     }, 50, [viewState, totalTargetNumber, props.showCluster])
 
