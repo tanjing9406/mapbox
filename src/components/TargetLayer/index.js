@@ -3,9 +3,9 @@ import { useDispatch } from 'react-redux'
 import { IconLayer, PathLayer, LineLayer } from 'deck.gl'
 import { setTotalTargetNumber } from "@/redux/basemapslice"
 import { setMapTooltip } from "@/redux/maptooltipslice"
-
+import { getLonAndLats } from '@/lib/maptools'
 import { ICOM_MAPPING_CONFIG } from './consts'
-import { getLonAndLats, fetchTargetTrack, addOrDelete } from './lib'
+import { fetchTargetTrack, addOrDelete } from './lib'
 import IconClusterLayer from '../IconClusterLayer/icon-cluster-layer'
 
 const TargetLayer = (props) => {

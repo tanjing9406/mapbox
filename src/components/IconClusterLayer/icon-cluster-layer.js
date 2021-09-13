@@ -2,7 +2,7 @@ import { CompositeLayer } from '@deck.gl/core'
 import { IconLayer, LineLayer } from '@deck.gl/layers'
 import Supercluster from 'supercluster'
 import { ICOM_MAPPING_CONFIG as targetIconMapping } from '../TargetLayer/consts'
-import { getLonAndLats } from '../TargetLayer/lib'
+import { getLonAndLats } from '@/lib/maptools'
 
 const toTargetIconMapping = {}
 
