@@ -13,7 +13,7 @@ import { setDmsArr } from "@/redux/cornerinfopanelslice"
 import { Switch } from 'antd'
 import { CornerInfoPanel, RightSider, MapTooltip, PhotoEleSiteLayer, AISSiteLayer, RadarSiteLayer } from './components';
 import { getDmsArray } from './tools';
-import HNHYMapContext from './hnhymapcontext';
+import HNHYMapContext from './hnhymapcontext'
 import { TripsLayer } from '@deck.gl/geo-layers'
 import { COORDINATE_SYSTEM } from '@deck.gl/core'
 
@@ -36,11 +36,11 @@ const Map = () => {
     const [time, setTime] = useState(0)
     const [animation] = useState({})
 
-    const [editFeatures, setEditFeatures] = React.useState({
+    const [editFeatures, setEditFeatures] = useState({
         type: "FeatureCollection",
         features: []
     })
-    const [selectedFeatureIndexes] = React.useState([])
+    const [selectedFeatureIndexes] = useState([])
 
     const editLayer = new EditableGeoJsonLayer({
         data: editFeatures,
@@ -95,7 +95,8 @@ const Map = () => {
 
     return (
         <HNHYMapContext.Provider value={{
-            mapContainer: mapContainerRef
+            mapContainer: mapContainerRef,
+            deckRef
         }}>
             <div ref={mapContainerRef} style={{ background: '#fff' }}>
                 <DeckGL
