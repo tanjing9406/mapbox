@@ -43,6 +43,7 @@ const Map = () => {
     const [selectedFeatureIndexes] = useState([])
 
     const editLayer = new EditableGeoJsonLayer({
+        id: 'editable-layer',
         data: editFeatures,
         mode: mapEditMode,
         selectedFeatureIndexes,
@@ -89,7 +90,7 @@ const Map = () => {
         // You must initialize an empty deck.gl layer to prevent flashing
         map.addLayer(
             // This id has to match the id of the deck.gl layer
-            new MapboxLayer({ id: "empty-layer", deck })
+            new MapboxLayer({ id: "editable-layer", deck })
         );
     }, [])
 
@@ -101,7 +102,7 @@ const Map = () => {
             <div ref={mapContainerRef} style={{ background: '#fff' }}>
                 <DeckGL
                     ref={deckRef}
-                    layers={[new IconLayer({ id: 'empty-layer', data: [] }), tlayer, editLayer]}
+                    layers={[tlayer, editLayer]}
                     getCursor={editLayer.getCursor.bind(editLayer)}
                     viewState={viewState}
                     onViewStateChange={({ viewState }) => {
