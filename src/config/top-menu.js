@@ -8,7 +8,7 @@ function BigData() {
     return <iframe
         width="100%"
         height="100%"
-        src="http://10.100.0.122/admin"
+        src={`http://${process.env.BASE_IP}/admin`}
     ></iframe>
 }
 
@@ -16,7 +16,7 @@ function DataDashboard() {
     return <iframe
         width="100%"
         height="100%"
-        src="http://10.100.0.122/CSGbigScreen"
+        src={`http://${process.env.BASE_IP}/CSGbigScreen`}
     ></iframe>
 }
 
