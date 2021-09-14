@@ -17,7 +17,7 @@ import HNHYMapContext from './hnhymapcontext'
 import { TripsLayer } from '@deck.gl/geo-layers'
 import { COORDINATE_SYSTEM } from '@deck.gl/core'
 
-const TRIPS = 'https://raw.githubusercontent.com/visgl/deck.gl-data/master/examples/trips/trips-v7.json'
+const TRIPS = '/src/assets/data/trips-v7.json'
 const theme = {
     trailColor0: [255, 0, 0],
     trailColor1: [0, 0, 255]
