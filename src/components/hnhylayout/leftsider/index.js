@@ -6,6 +6,8 @@ import { Legend } from 'Components'
 import { LEFT_TOP_MENU_CONFIG } from '@/config/left-top-menu'
 import { LEFT_BOTTOM_MENU_CONFIG } from '@/config/left-bottom-menu'
 import { WithSiderVisibleCheckHoc } from 'Components/withVisibleCheckHoc'
+import { hasEntitlement } from '@/lib/tools'
+
 import './style.less'
 
 const { Sider } = Layout
@@ -16,7 +18,7 @@ const LeftSider = function (props) {
         <Sider className="page-left-sider-wrapper hnhy" collapsible collapsed={true} trigger={null} collapsedWidth={56}>
             <Menu selectedKeys={[selectedKey]} mode="inline">
                 {LEFT_TOP_MENU_CONFIG.map(menuItem => (
-                    <Menu.Item key={menuItem.id} icon={<menuItem.icon />} title={menuItem.title}>
+                    hasEntitlement(menuItem) && <Menu.Item key={menuItem.id} icon={<menuItem.icon />} title={menuItem.title}>
                         <Link to={menuItem.url}></Link>
                     </Menu.Item>
                 ))}
@@ -35,9 +37,9 @@ const LeftSider = function (props) {
                     <Menu.ItemGroup title="更多">
                         {LEFT_BOTTOM_MENU_CONFIG[0].subMenu.map(menuItem => (
                             <React.Fragment key={menuItem.id} >
-                                <Menu.Item key={menuItem.id} icon={<menuItem.icon />}>
+                                {hasEntitlement(menuItem) && <Menu.Item key={menuItem.id} icon={<menuItem.icon />}>
                                     <Link to={menuItem.url}>{menuItem.title}</Link>
-                                </Menu.Item>
+                                </Menu.Item>}
                                 {menuItem.nextIsDivider && <Menu.Divider />}
                             </React.Fragment>
                         ))}

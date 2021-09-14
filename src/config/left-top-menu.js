@@ -4,10 +4,6 @@ import {
 } from '@ant-design/icons'
 import TargetSearch from '@/views/targetsearch'
 
-function Comming(){
-    return <div style={{fontSize: 0}}>敬请期待</div>
-}
-
 export const LEFT_TOP_MENU_CONFIG = [
     {
         id: 'targetsearch',
@@ -19,31 +15,27 @@ export const LEFT_TOP_MENU_CONFIG = [
         id: 'targetlist',
         title: '目标列表',
         icon: UnorderedListOutlined,
-        url: '/targetlist',
-        // component: Comming
+        url: '/targetlist'
     }, {
         id: 'targetfilter',
         title: '目标筛选',
         icon: FilterOutlined,
-        url: '/targetfilter',
-        // component: Comming
+        url: '/targetfilter'
     }, {
         id: 'historytrack',
         title: '记录回放',
         icon: HistoryOutlined,
-        url: '/historytrack',
-        // component: Comming
+        url: '/historytrack'
     }, {
         id: 'dataanalysis',
         title: '数据分析',
         icon: LineChartOutlined,
-        url: '/dataanalysis',
-        // component: Comming
+        url: '/dataanalysis'
     }, {
         id: 'photoelelist',
         title: '光电列表',
         icon: VideoCameraOutlined,
         url: '/photoelelist',
-        // component: Comming
+        // entitlement: 'PHOTO_ELE_LIST'
     }
 ]

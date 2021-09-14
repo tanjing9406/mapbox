@@ -7,6 +7,7 @@ import { Layout } from 'antd'
 import 'antd/dist/antd.css'
 import { HNHYLayout } from 'Components'
 import MenuConfig from '@/config'
+import { hasEntitlement } from '@/lib/tools'
 
 function Comming() {
   return <div className="ml12 mt180 absolute z1 txt-xl color-blue px3">敬请期待</div>
@@ -20,12 +21,12 @@ const genMenuRoute = () => {
     if (!curItem.subMenu) {
       return [
         ...rst,
-        <Route key={curItem.id} path={curItem.url} component={curItem.component || Comming} />
+        hasEntitlement(curItem) && <Route key={curItem.id} path={curItem.url} component={curItem.component || Comming} />
       ]
     }
     return [
       ...rst,
-      ...curItem.subMenu.map(i => <Route key={i.id} path={i.url} component={i.component || Comming} />)
+      ...curItem.subMenu.map(i => hasEntitlement(i) && <Route key={i.id} path={i.url} component={i.component || Comming} />)
     ]
   }, [])
 }
