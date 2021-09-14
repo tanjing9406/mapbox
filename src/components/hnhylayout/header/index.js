@@ -14,6 +14,10 @@ const { SubMenu } = Menu
 
 const HNHYHeader = function (props) {
     const selectedKey = useLocation().pathname.slice(1)
+    const loginOut = () => {
+        sessionStorage.removeItem('isAuthenticated')
+        window.location.reload()
+    }
     return (
         <Header className="page-header hnhy" theme="light">
             <Link to="/"><div className="logo"><span>UNISEAS</span><span>海南寰宇</span></div></Link>
@@ -31,7 +35,7 @@ const HNHYHeader = function (props) {
                 <div className="right-btn-grp">
                     <Button type="link" className="btn" icon={<QrcodeOutlined />} /><Divider className="splite-line" type="vertical" />
                     <Button type="link" className="btn" icon={<UserOutlined />} /><Divider className="splite-line" type="vertical" />
-                    <Button type="link" className="btn" icon={<LogoutOutlined />} />
+                    <Button type="link" className="btn" icon={<LogoutOutlined />} onClick={loginOut} />
                 </div>
             </div>
         </Header>

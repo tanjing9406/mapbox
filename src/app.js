@@ -5,7 +5,8 @@ import { Provider } from 'react-redux'
 import store from './redux/store'
 import { Layout } from 'antd'
 import 'antd/dist/antd.css'
-import { HNHYLayout } from 'Components'
+import { HNHYLayout, PrivateRoute } from 'Components'
+import LoginPage from '@/views/loginpage'
 import MenuConfig from '@/config'
 import { hasEntitlement } from '@/lib/tools'
 
@@ -35,27 +36,27 @@ function App() {
   return (
     <Router>
       <Switch>
-        {/* <Route path="/login" component={LoginPage} /> */}
-        {/* <PrivateRoute path="/"> */}
-        <Provider store={store}>
-          <Layout style={{ height: '100%', overflow: 'hidden' }}>
-            <HNHYHeader />
-            <Layout className="pr">
-              <LeftSider />
-              <Content className="pr">
-                <Map />
-                <Switch>
-                  <Route path='/' exact>
-                    <Redirect to='/targetsearch' />
-                  </Route>
-                  {genMenuRoute()}
-                </Switch>
-                {/* <ConnectedMap /> */}
-              </Content>
+        <Route path="/login" component={LoginPage} />
+        <PrivateRoute path="/">
+          <Provider store={store}>
+            <Layout style={{ height: '100%', overflow: 'hidden' }}>
+              <HNHYHeader />
+              <Layout className="pr">
+                <LeftSider />
+                <Content className="pr">
+                  <Map />
+                  <Switch>
+                    <Route path='/' exact>
+                      <Redirect to='/targetsearch' />
+                    </Route>
+                    {genMenuRoute()}
+                  </Switch>
+                  {/* <ConnectedMap /> */}
+                </Content>
+              </Layout>
             </Layout>
-          </Layout>
-        </Provider>
-        {/* </PrivateRoute> */}
+          </Provider>
+        </PrivateRoute>
       </Switch>
     </Router>
   );
