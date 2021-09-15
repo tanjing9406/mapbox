@@ -29,27 +29,35 @@ const TargetLayer = (props) => {
                     ],
                     "pointList": [
                         {
-                            "lat": 34.06185606722126,
-                            "lon": 97.02052516994142
+                            "lat": 42.31027951280584,
+                            "lon": 77.7183596078416
                         },
                         {
-                            "lat": 34.06185606722126,
-                            "lon": 128.29620244557802
+                            "lat": 42.31027951280584,
+                            "lon": 140.5499629701822
                         },
                         {
-                            "lat": 13.15788416356098,
-                            "lon": 128.29620244557802
+                            "lat": -3.952562348328407,
+                            "lon": 140.5499629701822
                         },
                         {
-                            "lat": 13.15788416356098,
-                            "lon": 97.02052516994142
+                            "lat": -3.952562348328407,
+                            "lon": 77.7183596078416
                         }
                     ],
                     "areaList": [],
                     "zoom": 12,
                     "targetIdList": [],
                     "provinceList": [
-                        "HaiNan", "ZheJiang"
+                        "HaiNan",
+                        "GuangXi",
+                        "GuangDong",
+                        "FuJian",
+                        "ZheJiang",
+                        "ShanDong",
+                        "HeBei",
+                        "HuNan",
+                        "All"
                     ]
                 }
                 let data = JSON.stringify(shipsRule);
