@@ -42,12 +42,12 @@ export const METEOROLOGY_LAYERS_OPTIONS = [
 ]
 
 export const AREA_SWITCH_OPTIONS = [
-    { name: '海南', id: 'hainan', center: [108.5819, 19.6711]},
-    { name: '广西', id: 'gxi', center: [108.8167, 21.6168]},
-    { name: '广东', id: 'gdong', center: [112.8167, 21.6168]},
-    { name: '福建', id: 'fujian', center: [119.5334, 25.0334]},
-    { name: '浙江', id: 'zhejiang', center: [118.5334, 27.0334]},
-    { name: '山东', id: 'shandong', center: [120.5335, 36.3334]},
-    { name: '环渤海', id: 'huanbohai', center: [120.5335, 39.3334]},
-    { name: '湖南', id: 'hunan', center: [112.6103, 26.9131]},
+    { name: '海南', id: 'HaiNan', center: [108.5819, 19.6711]},
+    { name: '广西', id: 'GuangXi', center: [108.8167, 21.6168]},
+    { name: '广东', id: 'GuangDong', center: [112.8167, 21.6168]},
+    { name: '福建', id: 'FuJian', center: [119.5334, 25.0334]},
+    { name: '浙江', id: 'ZheJiang', center: [118.5334, 27.0334]},
+    { name: '山东', id: 'ShanDong', center: [120.5335, 36.3334]},
+    { name: '环渤海', id: 'HeBei', center: [120.5335, 39.3334]},
+    { name: '湖南', id: 'HuNan', center: [112.6103, 26.9131]},
 ]

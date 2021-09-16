@@ -9,7 +9,7 @@ function HNHYCheckboxGrp({ options, checked = [], onChange = _ => _ }) {
     const handleChange = (tag, checked) => {
         const nextCheckedTags = checked ? [...checkedTags, tag] : checkedTags.filter(t => t !== tag)
         setCheckedTags(nextCheckedTags)
-        onChange(nextCheckedTags)
+        onChange(nextCheckedTags, tag)
     }
 
     return (

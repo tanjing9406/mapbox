@@ -1,15 +1,17 @@
 import React, { useRef, useEffect, useState, useLayoutEffect, useCallback } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { IconLayer, PathLayer, LineLayer } from 'deck.gl'
 import { setTotalTargetNumber } from "@/redux/basemapslice"
 import { setMapTooltip } from "@/redux/maptooltipslice"
 import { getLonAndLats } from '@/lib/maptools'
 import { ICOM_MAPPING_CONFIG } from './consts'
-import { fetchTargetTrack, addOrDelete } from './lib'
+import { fetchTargetTrack, addOrDelete, sendWsMessage } from './lib'
 import IconClusterLayer from '../IconClusterLayer/icon-cluster-layer'
 
 const TargetLayer = (props) => {
     const dispatch = useDispatch()
+    const checkedAreas = useSelector(state => state.areaSwitch.checkedAreas)
+
     const ws = useRef(null)
     const [message, setMessage] = useState([])
     const [targetsOfClicked, setTargetsOfClicked] = useState(new Set())
@@ -22,55 +24,14 @@ const TargetLayer = (props) => {
                 dispatch(setTotalTargetNumber(message.length))
             }
             console.log('连接成功')
-            if (ws.current) {
-                const shipsRule = {
-                    "targetType": [
-                        "All"
-                    ],
-                    "pointList": [
-                        {
-                            "lat": 42.31027951280584,
-                            "lon": 77.7183596078416
-                        },
-                        {
-                            "lat": 42.31027951280584,
-                            "lon": 140.5499629701822
-                        },
-                        {
-                            "lat": -3.952562348328407,
-                            "lon": 140.5499629701822
-                        },
-                        {
-                            "lat": -3.952562348328407,
-                            "lon": 77.7183596078416
-                        }
-                    ],
-                    "areaList": [],
-                    "zoom": 12,
-                    "targetIdList": [],
-                    "provinceList": [
-                        "HaiNan",
-                        "GuangXi",
-                        "GuangDong",
-                        "FuJian",
-                        "ZheJiang",
-                        "ShanDong",
-                        "HeBei",
-                        "HuNan",
-                        "All"
-                    ]
-                }
-                let data = JSON.stringify(shipsRule);
-                if (ws.current.readyState == WebSocket.OPEN) {
-                    console.log('ws.current.readyState==WebSocket.OPEN')
-                    ws.current.send(data);
-                }
+            if (ws.current && ws.current.readyState == WebSocket.OPEN) {
+                sendWsMessage(ws.current, { provinceList: checkedAreas })
             }
         };
         ws.current.onmessage = (option) => {
             const data = JSON.parse(option.data)
-            setMessage(data.targetList)
-            dispatch(setTotalTargetNumber(data.targetNum))
+            setMessage(data.targetList || [])
+            dispatch(setTotalTargetNumber(data.targetNum || 0))
         };
         ws.current.onclose = () => {
             dispatch(setTotalTargetNumber(0))
@@ -84,6 +45,12 @@ const TargetLayer = (props) => {
             ws.current?.close();
         };
     }, [ws])
+
+    useEffect(() => {
+        if (ws.current && ws.current.readyState == WebSocket.OPEN) {
+            sendWsMessage(ws.current, { provinceList: checkedAreas })
+        }
+    }, [checkedAreas])
 
     useEffect(() => {
         if (!props.showTarget && ws.current) {

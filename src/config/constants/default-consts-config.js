@@ -1,11 +1,11 @@
 import { FlyToInterpolator } from 'deck.gl'
 import * as d3 from 'd3'
 
-export const BASE_LAYER_ID = 'vector'
+export const BASE_LAYER_ID = 'sea'
 export const BASE_MODE_ID = 'b'
 export const BASE_THEME_ID = 'day'
 
-export const DEFAULT_SHOW_TARGET = false
+export const DEFAULT_SHOW_TARGET = true
 
 export const MAP_CHANGE_TRANSITION = {
     transitionDuration: 1600,

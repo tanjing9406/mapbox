@@ -15,7 +15,7 @@ const { Panel } = Collapse
 function BussinessLayerControl() {
     const dispatch = useDispatch()
     const { siteLayersChecked } = useSelector(state => state.bussinessLayerControl)
-    const layerChange = (layersId, checked) => {
+    const layerChange = (layersId, checked, curTag) => {
         dispatch(setCheckedLayers(layersId, checked))
     }
     return (
