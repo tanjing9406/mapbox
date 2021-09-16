@@ -36,6 +36,6 @@ export const LEFT_TOP_MENU_CONFIG = [
         title: '光电列表',
         icon: VideoCameraOutlined,
         url: '/photoelelist',
-        // entitlement: 'PHOTO_ELE_LIST'
+        entitlement: 'PHOTO_ELE_LIST'
     }
 ]

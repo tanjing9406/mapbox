@@ -15,6 +15,7 @@ const { SubMenu } = Menu
 const HNHYHeader = function (props) {
     const selectedKey = useLocation().pathname.slice(1)
     const loginOut = () => {
+        localStorage.removeItem('entitlements')
         sessionStorage.removeItem('isAuthenticated')
         window.location.reload()
     }

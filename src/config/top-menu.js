@@ -44,6 +44,7 @@ export const TOP_MENU = [
         hasSider: false,
         hasMap: false,
         component: BigData,
+        entitlement: 'BIG_DATA',
         url: '/bigdata'
     }, {
         id: 'datadashboard',

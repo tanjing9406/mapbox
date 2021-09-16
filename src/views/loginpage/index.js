@@ -16,6 +16,9 @@ export default function LoginPage() {
 
     let { from } = location.state || { from: { pathname: "/" } };
     const login = values => {
+        if (values.username === 'admin') {
+            localStorage.setItem('entitlements', ['BIG_DATA', 'PHOTO_ELE_LIST'])
+        }
         sessionStorage.setItem('isAuthenticated', true)
         history.replace(from);
     }
