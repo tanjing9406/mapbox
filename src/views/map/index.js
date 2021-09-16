@@ -90,7 +90,7 @@ const Map = () => {
         // You must initialize an empty deck.gl layer to prevent flashing
         map.addLayer(
             // This id has to match the id of the deck.gl layer
-            new MapboxLayer({ id: "editable-layer", deck })
+            new MapboxLayer({ id: "empty-layer", deck })
         );
     }, [])
 
@@ -102,7 +102,7 @@ const Map = () => {
             <div ref={mapContainerRef} style={{ background: '#fff' }}>
                 <DeckGL
                     ref={deckRef}
-                    layers={[tlayer, editLayer]}
+                    layers={[tlayer, editLayer, new IconLayer({ id: 'empty-layer', data: [] })]}
                     getCursor={editLayer.getCursor.bind(editLayer)}
                     viewState={viewState}
                     onViewStateChange={({ viewState }) => {
