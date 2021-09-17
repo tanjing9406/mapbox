@@ -18,9 +18,9 @@ for (let i = 0; i <= 19; i++) {
 const ICOM_MAPPING_CONFIG = Object.assign({}, targetIconMapping, toTargetIconMapping)
 
 function getIconName(size, type) {
-  let name = 'RADAR'
+  let name
   if (size === 1) {
-    name = type || 'RADAR';
+    name = type;
   } else if (size < 10) {
     name = `marker-${size - 1}`
   } else if (size < 100) {
@@ -28,12 +28,12 @@ function getIconName(size, type) {
   } else {
     name = 'marker-18'
   }
-  return ICOM_MAPPING_CONFIG[name]
+  return ICOM_MAPPING_CONFIG[name] || ICOM_MAPPING_CONFIG['RADAR']
 }
 
 function getIconSize(size, type) {
   if (size == 1) {
-    const { width, height } = ICOM_MAPPING_CONFIG[type || RADAR]
+    const { width, height } = ICOM_MAPPING_CONFIG[type] || ICOM_MAPPING_CONFIG['RADAR']
     return Math.max(width, height) / 160
   }
   return Math.min(100, size) / 100 + 1;
