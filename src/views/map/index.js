@@ -11,7 +11,7 @@ import { setMapViewState } from "@/redux/basemapslice"
 import { mapStyleSelector } from "@/redux/baselayercontrolslice"
 import { setDmsArr } from "@/redux/cornerinfopanelslice"
 import { Switch } from 'antd'
-import { CornerInfoPanel, RightSider, MapTooltip, PhotoEleSiteLayer, AISSiteLayer, RadarSiteLayer } from './components';
+import { CornerInfoPanel, RightSider, MapTooltip, PhotoEleSiteLayer, AISSiteLayer, RadarSiteLayer, AlarmAreaLayer } from './components';
 import { getDmsArray } from './tools';
 import HNHYMapContext from './hnhymapcontext'
 import { TripsLayer } from '@deck.gl/geo-layers'
@@ -127,6 +127,7 @@ const Map = () => {
                             onLoad={onMapLoad}
                         />
                     )}
+                    {AlarmAreaLayer()}
                     {TargetLayer({ showCluster, showTarget })}
                     {RadarSiteLayer()}
                     {PhotoEleSiteLayer()}

@@ -1,4 +1,5 @@
 import AISSiteLayer from "./aissitelayer"
+import AlarmAreaLayer from "./alarmarealayer"
 import AreaSwitch from "./areaswitch"
 import CornerInfoPanel from "./cornerinfopanel"
 import LayersControl from "./layerscontrol"
@@ -10,6 +11,7 @@ import ToolBox from "./toolbox"
 
 export {
     AISSiteLayer,
+    AlarmAreaLayer,
     AreaSwitch,
     CornerInfoPanel,
     LayersControl,
