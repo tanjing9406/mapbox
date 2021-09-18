@@ -1,5 +1,6 @@
 import React from 'react'
 import { FilterOutlined } from '@ant-design/icons'
+import AlarmAreaPage from '@/views/alarmareapage'
 
 function Comming() {
     return <div className="ml12 mt180 absolute z1 txt-xl color-blue px3">敬请期待</div>
@@ -16,7 +17,7 @@ export const LEFT_BOTTOM_MENU_CONFIG = [
                 title: '报警区域',
                 icon: FilterOutlined,
                 url: '/alarmarea',
-                component: Comming
+                component: AlarmAreaPage
             }, {
                 id: 'alarmsetting',
                 title: '报警设置',
