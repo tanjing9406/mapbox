@@ -26,7 +26,7 @@ export function mapAlarmAreaToGeoJSON(beModel = []) {
     })
     return {
         type: 'FeatureCollection',
-        features,
+        features: features.reverse(),
         characterSet: new Set(characterSet)
     }
 }

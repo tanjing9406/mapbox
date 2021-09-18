@@ -1,7 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
-    areaList: []
+    areaList: [],
+    editAreaId: null
 }
 
 const alarmAreaPageSlice = createSlice({
@@ -10,10 +11,13 @@ const alarmAreaPageSlice = createSlice({
     reducers: {
         setAreaList: (state, action) => {
             state.areaList = action.payload
-        }
+        },
+        setEditAreaId: (state, action) => {
+            state.editAreaId = action.payload
+        },
     }
 })
 
-export const { setAreaList } = alarmAreaPageSlice.actions
+export const { setAreaList, setEditAreaId } = alarmAreaPageSlice.actions
 
 export default alarmAreaPageSlice.reducer

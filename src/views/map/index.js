@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import { DeckGL, IconLayer } from 'deck.gl'
 import { MapboxLayer } from '@deck.gl/mapbox'
 import { StaticMap } from 'react-map-gl'
-import { EditableGeoJsonLayer } from "nebula.gl"
 
 import { TargetLayer } from 'Components'
 import { WithMapVisibleCheckHoc } from 'Components/withVisibleCheckHoc'
@@ -35,23 +34,6 @@ const Map = () => {
     const [showCluster, setShowCluster] = useState(false)
     const [time, setTime] = useState(0)
     const [animation] = useState({})
-
-    const [editFeatures, setEditFeatures] = useState({
-        type: "FeatureCollection",
-        features: []
-    })
-    const [selectedFeatureIndexes] = useState([])
-
-    const editLayer = new EditableGeoJsonLayer({
-        id: 'editable-layer',
-        data: editFeatures,
-        mode: mapEditMode,
-        selectedFeatureIndexes,
-
-        onEdit: ({ updatedData, editType, editContext }) => {
-            setEditFeatures(updatedData);
-        }
-    })
 
     const animate = () => {
         setTime(t => (t + 1) % 1800);
@@ -103,8 +85,7 @@ const Map = () => {
             <div ref={mapContainerRef} style={{ background: '#fff' }}>
                 <DeckGL
                     ref={deckRef}
-                    layers={[tlayer, editLayer, new IconLayer({ id: 'empty-layer', data: [] })]}
-                    getCursor={editLayer.getCursor.bind(editLayer)}
+                    layers={[tlayer, new IconLayer({ id: 'empty-layer', data: [] })]}
                     viewState={viewState}
                     onViewStateChange={({ viewState }) => {
                         dispatch(setMapViewState(viewState))
