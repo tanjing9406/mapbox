@@ -7,7 +7,7 @@ import { EditableGeoJsonLayer } from "nebula.gl"
 
 import { TargetLayer } from 'Components'
 import { WithMapVisibleCheckHoc } from 'Components/withVisibleCheckHoc'
-import { setMapViewState } from "@/redux/basemapslice"
+import { setMapViewState, setDeckRef } from "@/redux/basemapslice"
 import { mapStyleSelector } from "@/redux/baselayercontrolslice"
 import { setDmsArr } from "@/redux/cornerinfopanelslice"
 import { Switch } from 'antd'
@@ -87,6 +87,7 @@ const Map = () => {
     const onMapLoad = useCallback(() => {
         const map = mapRef.current.getMap();
         const deck = deckRef.current.deck;
+        dispatch(setDeckRef(deckRef))
         // You must initialize an empty deck.gl layer to prevent flashing
         map.addLayer(
             // This id has to match the id of the deck.gl layer

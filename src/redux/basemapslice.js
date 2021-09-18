@@ -3,6 +3,7 @@ import { ViewMode } from "nebula.gl"
 import { INITIAL_VIEW_STATE } from "@/config/constants/default-consts-config"
 
 const initialState = {
+  deckRef: null,
   viewState: INITIAL_VIEW_STATE,
   mapEditMode: ViewMode,
   totalTargetNumber: 0
@@ -12,6 +13,9 @@ const basemapSlice = createSlice({
   name: 'basemap',
   initialState,
   reducers: {
+    setDeckRef(state, action) {
+      state.deckRef = action.payload
+    },
     setMapEditMode(state, action) {
       const mapEditMode = action.payload
       state.mapEditMode = mapEditMode
@@ -27,6 +31,6 @@ const basemapSlice = createSlice({
   }
 })
 
-export const { setMapEditMode, setMapViewState, setTotalTargetNumber } = basemapSlice.actions
+export const { setMapEditMode, setMapViewState, setTotalTargetNumber, setDeckRef } = basemapSlice.actions
 
 export default basemapSlice.reducer

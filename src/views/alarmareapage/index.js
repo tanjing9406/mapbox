@@ -1,12 +1,19 @@
 import React, { useState } from "react"
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import Draggable from 'react-draggable'
 import { Table, Button, Switch } from 'antd'
+
+import { setMapViewState } from "@/redux/basemapslice"
+import { MAP_CHANGE_TRANSITION } from "@/config/constants/default-consts-config"
+
+import { getFitViewport } from "./lib"
 
 import './style.less'
 
 function AlarmAreaPage() {
+    const dispatch = useDispatch()
     const { areaList } = useSelector(state => state.alarmAreaPage)
+    const { deckRef } = useSelector(state => state.basemap)
     const [selectedRowKeys, setSelectedRowKeys] = useState([])
 
     const onSelectChange = (selectedRowKeys) => {
@@ -19,7 +26,11 @@ function AlarmAreaPage() {
     }
 
     const onAreaNameClick = (record) => {
-        console.log(record)
+        const fitViewState = getFitViewport(record, deckRef)
+        dispatch(setMapViewState({
+            ...fitViewState,
+            ...MAP_CHANGE_TRANSITION,
+        }))
     }
 
     const columns = [
