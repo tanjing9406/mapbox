@@ -1,10 +1,6 @@
 import { WKTLoader } from '@loaders.gl/wkt'
 import { parseSync } from '@loaders.gl/core'
 
-const AREA_SHAPE_MAP = {
-    'POLYGON': 'Polygon',
-    'LINE': 'LineString'
-}
 function getColorToRgba(hex, opacity) {
     const rgba = hex.match(/[0-9a-fA-F]{2}/g).map(x => parseInt(x, 16))
     rgba[3] = opacity / 100 * 255
