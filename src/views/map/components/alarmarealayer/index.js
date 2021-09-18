@@ -1,18 +1,22 @@
 import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { GeoJsonLayer, TextLayer } from '@deck.gl/layers'
 import centroid from '@turf/centroid'
 
+import { setAreaList } from '@/redux/alarmareapageslice'
+
 import { fetchAlarmArea, mapAlarmAreaToGeoJSON } from './lib'
-import { useSelector } from 'react-redux'
 
 function AlarmAreaLayer() {
+    const dispatch = useDispatch()
     const { viewState } = useSelector(state => state.basemap)
-    const [alarmAreaGeoJson, setAreaList] = useState(null)
+    const [alarmAreaGeoJson, setAlarmAreaGeoJson] = useState(null)
     const isShowText = alarmAreaGeoJson && alarmAreaGeoJson.features.length > 0 && viewState.zoom >= 7
     useEffect(() => {
         const init = async () => {
             const areaList = await fetchAlarmArea()
-            setAreaList(mapAlarmAreaToGeoJSON(areaList))
+            dispatch(setAreaList(areaList))
+            setAlarmAreaGeoJson(mapAlarmAreaToGeoJSON(areaList))
         }
         init()
     }, [])

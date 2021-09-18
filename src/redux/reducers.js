@@ -1,4 +1,5 @@
 import { combineReducers } from "redux"
+import alarmAreaPageSlice from "./alarmareapageslice"
 import areaSwitchSlice from './areaswitchslice'
 import basemapReducer from './basemapslice'
 import baseLayerControlSlice from "./baselayercontrolslice"
@@ -7,6 +8,7 @@ import cornerInfoPanelSlice from "./cornerinfopanelslice"
 import mapTooltipSlice from "./maptooltipslice"
 
 const rootReducer = combineReducers({
+    alarmAreaPage: alarmAreaPageSlice,
     areaSwitch: areaSwitchSlice,
     basemap: basemapReducer,
     baseLayerControl: baseLayerControlSlice,
