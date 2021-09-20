@@ -12,3 +12,10 @@ export function getFitViewport(record, deckRef) {
     })
     return newViewState
 }
+
+export function getAreaGrpFilters(areaList) {
+    const areaGrps = areaList.map(({ groupName }) => groupName)
+    const areaGrpSets = new Set(areaGrps)
+    const filters = Array.from(areaGrpSets).map(i => ({ text: i, value: i }))
+    return filters
+}

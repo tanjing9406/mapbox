@@ -7,7 +7,7 @@ import { setEditAreaId } from "@/redux/alarmareapageslice"
 import { setMapViewState } from "@/redux/basemapslice"
 import { MAP_CHANGE_TRANSITION } from "@/config/constants/default-consts-config"
 
-import { getFitViewport } from "./lib"
+import { getFitViewport,getAreaGrpFilters } from "./lib"
 
 import './style.less'
 
@@ -60,11 +60,18 @@ function AlarmAreaPage() {
         {
             title: '分组',
             dataIndex: 'groupName',
+            onFilter: (value, record) => record.groupName === value,
+            filters: getAreaGrpFilters(areaList)
         },
         {
             title: '启用报警',
             dataIndex: 'isActive',
-            render: (isActive, record) => <Switch checked={isActive} onChange={checked => onIsActiveChange(checked, record)} />
+            render: (isActive, record) => <Switch checked={isActive} onChange={checked => onIsActiveChange(checked, record)} />,
+            onFilter: (value, record) => record.isActive === value,
+            filters: [
+                { text: '启用', value: 1 },
+                { text: '不启用', value: 0 },
+            ]
         },
         {
             title: '操作',
