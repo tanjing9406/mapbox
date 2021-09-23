@@ -15,10 +15,6 @@ function AlarmAreaList() {
     const { deckRef } = useSelector(state => state.basemap)
     const [selectedRowKeys, setSelectedRowKeys] = useState([])
 
-    useEffect(() => {
-        return () => dispatch(setEditAreaId(null))
-    }, [])
-
     const onSelectChange = (selectedRowKeys) => {
         console.log('selectedRowKeys changed: ', selectedRowKeys)
         setSelectedRowKeys(selectedRowKeys)

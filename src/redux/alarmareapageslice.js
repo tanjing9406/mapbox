@@ -20,6 +20,7 @@ const alarmAreaPageSlice = createSlice({
             state.visiblePanel = action.payload
         },
         reset: (state, action) => {
+            state.editAreaId = initialState.editAreaId
             state.visiblePanel = initialState.visiblePanel
         },
     }
