@@ -1,21 +1,18 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { GeoJsonLayer, TextLayer } from '@deck.gl/layers'
-import { EditableGeoJsonLayer, ViewMode, ModifyMode } from "nebula.gl"
 import centroid from '@turf/centroid'
 
-import { setMapEditMode } from '@/redux/basemapslice'
 import { setAreaList } from '@/redux/alarmareapageslice'
 
-import { fetchAlarmArea, mapAlarmAreaToGeoJSON } from './lib'
-import { findIndex } from 'lodash'
+import { fetchAlarmArea } from './lib'
+import { mapAlarmAreaToGeoJSON } from '@/lib/tools'
 
 function AlarmAreaLayer() {
     const dispatch = useDispatch()
     const { viewState, mapEditMode } = useSelector(state => state.basemap)
-    const { editAreaId } = useSelector(state => state.alarmAreaPage)
+    const { editAreaId, areaList } = useSelector(state => state.alarmAreaPage)
     const [alarmAreaGeoJson, setAlarmAreaGeoJson] = useState(null)
-    const [selectedFeatureIndexes, setSelectedFeatureIndexes] = useState([])
     const isShowText = alarmAreaGeoJson && alarmAreaGeoJson.features.length > 0 && viewState.zoom >= 7
     useEffect(() => {
         const init = async () => {
@@ -28,27 +25,21 @@ function AlarmAreaLayer() {
 
     useEffect(() => {
         if (editAreaId) {
-            const index = findIndex(alarmAreaGeoJson.features, o => o.properties.areaId === editAreaId)
-            setSelectedFeatureIndexes([index])
-            dispatch(setMapEditMode(ModifyMode))
+            const filterAreaList = areaList.filter(o => o.areaId !== editAreaId)
+            setAlarmAreaGeoJson(mapAlarmAreaToGeoJSON(filterAreaList))
             return
         }
-        setSelectedFeatureIndexes([])
-        dispatch(setMapEditMode(ViewMode))
+        setAlarmAreaGeoJson(mapAlarmAreaToGeoJSON(areaList))
     }, [editAreaId])
 
     return (
         <>
-            <EditableGeoJsonLayer
+            <GeoJsonLayer
                 id="alarm-area-layer"
                 data={alarmAreaGeoJson}
-                mode={mapEditMode}
-                onEdit={({ updatedData, editType, editContext }) => {
-                    setAlarmAreaGeoJson(updatedData);
-                }}
+                lineWidthUnits="pixels"
                 lineWidthMinPixels={1}
-                selectedFeatureIndexes={selectedFeatureIndexes}
-                getLineWidth={d => 1}
+                getLineWidth={d => d.properties.areaOutsideStyle === '粗线' ? 3: 1}
                 getLineColor={d => d.properties.lineColor}
                 getFillColor={d => d.properties.fillColor}
                 parameters={{

@@ -2,6 +2,7 @@ import AISSiteLayer from "./aissitelayer"
 import AlarmAreaLayer from "./alarmarealayer"
 import AreaSwitch from "./areaswitch"
 import CornerInfoPanel from "./cornerinfopanel"
+import EditableLayer from "./editablelayer"
 import LayersControl from "./layerscontrol"
 import MapTooltip from "./maptooltip"
 import PhotoEleSiteLayer from "./photoelesitelayer"
@@ -14,6 +15,7 @@ export {
     AlarmAreaLayer,
     AreaSwitch,
     CornerInfoPanel,
+    EditableLayer,
     LayersControl,
     MapTooltip,
     PhotoEleSiteLayer,
