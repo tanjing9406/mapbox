@@ -1,5 +1,6 @@
 import {
-    getLonAndLats
+    getLonAndLats,
+    mapAlarmAreaToGeoJSON,
 } from './maptools'
 import {
     hasEntitlement
@@ -7,5 +8,7 @@ import {
 
 export {
     getLonAndLats,
+    mapAlarmAreaToGeoJSON,
+    
     hasEntitlement
 }

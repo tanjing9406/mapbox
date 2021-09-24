@@ -1,3 +1,36 @@
+import { WKTLoader } from '@loaders.gl/wkt'
+import { parseSync } from '@loaders.gl/core'
+
+function getColorToRgba(hex, opacity) {
+    const rgba = hex.match(/[0-9a-fA-F]{2}/g).map(x => parseInt(x, 16))
+    rgba[3] = opacity / 100 * 255
+    return rgba
+}
+export function mapAlarmAreaToGeoJSON(beModel = []) {
+    let characterSet = ''
+    const features = beModel.map((area) => {
+        const { lineCoords, polygonCoords, areaShape, areaOutsideColor, areaOutsideOpacity, areaInsideColor, areaInsideOpacity, ...rest } = area
+        const wktText = areaShape === 'POLYGON' ? polygonCoords : lineCoords
+        const lineColor = getColorToRgba(areaOutsideColor.slice(1), areaOutsideOpacity)
+        const fillColor = getColorToRgba(areaInsideColor.slice(1), areaInsideOpacity)
+        characterSet += area.areaName
+        return {
+            type: 'Feature',
+            geometry: parseSync(wktText, WKTLoader),
+            properties: {
+                ...rest,
+                lineColor,
+                fillColor
+            }
+        }
+    })
+    return {
+        type: 'FeatureCollection',
+        features: features.reverse(),
+        characterSet: new Set(characterSet)
+    }
+}
+
 //根据 一个经纬度角度距离  计算另一个 点的经纬度 纬度 经度 角度 距离
 export const getLonAndLats = function (lng, lat, course, dist) { // TODO: 函数有待优划
     //大地坐标系资料WGS-84 长半径a=6378137 短半径b=6356752.3142 扁率f=1/298.2572236
@@ -64,3 +97,4 @@ export const getLonAndLats = function (lng, lat, course, dist) { // TODO: 函数
     const endPoint = [lon1 + deg(L), deg(lat2)]
     return endPoint
 }
+
