@@ -1,4 +1,4 @@
-import { getLonAndLats } from '@/lib/maptools'
+import { getLonAndLats } from '@/lib/tools'
 
 export function fetchPhotoEleSite(params) {
     return fetch('/self/cctv/camera/list', {
