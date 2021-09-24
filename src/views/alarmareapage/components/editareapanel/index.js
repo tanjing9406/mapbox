@@ -14,6 +14,7 @@ function EditAreaPanel() {
     const [form] = Form.useForm()
 
     const submitForm = () => {
+        console.log(form.getFieldsValue())
         // form.submitForm()
     }
 
@@ -78,10 +79,10 @@ function EditAreaPanel() {
                             }}
                             ghost
                         >
-                            {/* <Panel
+                            <Panel
                                 header={
                                     <div className="flex flex--center-cross flex--space-between-main">
-                                        <span>坐标编辑</span>
+                                        <span>编辑坐标</span>
                                         <div onClick={stopPropagationClick}>
                                             <Button type="link">下载模版</Button>
                                             <Button type="link" size="small">导入坐标</Button>
@@ -91,7 +92,7 @@ function EditAreaPanel() {
                                 key="2"
                             >
                                 敬请期待
-                            </Panel> */}
+                            </Panel>
                             <Panel
                                 header="颜色样式"
                                 key="1"
