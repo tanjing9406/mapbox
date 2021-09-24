@@ -69,7 +69,7 @@ const Map = () => {
     const onMapLoad = useCallback(() => {
         const map = mapRef.current.getMap();
         const deck = deckRef.current.deck;
-        dispatch(setDeckRef(deckRef))
+        dispatch(setDeckRef({ ...deckRef }))
         // You must initialize an empty deck.gl layer to prevent flashing
         map.addLayer(
             // This id has to match the id of the deck.gl layer
