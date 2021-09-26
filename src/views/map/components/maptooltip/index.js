@@ -12,7 +12,7 @@ function MapTooltip() {
         return null
     }
 
-    if (object && ['target-layer', 'icon-cluster-layer'].includes(get(layer, 'id'))) {
+    if (object && ['target-layer', 'icon-cluster-layer', 'target-track-points'].includes(get(layer, 'id'))) {
         return <TargetTooltip hoverInfo={hoverInfo} />
     }
 

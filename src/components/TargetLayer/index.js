@@ -1,12 +1,13 @@
 import React, { useRef, useEffect, useState, useLayoutEffect, useCallback } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { IconLayer, PathLayer, LineLayer } from 'deck.gl'
+import { IconLayer, PathLayer, LineLayer, ScatterplotLayer } from 'deck.gl'
 import { setTotalTargetNumber } from "@/redux/basemapslice"
 import { setMapTooltip } from "@/redux/maptooltipslice"
 import { getLonAndLats } from '@/lib/tools'
 import { ICOM_MAPPING_CONFIG } from './consts'
 import { fetchTargetTrack, addOrDelete, sendWsMessage } from './lib'
 import IconClusterLayer from '../IconClusterLayer/icon-cluster-layer'
+import { flatMap } from 'lodash'
 
 const TargetLayer = (props) => {
     const dispatch = useDispatch()
@@ -84,6 +85,25 @@ const TargetLayer = (props) => {
                 widthMinPixels={1}
                 getColor={[209, 49, 51]}
                 getPath={d => d?.points.map(point => [point.longitude, point.latitude])}
+            />
+            <ScatterplotLayer // 轨迹点
+                id='target-track-points'
+                data={flatMap(targetTrackData, track => track.points)}
+                // radiusUnits="pixels"
+                radiusMaxPixels={3}
+                // stroked={true}
+                lineWidthMinPixels={1}
+                getPosition={d => [d.longitude, d.latitude]}
+                getRadius={d => 50}
+                getFillColor={d => [176, 40, 115, 255]}
+                // getLineColor={d => [0, 45, 255]}
+                pickable={true}
+                onHover={info => {
+                    dispatch(setMapTooltip(info))
+                }}
+                parameters={{
+                    blend: true
+                }}
             />
             <LineLayer // 实时目标与轨迹图层
                 id="target-track-head-tail"
