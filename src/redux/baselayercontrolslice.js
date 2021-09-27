@@ -1,4 +1,4 @@
-import getMapStyle from "@/lib/mapstyle"
+import { getMapStyle } from "@/lib/tools"
 import { createSlice } from '@reduxjs/toolkit'
 import { BASE_LAYER_ID, BASE_THEME_ID, BASE_MODE_ID } from "@/config/constants/default-consts-config"
 

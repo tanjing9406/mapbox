@@ -1,3 +1,4 @@
+import { getMapStyle } from './mapstyle'
 import {
     getLonAndLats,
     mapAlarmAreaToGeoJSON,
@@ -7,8 +8,12 @@ import {
 } from './users'
 
 export {
+    getMapStyle,
+
+    // ---- map tools start ----
     getLonAndLats,
     mapAlarmAreaToGeoJSON,
     
+    // ---- users ----
     hasEntitlement
 }
