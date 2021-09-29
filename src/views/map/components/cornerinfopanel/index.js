@@ -1,9 +1,7 @@
 import React, { useContext, useState } from "react"
 import { useDispatch, useSelector } from 'react-redux'
 import { Switch } from 'antd'
-import { setMapViewState } from "@/redux/basemapslice"
 import { setShowTarget, setShowTrack } from "@/redux/cornerinfopanelslice"
-import { TRACK_VIEW_STATE } from "@/config/constants/default-consts-config"
 import HNHYMapContext from "@/views/map/hnhymapcontext"
 
 import './style.less'
@@ -22,11 +20,6 @@ function CornerInfoPanel(props) {
 
     const onToggleTrack = (checked) => {
         dispatch(setShowTrack(checked))
-        if (checked) {
-            dispatch(setMapViewState({
-                ...TRACK_VIEW_STATE
-            }))
-        }
     }
 
     useDebounce(() => {
