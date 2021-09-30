@@ -10,7 +10,7 @@ import { setMapViewState, setDeckRef } from "@/redux/basemapslice"
 import { mapStyleSelector } from "@/redux/baselayercontrolslice"
 import { setDmsArr } from "@/redux/cornerinfopanelslice"
 import { Switch } from 'antd'
-import { CornerInfoPanel, RightSider, MapTooltip, PhotoEleSiteLayer, AISSiteLayer, RadarSiteLayer, AlarmAreaLayer, EditableLayer } from './components';
+import { CornerInfoPanel, RightSider, MapTooltip, PhotoEleSiteLayer, AISSiteLayer, RadarSiteLayer, AlarmAreaLayer, EditableLayer, RealtimeTrackLayer } from './components';
 import { getDmsArray } from './tools';
 import HNHYMapContext from './hnhymapcontext'
 
@@ -72,6 +72,7 @@ const Map = () => {
                     {AlarmAreaLayer()}
                     {EditableLayer()}
                     {TargetLayer({ showCluster, showTarget })}
+                    {RealtimeTrackLayer()}
                     {RadarSiteLayer()}
                     {PhotoEleSiteLayer()}
                     {AISSiteLayer()}

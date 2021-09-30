@@ -7,6 +7,7 @@ import LayersControl from "./layerscontrol"
 import MapTooltip from "./maptooltip"
 import PhotoEleSiteLayer from "./photoelesitelayer"
 import RadarSiteLayer from "./radarsitelayer"
+import RealtimeTrackLayer from './realtimetracklayer'
 import RightSider from './rightsider'
 import ToolBox from "./toolbox"
 
@@ -20,6 +21,7 @@ export {
     MapTooltip,
     PhotoEleSiteLayer,
     RadarSiteLayer,
+    RealtimeTrackLayer,
     RightSider,
     ToolBox
 }
