@@ -8,3 +8,13 @@ export function formatBoundsToPointList(bounds) {
         { lat: minY, lon: minX },
     ]
 }
+
+export function sendWsMessage(ws, params) {
+    const { targetIdList } = params
+    const shipsRule = {
+        targetIdList
+    }
+    console.log(targetIdList)
+    let data = JSON.stringify(shipsRule)
+    ws.send(data)
+}
