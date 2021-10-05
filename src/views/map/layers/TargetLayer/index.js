@@ -4,9 +4,10 @@ import { IconLayer, PathLayer, LineLayer, ScatterplotLayer } from 'deck.gl'
 import { setTotalTargetNumber } from "@/redux/basemapslice"
 import { setMapTooltip } from "@/redux/maptooltipslice"
 import { getLonAndLats } from '@/lib/tools'
-import { ICOM_MAPPING_CONFIG } from './consts'
+import { ICON_MAPPING_CONFIG } from "@/config/constants/icon-mapping-config"
+
 import { fetchTargetTrack, addOrDelete, sendWsMessage } from './lib'
-import IconClusterLayer from '../IconClusterLayer/icon-cluster-layer'
+import IconClusterLayer from './icon-cluster-layer'
 import { flatMap } from 'lodash'
 
 const TargetLayer = (props) => {
@@ -69,12 +70,12 @@ const TargetLayer = (props) => {
                 id="target-selected-layer"
                 data={message.filter(obj => targetsOfClicked.has(obj.targetId))}
                 getIcon={d => {
-                    return ICOM_MAPPING_CONFIG['target_selected']
+                    return ICON_MAPPING_CONFIG['target_selected']
                 }}
                 sizeScale={0.25}
                 getPosition={d => [d.longitude, d.latitude]}
                 getSize={d => {
-                    const { width, height } = ICOM_MAPPING_CONFIG['target_selected']
+                    const { width, height } = ICON_MAPPING_CONFIG['target_selected']
                     return Math.max(width, height)
                 }}
                 getAngle={d => -d.heading}
@@ -141,12 +142,12 @@ const TargetLayer = (props) => {
                     pickable={true}
                     autoHighlight={true}
                     getIcon={d => {
-                        return ICOM_MAPPING_CONFIG[d.type] || ICOM_MAPPING_CONFIG['RADAR']
+                        return ICON_MAPPING_CONFIG[d.type] || ICON_MAPPING_CONFIG['RADAR']
                     }}
                     sizeScale={0.25}
                     getPosition={d => [d.longitude, d.latitude]}
                     getSize={d => {
-                        const { width, height } = ICOM_MAPPING_CONFIG[d.type] || ICOM_MAPPING_CONFIG['RADAR']
+                        const { width, height } = ICON_MAPPING_CONFIG[d.type] || ICON_MAPPING_CONFIG['RADAR']
                         return Math.max(width, height)
                     }}
                     getAngle={d => -d.heading}

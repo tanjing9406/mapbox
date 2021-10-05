@@ -1,7 +1,7 @@
 import { CompositeLayer } from '@deck.gl/core'
 import { IconLayer, LineLayer } from '@deck.gl/layers'
 import Supercluster from 'supercluster'
-import { ICOM_MAPPING_CONFIG as targetIconMapping } from '../TargetLayer/consts'
+import { ICON_MAPPING_CONFIG as targetIconMapping } from "@/config/constants/icon-mapping-config"
 import { getLonAndLats } from '@/lib/tools'
 
 const toTargetIconMapping = {}
@@ -15,7 +15,7 @@ for (let i = 0; i <= 19; i++) {
     anchorY: 128
   }
 }
-const ICOM_MAPPING_CONFIG = Object.assign({}, targetIconMapping, toTargetIconMapping)
+const ICON_MAPPING_CONFIG = Object.assign({}, targetIconMapping, toTargetIconMapping)
 
 function getIconName(size, type) {
   let name
@@ -28,12 +28,12 @@ function getIconName(size, type) {
   } else {
     name = 'marker-18'
   }
-  return ICOM_MAPPING_CONFIG[name] || ICOM_MAPPING_CONFIG['RADAR']
+  return ICON_MAPPING_CONFIG[name] || ICON_MAPPING_CONFIG['RADAR']
 }
 
 function getIconSize(size, type) {
   if (size == 1) {
-    const { width, height } = ICOM_MAPPING_CONFIG[type] || ICOM_MAPPING_CONFIG['RADAR']
+    const { width, height } = ICON_MAPPING_CONFIG[type] || ICON_MAPPING_CONFIG['RADAR']
     return Math.max(width, height) / 160
   }
   return Math.min(100, size) / 100 + 1;
