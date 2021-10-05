@@ -4,13 +4,21 @@ import { DeckGL, IconLayer } from 'deck.gl'
 import { MapboxLayer } from '@deck.gl/mapbox'
 import { StaticMap } from 'react-map-gl'
 
-import { TargetLayer } from 'Components'
 import { WithMapVisibleCheckHoc } from 'Components/withVisibleCheckHoc'
 import { setMapViewState, setDeckRef } from "@/redux/basemapslice"
 import { mapStyleSelector } from "@/redux/baselayercontrolslice"
 import { setDmsArr } from "@/redux/cornerinfopanelslice"
 import { Switch } from 'antd'
-import { CornerInfoPanel, RightSider, MapTooltip, PhotoEleSiteLayer, AISSiteLayer, RadarSiteLayer, AlarmAreaLayer, EditableLayer, RealtimeTrackLayer } from './components';
+import { CornerInfoPanel, RightSider, MapTooltip } from './components';
+import {
+    AISSiteLayer,
+    AlarmAreaLayer,
+    EditableLayer,
+    PhotoEleSiteLayer,
+    RadarSiteLayer,
+    RealtimeTrackLayer,
+    TargetLayer
+} from './layers';
 import { getDmsArray } from './tools';
 import HNHYMapContext from './hnhymapcontext'
 
