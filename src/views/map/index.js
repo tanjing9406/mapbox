@@ -5,6 +5,7 @@ import { MapboxLayer } from '@deck.gl/mapbox'
 import { StaticMap } from 'react-map-gl'
 
 import { WithMapVisibleCheckHoc } from 'Components/withVisibleCheckHoc'
+import { HandPose } from 'Components'
 import { setMapViewState, setDeckRef } from "@/redux/basemapslice"
 import { mapStyleSelector } from "@/redux/baselayercontrolslice"
 import { setDmsArr } from "@/redux/cornerinfopanelslice"
@@ -89,6 +90,7 @@ const Map = () => {
                 <CornerInfoPanel showCluster={showCluster} />
                 <Switch className="mr60 mt24 absolute right" checkedChildren="聚类" unCheckedChildren="分散" checked={showCluster} onChange={setShowCluster} />
                 <RightSider />
+                <HandPose onDetectedThumbsUp={() => setShowCluster(true)} onDetectedVictory={() => setShowCluster(false)} />
             </div>
         </HNHYMapContext.Provider>
     );
