@@ -90,7 +90,7 @@ const Map = () => {
                 <CornerInfoPanel showCluster={showCluster} />
                 <Switch className="mr60 mt24 absolute right" checkedChildren="聚类" unCheckedChildren="分散" checked={showCluster} onChange={setShowCluster} />
                 <RightSider />
-                <HandPose onDetectedThumbsUp={() => setShowCluster(true)} onDetectedVictory={() => setShowCluster(false)} />
+                {/* <HandPose onDetectedThumbsUp={() => setShowCluster(true)} onDetectedVictory={() => setShowCluster(false)} /> */}
             </div>
         </HNHYMapContext.Provider>
     );
