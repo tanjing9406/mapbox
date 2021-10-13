@@ -14,7 +14,7 @@ function TargetSearch() {
     const onTabChange = () => { }
 
     return (
-        <div className="targetSearchPage absolute ml240 mt120 bg-white">
+        <div className="targetSearchPage absolute ml12 mt60 bg-white">
             <div className="txt-h5 h36 pl12 flex flex--center-cross">OCEAN GLOBE</div>
             <Tabs className="target-info-tabs" onChange={onTabChange} type="card" defaultActiveKey="2">
                 <TabPane tab="目标信息" key="1">
