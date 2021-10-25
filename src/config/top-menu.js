@@ -1,4 +1,5 @@
 import React from 'react'
+import BaseProduction from "@/views/iframes/BaseProduction"
 import Trips from "@/views/examples/trip"
 
 function Comming() {
@@ -54,6 +55,14 @@ export const TOP_MENU = [
         hasMap: false,
         component: DataDashboard,
         url: '/datadashboard'
+    }, {
+        id: 'baseproduction',
+        title: '基线',
+        hasTopHeader: false,
+        hasSider: false,
+        hasMap: false,
+        component: BaseProduction,
+        url: '/baseproduction'
     }, {
         id: 'example',
         title: '案例展示',
