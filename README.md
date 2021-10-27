@@ -5,6 +5,15 @@ prepared envirenment: node npm
 
 git clone repo_url
 
+```
 cd mapbox
 npm i
 npm start
+```
+
+### json-server mock data
+
+```
+全局安装 json-server：npm install -g json-server
+启动 json-server：cd service/json-server && json-server db.json --routes routes.json
+```
