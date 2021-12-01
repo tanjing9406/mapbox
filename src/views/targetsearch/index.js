@@ -21,10 +21,10 @@ function TargetSearch() {
                     目标信息
                 </TabPane>
                 <TabPane tab="AIS信息" key="2">
-                    <div className="bg-darken5 align-center pt12 pb18 h180">
+                    <div className="bg-darken5 flex flex--space-around pt12 pb18 px12 h180">
                         <img src={ShipImage} alt="船的图片" />
                     </div>
-                    <div className="grid grid--gut12 my12 mx6">
+                    <div className="grid grid--gut18 my12 mx-auto px12 txt-s">
                         <InfoItem lableText="MMSI" value="247301500247301500247301500" />
                         <InfoItem lableText="船舶类型" value="渔船" />
                         <InfoItem lableText="国籍" value="China" />
