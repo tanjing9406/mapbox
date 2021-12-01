@@ -13,7 +13,7 @@ function EditableLayer() {
     const { editAreaId, areaList } = useSelector(state => state.alarmAreaPage)
     const [editGeoJsonData, setEditGeoJsonData] = useState(null)
     const [selectedFeatureIndexes, setSelectedFeatureIndexes] = useState([])
-    const isShowText = editGeoJsonData && editGeoJsonData.features.length > 0 && viewState.zoom >= 7
+    // const isShowText = editGeoJsonData && editGeoJsonData.features.length > 0 && viewState.zoom >= 7
 
     useEffect(() => {
         if (editAreaId) {
