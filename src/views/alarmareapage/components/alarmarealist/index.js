@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from "react"
 import { useDispatch, useSelector } from 'react-redux'
-import Draggable from 'react-draggable'
 import { Table, Button, Switch } from 'antd'
 
-import { setEditAreaId, setVisiblePanel } from "@/redux/alarmareapageslice"
+import { DraggablePanel } from "Components"
+
+import { setEditAreaId } from "@/redux/alarmareapageslice"
+import { setVisiblePopups } from "@/redux/popupscontrollerslice"
 import { setMapViewState } from "@/redux/basemapslice"
 import { MAP_CHANGE_TRANSITION } from "@/config/constants/default-consts-config"
 
 import { getFitViewport, getAreaGrpFilters } from "../../lib"
 
-function AlarmAreaList() {
+function AlarmAreaList(props) {
     const dispatch = useDispatch()
     const { areaList, editAreaId } = useSelector(state => state.alarmAreaPage)
     const { deckRef } = useSelector(state => state.basemap)
@@ -38,9 +40,9 @@ function AlarmAreaList() {
             return
         }
         dispatch(setEditAreaId(record.areaId))
-        dispatch(setVisiblePanel(new Set(['editArea'])))
+        dispatch(setVisiblePopups(new Set(['editArea'])))
     }
-
+    
     const columns = [
         {
             title: '序号',
@@ -76,13 +78,9 @@ function AlarmAreaList() {
     ]
 
     return (
-        <Draggable
-            defaultPosition={{ x: 10, y: 250 }}
-        >
-            <div className="alarmAreaPage absolute bg-white w600">
-                <div className="h36 flex flex--center-cross txt-h5 ml12">报警区域</div>
-                <div className="content py12 px18">
-                    {/* <div style={{ marginBottom: 16 }}>
+        <DraggablePanel id={props.popupId} title="报警区域">
+            <div className="content py12 px18 w600">
+                {/* <div style={{ marginBottom: 16 }}>
                         <Button type="primary" onClick={this.start} disabled={!hasSelected} loading={loading}>
                             Reload
                         </Button>
@@ -90,19 +88,21 @@ function AlarmAreaList() {
                             {hasSelected ? `Selected ${selectedRowKeys.length} items` : ''}
                         </span>
                     </div> */}
-                    <Table
-                        size="small"
-                        rowKey="areaId"
-                        rowSelection={{
-                            selectedRowKeys,
-                            onChange: onSelectChange,
-                        }}
-                        columns={columns}
-                        dataSource={areaList}
-                    />
-                </div>
+                <Table
+                    size="small"
+                    rowKey="areaId"
+                    rowSelection={{
+                        selectedRowKeys,
+                        onChange: onSelectChange,
+                    }}
+                    columns={columns}
+                    dataSource={areaList}
+                    pagination={{
+                        position: ['bottomCenter']
+                    }}
+                />
             </div>
-        </Draggable>
+        </DraggablePanel>
     )
 }
 

@@ -5,20 +5,22 @@ import { AlarmAreaList, EditAreaPanel, EditCoordinatePanel } from "./components"
 import { reset } from "@/redux/alarmareapageslice"
 
 import './style.less'
+import { setVisiblePopups } from "@/redux/popupscontrollerslice"
 
 function AlarmAreaPage() {
     const dispatch = useDispatch()
-    const { visiblePanel } = useSelector(state => state.alarmAreaPage)
+    const { visiblePopups } = useSelector(state => state.popupsController)
 
     useEffect(() => {
+        dispatch(setVisiblePopups(new Set(['alarmAreaList'])))
         return () => dispatch(reset())
     }, [])
 
     return (
         <>
-            {visiblePanel.has('alarmAreaList') && <AlarmAreaList />}
-            {visiblePanel.has('editArea') && <EditAreaPanel />}
-            {visiblePanel.has('editCoordinate') && <EditCoordinatePanel />}
+            {visiblePopups.has('alarmAreaList') && <AlarmAreaList popupId="alarmAreaList" />}
+            {visiblePopups.has('editArea') && <EditAreaPanel popupId="editArea" />}
+            {visiblePopups.has('editCoordinate') && <EditCoordinatePanel />}
         </>
     )
 }

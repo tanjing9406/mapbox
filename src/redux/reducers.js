@@ -6,6 +6,7 @@ import baseLayerControlSlice from "./baselayercontrolslice"
 import bussinessLayerControlSlice from "./bussinesslayercontrolslice"
 import cornerInfoPanelSlice from "./cornerinfopanelslice"
 import mapTooltipSlice from "./maptooltipslice"
+import popupsControllerSlice from "./popupscontrollerslice"
 
 const rootReducer = combineReducers({
     alarmAreaPage: alarmAreaPageSlice,
@@ -14,7 +15,8 @@ const rootReducer = combineReducers({
     baseLayerControl: baseLayerControlSlice,
     bussinessLayerControl: bussinessLayerControlSlice,
     cornerInfoPanel: cornerInfoPanelSlice,
-    mapTooltip: mapTooltipSlice
+    mapTooltip: mapTooltipSlice,
+    popupsController: popupsControllerSlice
 })
 
 export default rootReducer
