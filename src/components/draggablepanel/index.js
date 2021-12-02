@@ -21,7 +21,7 @@ function DraggablePanel(props) {
         <Draggable
             defaultPosition={{ x: 10, y: 250 }}
         >
-            <div className="alarmAreaPage absolute bg-white">
+            <div className="absolute bg-white">
                 <div className="h40 flex flex--center-cross flex--space-between-main txt-h5 ml12">
                     <label>{props.title}</label>
                     <Button size="large" type="primary" icon={<CloseOutlined />} onClick={onClose}></Button>

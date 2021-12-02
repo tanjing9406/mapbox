@@ -1,12 +1,13 @@
 import React from 'react'
 import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom'
-import Map from '@/views/map'
 import { Provider } from 'react-redux'
 import store from './redux/store'
 import { Layout } from 'antd'
 import 'antd/dist/antd.css'
 import { HNHYLayout, PrivateRoute } from 'Components'
 import LoginPage from '@/views/loginpage'
+import Map from '@/views/map'
+import PopupsPage from '@/views/popupspage'
 import MenuConfig from '@/config'
 import { hasEntitlement } from '@/lib/tools'
 
@@ -45,6 +46,7 @@ function App() {
                 <LeftSider />
                 <Content className="pr">
                   <Map />
+                  <PopupsPage />
                   <Switch>
                     <Route path='/' exact>
                       <Redirect to='/targetsearch' />

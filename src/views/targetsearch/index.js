@@ -1,41 +1,49 @@
-import React from "react"
-import { Tabs } from 'antd'
+import React, { useState } from "react"
+import { useDispatch } from 'react-redux'
+import { AutoComplete, Input } from 'antd'
+import { SearchOutlined } from '@ant-design/icons'
 
-import ShipImage from "@/assets/ship/1.svg"
-
-import { InfoItem } from "./components"
+import { setTargetId } from "@/redux/targetinfopanelslice"
+import { targetService } from "@/lib/services"
+import { renderItem } from "./tools"
 
 import "./style.less"
 
-const { TabPane } = Tabs
-
 function TargetSearch() {
+    const dispatch = useDispatch()
+    const [selectedOption, setSelectedOption] = useState({})
+    const [options, setOptions] = useState([])
 
-    const onTabChange = () => { }
+    const onSearchTarget = async (value) => {
+        const data = await targetService.searchTarget(value)
+        const options = data.map(d => ({
+            value: d.targetId,
+            label: renderItem(d),
+            data: d
+        }))
+        setOptions(options)
+    }
+
+    const onSelect = (value, option) => {
+        setSelectedOption(option.data)
+        dispatch(setTargetId(value))
+    }
 
     return (
-        <div className="targetSearchPage absolute ml12 mt60 bg-white">
-            <div className="txt-h5 h36 pl12 flex flex--center-cross">OCEAN GLOBE</div>
-            <Tabs className="target-info-tabs" onChange={onTabChange} type="card" defaultActiveKey="2">
-                <TabPane tab="目标信息" key="1">
-                    目标信息
-                </TabPane>
-                <TabPane tab="AIS信息" key="2">
-                    <div className="bg-darken5 flex flex--space-around pt12 pb18 px12 h180">
-                        <img src={ShipImage} alt="船的图片" />
-                    </div>
-                    <div className="grid grid--gut18 my12 mx-auto px12 txt-s">
-                        <InfoItem lableText="MMSI" value="247301500247301500247301500" />
-                        <InfoItem lableText="船舶类型" value="渔船" />
-                        <InfoItem lableText="国籍" value="China" />
-                        <InfoItem lableText="IMO" value="78904560" />
-                    </div>
-                </TabPane>
-                <TabPane tab="光电信息" key="3">
-                    Content of Tab Pane 3
-                </TabPane>
-            </Tabs>
-        </div>
+        <>
+            <AutoComplete
+                className="w360 round-full absolute ml18 mt12"
+                value={selectedOption.shipName}
+                onSearch={onSearchTarget}
+                onSelect={onSelect}
+                options={options}
+            >
+                <Input
+                    placeholder="船名、MMSI"
+                    prefix={<SearchOutlined className="color-blue" />}
+                />
+            </AutoComplete>
+        </>
     )
 }
 
