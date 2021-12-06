@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { useDispatch } from 'react-redux'
 import { AutoComplete, Input } from 'antd'
 import { SearchOutlined } from '@ant-design/icons'
@@ -14,7 +14,12 @@ function TargetSearch() {
     const [selectedOption, setSelectedOption] = useState({})
     const [options, setOptions] = useState([])
 
+    useEffect(() => {
+        return () => dispatch(setTargetId(undefined))
+    }, [])
+
     const onSearchTarget = async (value) => {
+        setSelectedOption({ shipName: value })
         const data = await targetService.searchTarget(value)
         const options = data.map(d => ({
             value: d.targetId,
