@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { IconLayer, PathLayer, LineLayer, ScatterplotLayer } from 'deck.gl'
 import { setTotalTargetNumber } from "@/redux/basemapslice"
 import { setMapTooltip } from "@/redux/maptooltipslice"
+import { setTargetId } from "@/redux/targetinfopanelslice"
+import { setRealtimeTargetList } from "@/redux/targetlayerslice"
 import { getLonAndLats } from '@/lib/tools'
 import { ICON_MAPPING_CONFIG } from "@/config/constants/icon-mapping-config"
 
@@ -13,17 +15,17 @@ import { flatMap } from 'lodash'
 const TargetLayer = (props) => {
     const dispatch = useDispatch()
     const checkedAreas = useSelector(state => state.areaSwitch.checkedAreas)
+    const realtimeTargetList = useSelector(state => state.targetLayer.realtimeTargetList)
 
     const ws = useRef(null)
-    const [message, setMessage] = useState([])
     const [targetsOfClicked, setTargetsOfClicked] = useState(new Set())
     const [targetTrackData, setTargetTrackData] = useState([])
 
     const startWebsocket = () => {
         ws.current = new WebSocket(`ws://${process.env.BASE_IP}/api/target/ws/region/${process.env.HLX_ACCESS_TOKEN}`)
         ws.current.onopen = () => {
-            if (message.length > 0) {
-                dispatch(setTotalTargetNumber(message.length))
+            if (realtimeTargetList.length > 0) {
+                dispatch(setTotalTargetNumber(realtimeTargetList.length))
             }
             console.log('连接成功')
             if (ws.current && ws.current.readyState == WebSocket.OPEN) {
@@ -32,7 +34,7 @@ const TargetLayer = (props) => {
         };
         ws.current.onmessage = (option) => {
             const data = JSON.parse(option.data)
-            setMessage(data.targetList || [])
+            dispatch(setRealtimeTargetList(data.targetList || []))
             dispatch(setTotalTargetNumber(data.targetNum || 0))
         };
         ws.current.onclose = () => {
@@ -68,7 +70,7 @@ const TargetLayer = (props) => {
         !props.showTarget ? null : <>
             <IconLayer // 选中目标图标图层
                 id="target-selected-layer"
-                data={message.filter(obj => targetsOfClicked.has(obj.targetId))}
+                data={realtimeTargetList.filter(obj => targetsOfClicked.has(obj.targetId))}
                 getIcon={d => {
                     return ICON_MAPPING_CONFIG['target_selected']
                 }}
@@ -108,11 +110,11 @@ const TargetLayer = (props) => {
             />
             <LineLayer // 实时目标与轨迹图层
                 id="target-track-head-tail"
-                data={targetTrackData.filter(t => t.points.length > 0 && message.find(m => m.targetId === t.targetId))}
+                data={targetTrackData.filter(t => t.points.length > 0 && realtimeTargetList.find(m => m.targetId === t.targetId))}
                 pickable={false}
                 getWidth={2}
                 getSourcePosition={d => {
-                    const real = message.find(m => m.targetId === d.targetId)
+                    const real = realtimeTargetList.find(m => m.targetId === d.targetId)
                     return [real.longitude, real.latitude]
                 }}
                 getTargetPosition={d => {
@@ -125,7 +127,7 @@ const TargetLayer = (props) => {
             {!props.showCluster ? <>
                 <LineLayer
                     id="target-layer-course"
-                    data={message}
+                    data={realtimeTargetList}
                     pickable={false}
                     getWidth={2}
                     getSourcePosition={d => [d.longitude, d.latitude]}
@@ -138,7 +140,7 @@ const TargetLayer = (props) => {
                 />
                 <IconLayer
                     id="target-layer"
-                    data={message}
+                    data={realtimeTargetList}
                     pickable={true}
                     autoHighlight={true}
                     getIcon={d => {
@@ -154,6 +156,7 @@ const TargetLayer = (props) => {
                     getColor={d => [0, 255, 0, 255 * (d.state === 1 ? 1 : 0.75)]}
                     onClick={async (info, event) => {
                         // console.log('Clicked:', info, event)
+                        dispatch(setTargetId(info.object.targetId))
                         setTargetsOfClicked(new Set(addOrDelete(targetsOfClicked, info.object.targetId)))
                         const data = await fetchTargetTrack({
                             zoom: 13,
@@ -168,7 +171,7 @@ const TargetLayer = (props) => {
                 />
             </> : <IconClusterLayer
                 id="icon-cluster-layer"
-                data={message}
+                data={realtimeTargetList}
                 pickable={true}
                 autoHighlight={true}
                 sizeScale={40}

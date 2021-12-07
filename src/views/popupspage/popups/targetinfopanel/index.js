@@ -1,6 +1,7 @@
 import React, { useEffect } from "react"
 import { useDispatch, useSelector } from 'react-redux'
 import { Tabs } from 'antd'
+import formatcoords from 'formatcoords'
 
 import ShipImage from "@/assets/ship/1.svg"
 import { InfoItem } from "./components"
@@ -10,6 +11,9 @@ const { TabPane } = Tabs
 function TargetInfoPanel() {
     const dispatch = useDispatch()
     const { targetId } = useSelector(state => state.targetInfoPanel)
+    const realtimeTargetList = useSelector(state => state.targetLayer.realtimeTargetList)
+    const realtimeTargetInfo = realtimeTargetList.find(target => target.targetId === targetId)
+    const [dmsLat, dmsLng] = realtimeTargetInfo ? formatcoords(realtimeTargetInfo.latitude, realtimeTargetInfo.longitude).format({ latLonSeparator: ',', decimalPlaces: 0 }).split(',') : []
 
     useEffect(() => {
         // 获取目标信息
@@ -33,6 +37,8 @@ function TargetInfoPanel() {
                         <InfoItem lableText="船舶类型" value="渔船" />
                         <InfoItem lableText="国籍" value="China" />
                         <InfoItem lableText="IMO" value="78904560" />
+                        <InfoItem lableText="纬度" value={dmsLat} />
+                        <InfoItem lableText="经度" value={dmsLng} />
                     </div>
                 </TabPane>
                 <TabPane tab="光电信息" key="3">
