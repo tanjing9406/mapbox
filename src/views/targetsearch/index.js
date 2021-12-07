@@ -7,8 +7,6 @@ import { setTargetId } from "@/redux/targetinfopanelslice"
 import { targetService } from "@/lib/services"
 import { renderItem } from "./tools"
 
-import "./style.less"
-
 function TargetSearch() {
     const dispatch = useDispatch()
     const [selectedOption, setSelectedOption] = useState({})
