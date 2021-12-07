@@ -15,3 +15,7 @@ export function fetchAlarmArea(params) {
         return (res && res.code === 0) ? res.data.records : []
     })
 }
+
+export default {
+    fetchAlarmArea
+}

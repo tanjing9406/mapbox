@@ -4,7 +4,7 @@ import { IconLayer, ScatterplotLayer } from 'deck.gl'
 import GL from '@luma.gl/constants'
 import { ICON_MAPPING_CONFIG } from "@/config/constants/icon-mapping-config"
 import { setMapTooltip } from "@/redux/maptooltipslice"
-import { fetchRadarSite, fetchRadarSiteDetail } from "./lib"
+import { siteService } from "@/lib/services"
 import { get } from "lodash"
 
 const RadarSiteLayer = () => {
@@ -18,7 +18,7 @@ const RadarSiteLayer = () => {
     const [data, setData] = useState([])
     useEffect(() => {
         const init = async () => {
-            const rst = await fetchRadarSite({ current: 1, size: 999 })
+            const rst = await siteService.fetchRadarSite({ current: 1, size: 999 })
             setData(get(rst, 'records', []))
         }
         isShowLayer ? init() : setData([])
@@ -39,7 +39,7 @@ const RadarSiteLayer = () => {
                     return Math.max(width, height)
                 }}
                 onClick={async info => {
-                    const rst = await fetchRadarSiteDetail(info.object.id)
+                    const rst = await siteService.fetchRadarSiteDetail(info.object.id)
                     info.object = Object.assign({}, info.object, rst)
                     dispatch(setMapTooltip(info))
                 }}

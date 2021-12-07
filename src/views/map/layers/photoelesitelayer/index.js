@@ -3,7 +3,8 @@ import { useDispatch, useSelector } from "react-redux"
 import { IconLayer, PathLayer, PolygonLayer } from 'deck.gl'
 import { ICON_MAPPING_CONFIG } from "@/config/constants/icon-mapping-config"
 import { setMapTooltip } from "@/redux/maptooltipslice"
-import { fetchPhotoEleSite, formatPolygonData } from "./lib"
+import { siteService } from "@/lib/services"
+import { formatPolygonData } from "./lib"
 import { get } from "lodash"
 
 const PhotoEleSiteLayer = () => {
@@ -20,7 +21,7 @@ const PhotoEleSiteLayer = () => {
     const [data, setData] = useState([])
     useEffect(() => {
         const init = async () => {
-            const rst = await fetchPhotoEleSite({})
+            const rst = await siteService.fetchPhotoEleSite({})
             setData(get(rst, 'records', []))
         }
         isShowLayer ? init() : setData([])

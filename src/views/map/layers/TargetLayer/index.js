@@ -7,8 +7,9 @@ import { setTargetId } from "@/redux/targetinfopanelslice"
 import { setRealtimeTargetList } from "@/redux/targetlayerslice"
 import { getLonAndLats } from '@/lib/tools'
 import { ICON_MAPPING_CONFIG } from "@/config/constants/icon-mapping-config"
+import { targetService } from "@/lib/services"
 
-import { fetchTargetTrack, addOrDelete, sendWsMessage } from './lib'
+import { addOrDelete, sendWsMessage } from './lib'
 import IconClusterLayer from './icon-cluster-layer'
 import { flatMap } from 'lodash'
 
@@ -158,7 +159,7 @@ const TargetLayer = (props) => {
                         // console.log('Clicked:', info, event)
                         dispatch(setTargetId(info.object.targetId))
                         setTargetsOfClicked(new Set(addOrDelete(targetsOfClicked, info.object.targetId)))
-                        const data = await fetchTargetTrack({
+                        const data = await targetService.fetchTargetTrack({
                             zoom: 13,
                             trackLevel: 240,
                             targetId: Array.from(targetsOfClicked)

@@ -6,8 +6,7 @@ import { PathStyleExtension } from '@deck.gl/extensions'
 
 import { setAreaList } from '@/redux/alarmareapageslice'
 import { mapAlarmAreaToGeoJSON } from '@/lib/tools'
-
-import { fetchAlarmArea } from './lib'
+import { alarmService } from '@/lib/services'
 
 function AlarmAreaLayer() {
     const dispatch = useDispatch()
@@ -17,7 +16,7 @@ function AlarmAreaLayer() {
     const isShowText = alarmAreaGeoJson && alarmAreaGeoJson.features.length > 0 && viewState.zoom >= 7
     useEffect(() => {
         const init = async () => {
-            const areaList = await fetchAlarmArea()
+            const areaList = await alarmService.fetchAlarmArea()
             dispatch(setAreaList(areaList))
             setAlarmAreaGeoJson(mapAlarmAreaToGeoJSON(areaList))
         }
