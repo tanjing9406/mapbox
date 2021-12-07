@@ -1,5 +1,6 @@
 import { WKTLoader } from '@loaders.gl/wkt'
 import { parseSync } from '@loaders.gl/core'
+import formatcoords from 'formatcoords'
 
 function getColorToRgba(hex, opacity) {
     const rgba = hex.match(/[0-9a-fA-F]{2}/g).map(x => parseInt(x, 16))
@@ -29,6 +30,10 @@ export function mapAlarmAreaToGeoJSON(beModel = []) {
         features: features.reverse(),
         characterSet: new Set(characterSet)
     }
+}
+
+export function hlxFormatCoords(lat, lon){
+    return formatcoords(lat, lon).format({ latLonSeparator: ',', decimalPlaces: 0 }).split(',') // [dmsLat, dmsLng]
 }
 
 //根据 一个经纬度角度距离  计算另一个 点的经纬度 纬度 经度 角度 距离
@@ -97,4 +102,3 @@ export const getLonAndLats = function (lng, lat, course, dist) { // TODO: 函数
     const endPoint = [lon1 + deg(L), deg(lat2)]
     return endPoint
 }
-

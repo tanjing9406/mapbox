@@ -1,6 +1,7 @@
 import { getMapStyle } from './mapstyle'
 import {
     getLonAndLats,
+    hlxFormatCoords,
     mapAlarmAreaToGeoJSON,
 } from './maptools'
 import {
@@ -12,6 +13,7 @@ export {
 
     // ---- map tools start ----
     getLonAndLats,
+    hlxFormatCoords,
     mapAlarmAreaToGeoJSON,
     
     // ---- users ----

@@ -1,8 +1,8 @@
 import React, { useEffect } from "react"
 import { useDispatch, useSelector } from 'react-redux'
 import { Tabs } from 'antd'
-import formatcoords from 'formatcoords'
 
+import { hlxFormatCoords } from "@/lib/tools"
 import ShipImage from "@/assets/ship/1.svg"
 import { InfoItem } from "./components"
 
@@ -13,7 +13,7 @@ function TargetInfoPanel() {
     const { targetId } = useSelector(state => state.targetInfoPanel)
     const realtimeTargetList = useSelector(state => state.targetLayer.realtimeTargetList)
     const realtimeTargetInfo = realtimeTargetList.find(target => target.targetId === targetId)
-    const [dmsLat, dmsLng] = realtimeTargetInfo ? formatcoords(realtimeTargetInfo.latitude, realtimeTargetInfo.longitude).format({ latLonSeparator: ',', decimalPlaces: 0 }).split(',') : []
+    const [dmsLat, dmsLng] = realtimeTargetInfo ? hlxFormatCoords(realtimeTargetInfo.latitude, realtimeTargetInfo.longitude) : []
 
     useEffect(() => {
         // 获取目标信息

@@ -1,5 +1,5 @@
 import React from "react"
-import formatcoords from 'formatcoords'
+import { hlxFormatCoords } from "@/lib/tools"
 
 function TargetTooltip({ hoverInfo }) {
     const { x, y, object } = hoverInfo
@@ -19,7 +19,7 @@ function TargetTooltip({ hoverInfo }) {
         return <div className="tooltip" style={{ left: x, top: y }}>{object.point_count} 艘船</div>
     }
 
-    const [dmsLat, dmsLng] = formatcoords(object.latitude, object.longitude).format({ latLonSeparator: ',', decimalPlaces: 0 }).split(',')
+    const [dmsLat, dmsLng] = hlxFormatCoords(object.latitude, object.longitude)
 
     return (
         <div className="tooltip" style={{ left: x, top: y }}>

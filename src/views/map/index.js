@@ -9,6 +9,8 @@ import { HandPose } from 'Components'
 import { setMapViewState, setDeckRef } from "@/redux/basemapslice"
 import { mapStyleSelector } from "@/redux/baselayercontrolslice"
 import { setDmsArr } from "@/redux/cornerinfopanelslice"
+import { hlxFormatCoords } from "@/lib/tools"
+
 import { Switch } from 'antd'
 import { CornerInfoPanel, RightSider, MapTooltip } from './components';
 import {
@@ -20,7 +22,6 @@ import {
     RealtimeTrackLayer,
     TargetLayer
 } from './layers';
-import { getDmsArray } from './tools';
 import HNHYMapContext from './hnhymapcontext'
 
 const Map = () => {
@@ -60,7 +61,7 @@ const Map = () => {
                         dispatch(setMapViewState(viewState))
                     }}
                     onHover={info => {
-                        info.coordinate && dispatch(setDmsArr(getDmsArray(info.coordinate[1], info.coordinate[0])))
+                        info.coordinate && dispatch(setDmsArr(hlxFormatCoords(info.coordinate[1], info.coordinate[0])))
                     }}
                     controller={{ doubleClickZoom: false }}
                     onWebGLInitialized={setGLContext}
