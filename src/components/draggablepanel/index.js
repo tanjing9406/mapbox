@@ -20,9 +20,10 @@ function DraggablePanel(props) {
     return (
         <Draggable
             defaultPosition={{ x: 10, y: 250 }}
+            handle=".handle"
         >
             <div className="absolute bg-white">
-                <div className="h40 flex flex--center-cross flex--space-between-main txt-h5 ml12">
+                <div className="handle h40 flex flex--center-cross flex--space-between-main txt-h5 ml12">
                     <label>{props.title}</label>
                     <Button size="large" type="primary" icon={<CloseOutlined />} onClick={onClose}></Button>
                 </div>
