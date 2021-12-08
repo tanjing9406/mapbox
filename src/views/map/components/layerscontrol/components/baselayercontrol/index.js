@@ -23,7 +23,7 @@ function BaseLayerControl() {
         <List className="base-layer-content">
             <List.Item>
                 <Radio.Group className="group base-grp" value={baseLayerId} buttonStyle="solid" onChange={e => dispatch(setBaseLayerControlId('baseLayerId', e.target.value))}>
-                    {BASE_LAYER_OPTIONS.map(item => <Radio.Button key={item.id} value={item.id} style={{ background: `url('/src/assets/images/baselayercontrol/${item.image}.png')` }}>
+                    {BASE_LAYER_OPTIONS.map(item => <Radio.Button key={item.id} value={item.id} style={{ background: `url('/assets/images/baselayercontrol/${item.image}.png')` }}>
                         <div className="btn-wrap">
                             {item.name}
                         </div>

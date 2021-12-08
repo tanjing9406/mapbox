@@ -1,5 +1,5 @@
-const baseUrl_targets = '/src/assets/images/targets/'
-const baseUrl_icons = '/src/assets/images/icons/'
+const baseUrl_targets = '/assets/images/targets/'
+const baseUrl_icons = '/assets/images/icons/'
 
 export const ICON_MAPPING_CONFIG = {
     'RADAR': { url: baseUrl_targets + 'radar.png', width: 60, height: 60 }, // TODO use spirite image

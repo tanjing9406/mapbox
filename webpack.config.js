@@ -1,6 +1,3 @@
-// NOTE: To use this example standalone (e.g. outside of deck.gl repo)
-// delete the local development overrides at the bottom of this file
-
 const { resolve } = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin'); // 生成html模板
 const openBrowser = require('react-dev-utils/openBrowser')
@@ -15,12 +12,23 @@ const CONFIG = {
     output: {
         filename: 'bundle.js',
         path: resolve(__dirname, 'dist'),
-        publicPath: '/'
+        publicPath: '/',
+        clean: true
     },
     devServer: {
+        static: [
+            {
+                directory: resolve(__dirname, 'src/assets'),
+                publicPath: '/assets'
+            },
+            {
+                directory: resolve(__dirname, 'public'),
+                publicPath: '/public'
+            },
+        ],
         host: '0.0.0.0',
         historyApiFallback: true,
-        after: () => {
+        onAfterSetupMiddleware: () => {
             openBrowser && openBrowser('http://localhost:8080');
         },
         proxy: {
@@ -49,22 +57,9 @@ const CONFIG = {
                     }
                 }
             },
-            //图片加载器，雷同file-loader，更适合图片，可以将较小的图片转成base64，减少http请求
             {
-                test: /\.(ico)$/,
-                loader: 'url-loader',
-                options: {
-                    limit: 50,
-                    name: 'config/images/[name].[ext]'//相对于path的路径
-                }
-            },
-            {
-                test: /\.(png|jpe?g|gif)$/i,
-                use: [
-                    {
-                        loader: 'file-loader',
-                    },
-                ],
+                test: /\.(png|jpe?g|gif|svg)$/i,
+                type: 'asset/resource',
             },
             {
                 test: /\.less$/,
@@ -91,17 +86,6 @@ const CONFIG = {
                 ],
             },
             {
-                test: /\.svg$/,
-                use: [
-                    {
-                        loader: 'svg-url-loader',
-                        options: {
-                            limit: 10000,
-                        },
-                    },
-                ],
-            },
-            {
                 test: /\.m?js$/,
                 exclude: /node_modules/,
                 use: {
@@ -115,6 +99,7 @@ const CONFIG = {
     },
     plugins: [
         new HtmlWebpackPlugin({
+            title: 'Development',
             filename: resolve(__dirname, 'dist/index.html'), // 生成的html文件存放的地址和文件名
             template: resolve(__dirname, 'public/index.html'), // 基于index.html模板进行生成html文件
         }),
@@ -131,5 +116,4 @@ const CONFIG = {
     }
 };
 
-// This line enables bundling against src in this repo rather than installed module
-module.exports = env => (env ? require('../../../webpack.config.local')(CONFIG)(env) : CONFIG);
+module.exports = CONFIG

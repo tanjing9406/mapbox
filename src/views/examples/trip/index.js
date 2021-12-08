@@ -8,8 +8,8 @@ import {TripsLayer} from '@deck.gl/geo-layers';
 
 // Source data CSV
 const DATA_URL = {
-  BUILDINGS:'/src/assets/data/buildings.json', // eslint-disable-line
-  TRIPS: '/src/assets/data/trips-v7.json' // eslint-disable-line
+  BUILDINGS:'/assets/data/buildings.json', // eslint-disable-line
+  TRIPS: '/assets/data/trips-v7.json' // eslint-disable-line
 };
 
 const ambientLight = new AmbientLight({
@@ -48,7 +48,7 @@ const INITIAL_VIEW_STATE = {
   bearing: 0
 };
 
-const MAP_STYLE = '/src/assets/data/dark_map_style.json';
+const MAP_STYLE = '/assets/data/dark_map_style.json';
 
 const landCover = [[[-74.0, 40.7], [-74.02, 40.7], [-74.02, 40.72], [-74.0, 40.72]]];
 

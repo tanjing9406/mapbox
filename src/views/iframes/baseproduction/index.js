@@ -1,7 +1,7 @@
 import React from "react"
 import Iframe from 'react-iframe'
 
-const iframe_url = 'http://localhost:4000/'
+const iframe_url = 'http://10.100.0.122/'
 
 function BaseProduction() {
 
