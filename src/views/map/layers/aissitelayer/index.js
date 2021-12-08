@@ -14,7 +14,7 @@ const AISSiteLayer = () => {
     useEffect(() => {
         const init = async () => {
             const rst = await siteService.fetchAISSite({ current: 1, size: 999 })
-            setData(get(rst, 'records', []))
+            setData(rst)
         }
         isShowLayer ? init() : setData([])
     }, [isShowLayer])

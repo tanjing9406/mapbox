@@ -22,7 +22,7 @@ const PhotoEleSiteLayer = () => {
     useEffect(() => {
         const init = async () => {
             const rst = await siteService.fetchPhotoEleSite({})
-            setData(get(rst, 'records', []))
+            setData(rst)
         }
         isShowLayer ? init() : setData([])
     }, [isShowLayer])

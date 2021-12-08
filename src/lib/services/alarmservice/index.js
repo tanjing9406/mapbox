@@ -1,10 +1,10 @@
 export function fetchAlarmArea(params) {
     return fetch('/self/target/area/new/page', {
-        body: JSON.stringify({
-            current: 1,
-            size: 1000
-        }),
-        method: 'POST',
+        // body: JSON.stringify({
+        //     current: 1,
+        //     size: 1000
+        // }),
+        method: 'GET',
         headers: {
             'Content-Type': 'application/json; charset=utf-8',
             'Authorization': 'Bearer ' + process.env.HLX_ACCESS_TOKEN

@@ -19,7 +19,7 @@ const RadarSiteLayer = () => {
     useEffect(() => {
         const init = async () => {
             const rst = await siteService.fetchRadarSite({ current: 1, size: 999 })
-            setData(get(rst, 'records', []))
+            setData(rst)
         }
         isShowLayer ? init() : setData([])
     }, [isShowLayer])

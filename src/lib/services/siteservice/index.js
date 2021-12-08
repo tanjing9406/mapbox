@@ -1,7 +1,7 @@
 export function fetchAISSite(params) {
     return fetch('/self/target/ais/site/page', {
-        body: JSON.stringify(params),
-        method: 'POST',
+        // body: JSON.stringify(params),
+        method: 'GET',
         headers: {
             'Content-Type': 'application/json; charset=utf-8',
             'Authorization': 'Bearer ' + process.env.HLX_ACCESS_TOKEN
@@ -9,7 +9,7 @@ export function fetchAISSite(params) {
     }).then(res => {
         return res.json()
     }).then(res => {
-        return (res && res.code === 0) ? res.data : []
+        return res
     })
 }
 
@@ -29,8 +29,8 @@ export function fetchAISSiteDetail(aisId) {
 
 export function fetchPhotoEleSite(params) {
     return fetch('/self/cctv/camera/list', {
-        body: JSON.stringify(params),
-        method: 'POST',
+        // body: JSON.stringify(params),
+        method: 'GET',
         headers: {
             'Content-Type': 'application/json; charset=utf-8',
             'Authorization': 'Bearer ' + process.env.HLX_ACCESS_TOKEN
@@ -38,14 +38,14 @@ export function fetchPhotoEleSite(params) {
     }).then(res => {
         return res.json()
     }).then(res => {
-        return (res && res.code === 0) ? res.data : []
+        return res
     })
 }
 
 export function fetchRadarSite(params) {
     return fetch('/self/target/radar/site/page', {
-        body: JSON.stringify(params),
-        method: 'POST',
+        // body: JSON.stringify(params),
+        method: 'GET',
         headers: {
             'Content-Type': 'application/json; charset=utf-8',
             'Authorization': 'Bearer ' + process.env.HLX_ACCESS_TOKEN
@@ -53,7 +53,7 @@ export function fetchRadarSite(params) {
     }).then(res => {
         return res.json()
     }).then(res => {
-        return (res && res.code === 0) ? res.data : []
+        return res
     })
 }
 

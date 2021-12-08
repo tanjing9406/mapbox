@@ -1,4 +1,8 @@
 {
     "/uaa/oauth/token": "/logininfo",
-    "/api-outh/oauth/userinfo?Authorization=:Authorization&client_id=:client_id&client_secret=:client_secret": "/userinfo"
+    "/api-outh/oauth/userinfo?Authorization=:Authorization&client_id=:client_id&client_secret=:client_secret": "/userinfo",
+    "/api/target/area/new/page": "/alarmarealist",
+    "/api/target/radar/site/page": "/radarlist",
+    "/api/cctv/camera/list": "/cameralist",
+    "/api/target/ais/site/page": "/aislist"
 }
