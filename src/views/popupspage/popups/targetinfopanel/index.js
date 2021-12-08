@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useRef } from "react"
 import { useDispatch, useSelector } from 'react-redux'
 import { Tabs, Button } from 'antd'
 import { CloseOutlined } from '@ant-design/icons'
@@ -7,7 +7,7 @@ import Draggable from 'react-draggable'
 import { setTargetId } from "@/redux/targetinfopanelslice"
 import { hlxFormatCoords } from "@/lib/tools"
 import ShipImage from "@/assets/ship/1.svg"
-import { InfoItem } from "./components"
+import { InfoItem, SiderButton } from "./components"
 
 import "./style.less"
 
@@ -15,6 +15,8 @@ const { TabPane } = Tabs
 
 function TargetInfoPanel() {
     const dispatch = useDispatch()
+    const targetInfoPanelRef = useRef()
+
     const { targetId } = useSelector(state => state.targetInfoPanel)
     const realtimeTargetList = useSelector(state => state.targetLayer.realtimeTargetList)
     const realtimeTargetInfo = realtimeTargetList.find(target => target.targetId === targetId)
@@ -35,9 +37,17 @@ function TargetInfoPanel() {
             defaultPosition={{ x: 18, y: 60 }}
             handle=".handle"
         >
-            <div className="targetInfoPanel absolute bg-white w360 pb12">
-                <div className="absolute" style={{ left: '100%' }}>
+            <div className="targetInfoPanel absolute bg-white w360 pb12" ref={targetInfoPanelRef}>
+                <div className="absolute bg-darken75" style={{ left: '100%' }}>
                     <Button size="large" type="primary" icon={<CloseOutlined />} onClick={onClose}></Button>
+                    <SiderButton title="目标联动" iconName="iconmubiaoliandong" popupContainerRef={targetInfoPanelRef} />
+                    <SiderButton title="轨迹查询" iconName="iconlishiguiji" popupContainerRef={targetInfoPanelRef} />
+                    <SiderButton title="目标回放" iconName="iconhuifang-default" popupContainerRef={targetInfoPanelRef} />
+                    <SiderButton title="目标关注" iconName="iconweiguanzhu" popupContainerRef={targetInfoPanelRef} />
+                    <SiderButton title="开窗" iconName="iconkaichuang" popupContainerRef={targetInfoPanelRef} />
+                    <SiderButton title="轨迹隐藏" iconName="iconguijiyincang" popupContainerRef={targetInfoPanelRef} />
+                    <SiderButton title="可航区域" iconName="iconkehangquyu" popupContainerRef={targetInfoPanelRef} />
+                    <SiderButton title="无人机" iconName="iconkehangquyu" popupContainerRef={targetInfoPanelRef} />
                 </div>
                 <div className="handle h40 txt-h5 h36 pl12 flex flex--center-cross">OCEAN GLOBE</div>
                 <Tabs className="target-info-tabs" onChange={onTabChange} type="card" defaultActiveKey="1">
