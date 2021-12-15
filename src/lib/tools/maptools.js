@@ -32,7 +32,45 @@ export function mapAlarmAreaToGeoJSON(beModel = []) {
     }
 }
 
-export function hlxFormatCoords(lat, lon){
+//管缆颜色list
+const TUBING_COLOR = [
+    [76, 230, 0],//化学药剂管线
+    [178, 178, 178],//排污管缆
+    [153, 101, 51],//油气管缆
+    [10, 147, 252],//注水管缆
+    [223, 115, 255],//海缆管缆
+    [0, 0, 0],//混输管缆
+]
+
+export function mapBHOilTubingToGeoJSON(beModel = []) {
+    let characterSet = ''
+    const features = beModel.map((tubingItem) => {
+        const { geoCoords, color, ...rest } = tubingItem
+        characterSet += rest.geoName
+        return {
+            type: 'Feature',
+            geometry: parseSync(geoCoords, WKTLoader),
+            properties: {
+                ...rest,
+                lineColor: TUBING_COLOR[color - 1]
+            }
+        }
+    })
+    return {
+        type: 'FeatureCollection',
+        features: features,
+        characterSet: new Set(characterSet)
+    }
+}
+
+export function getAngleByTwoPoints([[x1, y1], [x2, y2]]) {
+    const dx = x2 - x1
+    const dy = y2 - y1
+    const angle = Math.atan2(dy, dx) * 180 / Math.PI
+    return angle
+}
+
+export function hlxFormatCoords(lat, lon) {
     return formatcoords(lat, lon).format({ latLonSeparator: ',', decimalPlaces: 0 }).split(',') // [dmsLat, dmsLng]
 }
 

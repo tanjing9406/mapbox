@@ -29,7 +29,7 @@ export const SITE_LAYERS_OPTIONS = [
     { name: '光电站点', id: 'photoele_site'},
     { name: 'AIS 站点', id: 'ais_site'},
     { name: '海缆', id: 'cable_site'},
-    { name: '渤海管缆', id: 'cable-bohai_site'},
+    { name: '渤海管缆', id: 'bhoil_site'},
     { name: '深圳海油管缆', id: 'cable-shenzhen_site'}
 ]
 

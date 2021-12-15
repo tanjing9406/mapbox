@@ -17,4 +17,5 @@ export const ICON_MAPPING_CONFIG = {
     'ais_site': { url: `${baseUrl_icons}aiszhan.png`, width: 30, height: 35 },
     'radar_site': { url: `${baseUrl_icons}radarzhan.png`, width: 30, height: 35 },
     'photoele_site': { url: `${baseUrl_icons}photoelectric.png`, width: 30, height: 35 },
+    'bhoil_platform': { url: `${baseUrl_icons}platform-higher.png`, width: 40, height: 48 },
 }

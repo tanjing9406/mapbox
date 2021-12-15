@@ -16,6 +16,7 @@ import { CornerInfoPanel, RightSider, MapTooltip } from './components';
 import {
     AISSiteLayer,
     AlarmAreaLayer,
+    BHOilLayer,
     EditableLayer,
     PhotoEleSiteLayer,
     RadarSiteLayer,
@@ -80,6 +81,7 @@ const Map = () => {
                         />
                     )}
                     {AlarmAreaLayer()}
+                    {BHOilLayer()}
                     {EditableLayer()}
                     {TargetLayer({ showCluster, showTarget })}
                     {RealtimeTrackLayer()}
