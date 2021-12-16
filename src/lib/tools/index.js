@@ -5,7 +5,8 @@ import {
     mapAlarmAreaToGeoJSON,
 } from './maptools'
 import {
-    hasEntitlement
+    hasEntitlement,
+    loginOut
 } from './users'
 
 export {
@@ -17,5 +18,6 @@ export {
     mapAlarmAreaToGeoJSON,
     
     // ---- users ----
-    hasEntitlement
+    hasEntitlement,
+    loginOut
 }

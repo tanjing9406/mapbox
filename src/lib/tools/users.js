@@ -11,3 +11,9 @@ export function hasEntitlement(menuItem) {
 
     return true
 }
+
+export function loginOut() {
+    localStorage.removeItem('entitlements')
+    sessionStorage.removeItem('isAuthenticated')
+    window.location.reload()
+}

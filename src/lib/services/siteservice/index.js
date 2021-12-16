@@ -1,73 +1,37 @@
+import { UIFetch } from "../uifetch"
+
 export function fetchAISSite(params) {
-    return fetch('/self/target/ais/site/page', {
-        body: JSON.stringify(params),
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json; charset=utf-8',
-            'Authorization': 'Bearer ' + process.env.HLX_ACCESS_TOKEN
-        },
-    }).then(res => {
-        return res.json()
-    }).then(res => {
-        return (res && res.code === 0) ? res.data : []
+    return UIFetch({
+        url: 'FETCH_AIS_SITE',
+        params
     })
 }
 
 export function fetchAISSiteDetail(aisId) {
-    return fetch('/self/target/ais/byId?' + new URLSearchParams({ aisId }), {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json; charset=utf-8',
-            'Authorization': 'Bearer ' + process.env.HLX_ACCESS_TOKEN
-        },
-    }).then(res => {
-        return res.json()
-    }).then(res => {
-        return (res && res.code === 0) ? res.data : {}
+    return UIFetch({
+        url: 'FETCH_AIS_SITE_DETAIL',
+        params: { aisId }
     })
 }
 
 export function fetchPhotoEleSite(params) {
-    return fetch('/self/cctv/camera/list', {
-        body: JSON.stringify(params),
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json; charset=utf-8',
-            'Authorization': 'Bearer ' + process.env.HLX_ACCESS_TOKEN
-        },
-    }).then(res => {
-        return res.json()
-    }).then(res => {
-        return (res && res.code === 0) ? res.data : []
+    return UIFetch({
+        url: 'FETCH_PHOTO_ELE_SITE',
+        params
     })
 }
 
 export function fetchRadarSite(params) {
-    return fetch('/self/target/radar/site/page', {
-        body: JSON.stringify(params),
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json; charset=utf-8',
-            'Authorization': 'Bearer ' + process.env.HLX_ACCESS_TOKEN
-        },
-    }).then(res => {
-        return res.json()
-    }).then(res => {
-        return (res && res.code === 0) ? res.data : []
+    return UIFetch({
+        url: 'FETCH_RADAR_SITE',
+        params
     })
 }
 
 export function fetchRadarSiteDetail(radarId) {
-    return fetch('/self/target/radar/byId?' + new URLSearchParams({ radarId }), {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json; charset=utf-8',
-            'Authorization': 'Bearer ' + process.env.HLX_ACCESS_TOKEN
-        },
-    }).then(res => {
-        return res.json()
-    }).then(res => {
-        return (res && res.code === 0) ? res.data : {}
+    return UIFetch({
+        url: 'FETCH_RADAR_SITE_DETAIL',
+        params: { radarId }
     })
 }
 

@@ -5,7 +5,7 @@ import { Layout, Button, Menu, Divider } from 'antd'
 import { QrcodeOutlined, UserOutlined, LogoutOutlined, MailOutlined } from '@ant-design/icons'
 import { TOP_MENU } from '@/config/top-menu'
 import { WithTopHeaderVisibleCheckHoc } from 'Components/withVisibleCheckHoc'
-import { hasEntitlement } from '@/lib/tools'
+import { hasEntitlement, loginOut } from '@/lib/tools'
 
 import './style.less'
 
@@ -14,11 +14,7 @@ const { SubMenu } = Menu
 
 const HNHYHeader = function (props) {
     const selectedKey = useLocation().pathname.slice(1)
-    const loginOut = () => {
-        localStorage.removeItem('entitlements')
-        sessionStorage.removeItem('isAuthenticated')
-        window.location.reload()
-    }
+
     return (
         <Header className="page-header hnhy" theme="light">
             <Link to="/"><div className="logo"><span>UNISEAS</span><span>海南寰宇</span></div></Link>
