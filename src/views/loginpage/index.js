@@ -3,6 +3,10 @@ import { useHistory, useLocation } from 'react-router-dom'
 import { Form, Input, Button } from 'antd'
 import { UserOutlined, LockOutlined } from '@ant-design/icons'
 
+import { usersService } from "@/lib/services"
+import { loginSuccess } from "@/lib/tools"
+import { encryptPassword } from './tools';
+
 import './style.less'
 
 export default function LoginPage() {
@@ -10,11 +14,18 @@ export default function LoginPage() {
     let location = useLocation();
 
     let { from } = location.state || { from: { pathname: "/" } };
-    const login = values => {
-        if (values.username === 'admin') {
+    const login = async values => {
+        const rst = await usersService.userLogin({
+            socpe: 'all',
+            grant_type: 'password',
+            username: values.username,
+            password: encryptPassword(values.password),
+            tenantCode: 90001
+        })
+        loginSuccess(rst)
+        if (values.username === 'tanj') {
             localStorage.setItem('entitlements', ['BIG_DATA', 'PHOTO_ELE_LIST'])
         }
-        sessionStorage.setItem('isAuthenticated', true)
         history.replace(from);
     }
 

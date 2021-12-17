@@ -19,6 +19,7 @@
     "@tensorflow/tfjs": "^3.9.0",
     "@turf/bbox": "^6.5.0",
     "@turf/centroid": "^6.5.0",
+    "crypto-js": "^4.1.1",
     "d3": "^7.0.1",
     "fibers": "^5.0.0",
     "fingerpose": "^0.0.2",

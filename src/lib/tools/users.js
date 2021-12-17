@@ -14,6 +14,12 @@ export function hasEntitlement(menuItem) {
 
 export function loginOut() {
     localStorage.removeItem('entitlements')
-    sessionStorage.removeItem('isAuthenticated')
+    localStorage.removeItem('accessToken')
+    localStorage.removeItem('isAuthenticated')
     window.location.reload()
+}
+
+export function loginSuccess(rst) {
+    localStorage.setItem('accessToken', rst.access_token)
+    localStorage.setItem('isAuthenticated', true)
 }

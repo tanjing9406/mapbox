@@ -6,7 +6,8 @@ import {
 } from './maptools'
 import {
     hasEntitlement,
-    loginOut
+    loginOut,
+    loginSuccess
 } from './users'
 
 export {
@@ -19,5 +20,6 @@ export {
     
     // ---- users ----
     hasEntitlement,
-    loginOut
+    loginOut,
+    loginSuccess
 }

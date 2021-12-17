@@ -23,7 +23,7 @@ const TargetLayer = (props) => {
     const [targetTrackData, setTargetTrackData] = useState([])
 
     const startWebsocket = () => {
-        ws.current = new WebSocket(`ws://${process.env.BASE_IP}/api/target/ws/region/${process.env.HLX_ACCESS_TOKEN}`)
+        ws.current = new WebSocket(`ws://${process.env.BASE_IP}/api/target/ws/region/${localStorage.getItem('accessToken') || process.env.HLX_ACCESS_TOKEN}`)
         ws.current.onopen = () => {
             if (realtimeTargetList.length > 0) {
                 dispatch(setTotalTargetNumber(realtimeTargetList.length))
