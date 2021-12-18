@@ -26,7 +26,7 @@ export function UIFetch({ url: key, params, mapToFE = _ => _ } = {}) {
 
     return fetch(url, options).then(res => {
         if (res.status === 401) { // 用户未认证
-            loginOut()
+            // loginOut()
         }
         return res.json()
     }).then(res => {

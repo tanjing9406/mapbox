@@ -1,6 +1,7 @@
 import React from 'react'
 import BaseProduction from "@/views/iframes/BaseProduction"
 import Trips from "@/views/examples/trip"
+import NodeGraphPage from '@/views/nodegraph'
 
 function Comming() {
     return <div>敬请期待</div>
@@ -90,6 +91,14 @@ export const TOP_MENU = [
                 hasMap: false,
                 url: '/example/editor',
                 component: EditorDemo
+            }, {
+                id: 'example/nodegraph',
+                title: '知识图谱',
+                hasTopHeader: false,
+                hasSider: false,
+                hasMap: false,
+                url: '/example/nodegraph',
+                component: NodeGraphPage
             }
         ]
     }

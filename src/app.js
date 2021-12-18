@@ -49,7 +49,7 @@ function App() {
                   <PopupsPage />
                   <Switch>
                     <Route path='/' exact>
-                      <Redirect to='/targetsearch' />
+                      <Redirect to='/example/nodegraph' />
                     </Route>
                     {genMenuRoute()}
                   </Switch>
