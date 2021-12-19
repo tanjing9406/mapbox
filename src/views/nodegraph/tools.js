@@ -1,3 +1,5 @@
+import img from '@/assets/nodegraph/star.png'
+
 export function drawNodeCanvasObject(node, ctx, globalScale, isActive) {
     const { name, x, y, color } = node;
     if (node.type === 'img') {
@@ -12,7 +14,7 @@ export function drawNodeCanvasObject(node, ctx, globalScale, isActive) {
         }
 
         const image = new Image()
-        image.src = '/public/star.png'
+        image.src = img
         ctx.drawImage(image, x - 5, y - 5, 10, 10)
         node.val = 5
         node.__bckgDimensions = [18, 0]; // to re-use in nodePointerAreaPaint
