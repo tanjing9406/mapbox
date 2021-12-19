@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { Modal, Form, Input } from "antd"
-import { ColorPicker } from "@/components"
+import ColorPicker from "@/components/colorpicker"
 
 function UpdateNodeModal({ visible, updateNode, onCancel, node }) {
     const [form] = Form.useForm()

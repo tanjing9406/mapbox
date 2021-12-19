@@ -1,9 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.less';
-import App from './app';
+import 'antd/dist/antd.css'
+
+import NodeGraphPage from '@/views/nodegraph'
 
 ReactDOM.render(
-  <App />,
+  <NodeGraphPage />,
   document.getElementById('root')
 );
