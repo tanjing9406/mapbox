@@ -27,16 +27,21 @@ function ShooterButton(props) {
         const displayMediaOptions = {
             video: {
                 cursor: "never"
-            },
-            audio: true
+            }
         }
+        let audioStream
         try {
             captureStream = await navigator.mediaDevices.getDisplayMedia(displayMediaOptions);
+            audioStream = await navigator.mediaDevices.getUserMedia({
+                audio: true
+            })
         } catch (err) {
             clearState()
             console.log('Error: ' + err);
             return alert('录屏出现错误或者被取消');
         }
+        const audioTrack = audioStream.getAudioTracks()[0]
+        captureStream.addTrack(audioTrack)
         const record = new MediaRecorder(captureStream)
         record.start()
         setRecorder(record)
